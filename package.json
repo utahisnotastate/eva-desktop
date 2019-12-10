@@ -3,15 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.6.1",
+    "@material-ui/icons": "^4.5.1",
+    "axios": "^0.19.0",
+    "classnames": "^2.2.6",
+    "electron-is-dev": "^1.1.0",
+    "formik": "^2.0.6",
+    "hookrouter": "^1.2.3",
+    "moment": "^2.24.0",
+    "mui-datatables": "^2.13.1",
+    "node-sass": "^4.13.0",
+    "perfect-scrollbar": "^1.4.0",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
+    "react-autosuggest": "^9.4.3",
+    "react-big-calendar": "^0.23.0",
+    "react-bootstrap-sweetalert": "^5.1.8",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0"
+    "react-formik-ui": "^3.1.4",
+    "react-hook-form": "^3.28.9",
+    "react-hook-form-input": "^1.1.0",
+    "react-modal-hook": "^2.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "react-select": "^3.0.8"
   },
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +50,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "electron": "^7.1.1",
+    "electron-builder": "^21.2.0",
+    "wait-on": "^3.3.0"
   }
 }
