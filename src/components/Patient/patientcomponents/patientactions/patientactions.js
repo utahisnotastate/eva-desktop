@@ -42,7 +42,7 @@ export default function PatientActions(props) {
                             </CardIcon>
                         </CardHeader>
                         <CardBody>
-                            <NavLink to={`/schedule/${id}`}> <h4 className={classes.cardTitle}>Schedule Appointment</h4></NavLink>
+                            <NavLink to={`/scheduling/${id}`}> <h4 className={classes.cardTitle}>Schedule Appointment</h4></NavLink>
                         </CardBody>
                     </Card>
                 </GridItem>

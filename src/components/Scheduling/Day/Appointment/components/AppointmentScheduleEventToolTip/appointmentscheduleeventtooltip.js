@@ -13,10 +13,10 @@ export default function AppointmentScheduleEventToolTip(props) {
                 placement="right-end"
                 disableFocusListener
                 title={
-                    <AppointmentScheduleEventCard />
+                    <AppointmentScheduleEventCard event={props.event} />
                 }
             >
-                    <Typography>Patient Name</Typography>
+                    <Typography>{props.event.patient.id}</Typography>
             </Tooltip>
         </div>
     );

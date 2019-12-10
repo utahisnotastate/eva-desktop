@@ -1,4 +1,5 @@
 import React, {Fragment, useState} from "react";
+import {useParams, useRouteMatch} from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from '@material-ui/core/Typography';
 import AppointmentScheduleEventToolTip
@@ -16,6 +17,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AppointmentScheduleEvent(props) {
+    let { id } = useParams();
+    let { path, url } = useRouteMatch();
     return (
             <AppointmentScheduleEventToolTip event={props.event} />
     );

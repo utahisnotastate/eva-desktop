@@ -1,5 +1,5 @@
 import React from "react";
-
+import {NavLink} from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -17,7 +17,9 @@ export default function AppointmentScheduleEventCard(props) {
             </CardHeader>
             <List component="nav">
                 <ListItem>
-                    <Modal buttontext="View Profile" />
+                    <NavLink to={`/patient/${props.event.patient.id}/demographics`}><Typography variant="subtitle2">
+                        View Profile
+                    </Typography></NavLink>
                 </ListItem>
                 <ListItem>
                     <Modal buttontext="Check In" />

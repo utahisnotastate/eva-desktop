@@ -1,4 +1,5 @@
 import React, {Fragment, useState} from "react";
+import {useParams, useRouteMatch} from "react-router-dom";
 import { Calendar as BigCalendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,10 +21,33 @@ const localizer = momentLocalizer(moment);
 
 const useStyles = makeStyles(styles);
 
+function PatientSearch() {
+    return (
+        <div>
+            <Typography>Patient Search</Typography>
+        </div>
+    );
+}
+
+function ScheduleAppointmentDialog(props) {
+    return (
+        <Fragment>
+            <Typography>Appointment Start: {moment(props.slottoschedule.slots[0]).format('MMMM Do @ h:mm A')}</Typography>
+            <Typography>Appointment End: {moment(props.slottoschedule.slots[props.slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
+            <Typography>Patient First Name: {props.patient}</Typography>
+            <Typography>Patient Last Name</Typography>
+            <Typography>Patient Contact Number</Typography>
+            <Typography>Notify if an earlier appointment opens up?</Typography>
+        </Fragment>
+    )
+}
 export default function Scheduling() {
+        let { path, url } = useRouteMatch();
+        let { id } = useParams();
+        console.log(id);
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
-            console.log(slottoschedule.slots);
+            // console.log(slottoschedule.slots);
             return (
                 <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -31,8 +55,8 @@ export default function Scheduling() {
                     </div>
                     <DialogTitle>Schedule appointment</DialogTitle>
                     <DialogContent>
-                        <Typography>Appointment Start: {moment(slottoschedule.slots[0]).format('MMMM Do @ h:mm A')}</Typography>
-                        <Typography>Appointment End: {moment(slottoschedule.slots[slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
+                        {id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id}/> : <PatientSearch /> }
+
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
@@ -63,6 +87,7 @@ export default function Scheduling() {
         start: new Date(y, m, d, 10, 30),
         end: new Date(y, m, d, 11, 30),
         allDay: false,
+        patient: {id: 1},
         color: "green"
     },
         {
@@ -70,6 +95,7 @@ export default function Scheduling() {
             start: new Date(y, m, d, 11, 30),
             end: new Date(y, m, d, 12, 30),
             allDay: false,
+            patient: {id: 2},
             color: "green"
         }
     ]);
@@ -78,8 +104,12 @@ export default function Scheduling() {
     const selectedEvent = event => {
         console.log('clicked! event!');
     };
-    const selectedSlot = event => {
-         setSlotToSchedule(event);
+    const selectedSlot = (event) => {
+        console.log(event);
+        if (event.slots.length === 1) {
+            return;
+        }
+        setSlotToSchedule(event);
          // console.log(event);
          showModal();
     };
@@ -142,8 +172,8 @@ export default function Scheduling() {
                         views={['month', 'work_week', 'day']}
                         scrollToTime={new Date(1970, 1, 1, 6)}
                         defaultDate={new Date()}
-                        onSelectEvent={event => selectedEvent(event)}
-                        onSelectSlot={(slotInfo) => selectedSlot(slotInfo)}
+                        onSelectEvent={(event) => selectedEvent(event)}
+                        onSelectSlot={(slotInfo, view) => selectedSlot(slotInfo, view)}
                         eventPropGetter={eventColors}
                         min={opentime()}
                         max={closetime()}
@@ -159,4 +189,5 @@ export default function Scheduling() {
 /*
 onSelectEvent={event => selectedEvent()}
 onSelectSlot={slotInfo => selectedSlot(slotInfo)}
+
  */

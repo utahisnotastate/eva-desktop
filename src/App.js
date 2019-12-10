@@ -50,6 +50,7 @@ function App() {
                         <PatientRequests />
                     </Route>
                     <Route path="/patient/:id" component={Patient} />
+                    <Route path="/scheduling/:id" component={Scheduling} />
                     <Route path="/scheduling" component={Scheduling} />
                     <Route path="/schedule/:id" component={ScheduleAppointment} />
                 </Switch>
