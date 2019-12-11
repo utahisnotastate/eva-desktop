@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,27 +9,29 @@ import Person from "@material-ui/icons/Person";
 import Button from "../../../basestyledcomponents/Table/Button";
 import {Paper, Typography} from "@material-ui/core";
 import CustomTabs from "../../../basestyledcomponents/CustomTabs/CustomTabs";
+import NewRequest from "../../../Forms/Clinical/Patient/newrequest";
+import RequestTimeLine from "../../../PatientRequests/TimeLine/timeline";
+import Modal from '../../../basestyledcomponents/Modal/modal';
 
 const useStyles = makeStyles(style);
 
 export default function PatientRequests(props) {
     const classes = useStyles();
     let { id } = useParams();
+    const [requests, setRequests] = useState([]);
     const columnheaders = ["Type", "Status", "Date Opened", "Assigned to", "Last Updated", "Actions"];
     const fillButtons = [
         { color: "success", icon: Person },
     ].map((prop, key) => {
         return (
-            <Button justIcon size="sm" color={prop.color} key={key}>
-                <prop.icon />
-            </Button>
+            <RequestTimeLine />
         );
     });
 
     return (
         <GridContainer justify="center">
             <GridItem xs={12} sm={10}>
-                <Typography>Create New Request</Typography>
+                <Modal buttontext={`New Request`} modaltitle={`New Request`} form={NewRequest} />
             </GridItem>
             <GridItem xs={12} sm={10}>
                 <CustomTabs

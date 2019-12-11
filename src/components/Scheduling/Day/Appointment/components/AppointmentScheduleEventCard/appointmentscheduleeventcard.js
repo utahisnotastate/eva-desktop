@@ -3,10 +3,12 @@ import {NavLink} from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import CheckInForm from "../../../../../Forms/Administrative/Scheduling/CheckIn/checkin";
 import Card from "../../../../../basestyledcomponents/Card/Card";
 import CardHeader from "../../../../../basestyledcomponents/Card/CardHeader";
 import {Button, Typography} from "@material-ui/core";
 import Modal from '../../../../../basestyledcomponents/Modal/modal';
+import NewRequest from "../../../../../Forms/Clinical/Patient/newrequest";
 
 export default function AppointmentScheduleEventCard(props) {
     return (
@@ -22,7 +24,7 @@ export default function AppointmentScheduleEventCard(props) {
                     </Typography></NavLink>
                 </ListItem>
                 <ListItem>
-                    <Modal buttontext="Check In" />
+                    <Modal buttontext="Check In" modaltitle={`Patient Check In`} form={CheckInForm} />
                 </ListItem>
                 <ListItem>
                     <Modal buttontext="Verify Insurance" />

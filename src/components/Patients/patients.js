@@ -16,9 +16,12 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 10,
     }
 }));
+
+const API_URL = "http://127.0.0.1:8000/api/patients/";
 function actionsColumn(tableMeta) {
+    console.log(tableMeta);
     return (
-        <div><NavLink to={`/patient/${tableMeta.rowData[0]}/demographics`}><Button color="primary">View Chart</Button></NavLink></div>
+        <NavLink to={`/patient/${tableMeta.rowData[0]}/demographics`}><Button color="primary">View Chart</Button></NavLink>
     );
 };
 const columns = [
@@ -79,7 +82,8 @@ export default function Patients() {
     const [patients, setPatients] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios("http://127.0.0.1:8000/api/patients/");
+            const result = await axios(API_URL);
+            console.log(result.data);
             setPatients([...result.data]);
         };
         fetchData();
