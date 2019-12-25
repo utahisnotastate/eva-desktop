@@ -11,7 +11,6 @@ import CardTravel from "@material-ui/icons/CardTravel";
 import Build from "@material-ui/icons/Build";
 import TimelineComponent from "../../basestyledcomponents/TimeLineStyled/Timeline";
 import Button from "../../basestyledcomponents/Button";
-import CheckInForm from "../../Forms/Administrative/Scheduling/CheckIn/checkin";
 import styles from "../../basestyledcomponents/Modal/modalStyle";
 import {Typography} from "@material-ui/core";
 

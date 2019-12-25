@@ -57,6 +57,9 @@ function NavBar() {
                     <NavLink to="/evaadmin"><Typography variant="subtitle2" className={classes.item}>
                         Administration
                     </Typography></NavLink>
+                    <NavLink to="/revenuecycle"><Typography variant="subtitle2" className={classes.item}>
+                        Revenue Cycle
+                    </Typography></NavLink>
                     <NavLink to="/faxes"><Typography variant="subtitle2" className={classes.item}>
                         Faxes
                     </Typography></NavLink>

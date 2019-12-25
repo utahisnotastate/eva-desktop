@@ -14,6 +14,7 @@ import EvaAdmin from "./components/EvaAdmin/evaadmin";
 import Faxes from "./components/Faxes/faxes";
 import { CssBaseline } from '@material-ui/core';
 import Patients from "./components/Patients/patients";
+import RevenueCycle from "./components/RevenueCycle/revenuecycle";
 import Scheduling from "./components/Scheduling/scheduling";
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
                     <Route exact path="/patientrequests">
                         <PatientRequests />
                     </Route>
+                    <Route path="/revenuecycle" component={RevenueCycle} />
                     <Route path="/patient/:id" component={Patient} />
                     <Route path="/scheduling/:id" component={Scheduling} />
                     <Route path="/scheduling" component={Scheduling} />
