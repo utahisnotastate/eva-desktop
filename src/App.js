@@ -16,6 +16,7 @@ import { CssBaseline } from '@material-ui/core';
 import Patients from "./components/Patients/patients";
 import RevenueCycle from "./components/RevenueCycle/revenuecycle";
 import Scheduling from "./components/Scheduling/scheduling";
+import Claim from './components/Claims/Claim/claim';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                       <Route path ="/appointments">
                         <Appointments/>
                       </Route>
+                    <Route path="/claims/:claimId" component={Claim} />
                     <Route path="/claims">
                         <Claims />
                     </Route>
