@@ -6,6 +6,9 @@ import ClaimsToBeWorkedTable from "./ClaimsToBeWorkedTable/claimstobeworkedtable
 import ClaimsInProcessTable from "./ClaimsInProcessTable/claimsinprocesstable";
 import BaseClaimsTable from "./BaseClaimsTable/baseclaimstable";
 import pendingclaimscolumns from "./PendingClaimsTable/pendingclaimscolumns";
+import pendingpaymentclaimscolumns from "./PendingPaymentClaimsTable/pendingpaymentclaimscolumns";
+import deniedclaimscolumns from "./DeniedClaimsTable/deniedclaimscolumns";
+import completedclaimscolumns from "./CompletedClaimsTable/completedclaimscolumns";
 
 export default function ClaimsTableContainer(props) {
     return (
@@ -33,19 +36,19 @@ export default function ClaimsTableContainer(props) {
                 {
                     tabName: 'Approved, Pending Payment',
                     tabIcon: Person,
-                    tabContent: (<BaseClaimsTable claims_filter={`pending_payment`} table_title={`Pending Claims`} columns={pendingclaimscolumns}/>)
+                    tabContent: (<BaseClaimsTable claims_filter={`pending_payment`} table_title={`Pending Claims`} columns={pendingpaymentclaimscolumns}/>)
 
                 },
                 {
                     tabName: 'Denied Claims',
                     tabIcon: Person,
-                    tabContent: (<BaseClaimsTable claims_filter={`denied`} table_title={`Denied Claims`} columns={pendingclaimscolumns}/>)
+                    tabContent: (<BaseClaimsTable claims_filter={`denied`} table_title={`Denied Claims`} columns={deniedclaimscolumns}/>)
 
                 },
                 {
                     tabName: 'Completed Claims',
                     tabIcon: Person,
-                    tabContent: (<BaseClaimsTable claims_filter={`completed`} table_title={`Completed Claims`} columns={pendingclaimscolumns}/>)
+                    tabContent: (<BaseClaimsTable claims_filter={`completed`} table_title={`Completed Claims`} columns={completedclaimscolumns}/>)
 
                 }
             ]}

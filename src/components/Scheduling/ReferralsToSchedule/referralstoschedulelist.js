@@ -1,11 +1,10 @@
-import React, {Fragment, useEffect, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import Button from "@material-ui/core/Button";
-import GridContainer from "../basestyledcomponents/Grid/GridContainer";
-import GridItem from "../basestyledcomponents/Grid/GridItem";
-import MUIDataTable from "mui-datatables";
+import React, {useState} from 'react'
 import {NavLink} from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import MUIDataTable from "mui-datatables";
+import GridContainer from "../../basestyledcomponents/Grid/GridContainer";
+import GridItem from '../../basestyledcomponents/Grid/GridItem';
+import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,17 +16,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const API_URL = "http://127.0.0.1:8000/api/patients/";
 function actionsColumn(tableMeta) {
-    console.log(tableMeta);
     return (
-        <NavLink to={`/patient/${tableMeta.rowData[0]}/demographics`}><Button color="primary">View Chart</Button></NavLink>
+        <NavLink to={`/schedule/${tableMeta.rowData[0]}`}><Button color={`primary`}>Schedule Appointment</Button></NavLink>
     );
 }
-const columns = [
-    {
-        name: "id",
-        label: "Patient id",
+
+const referralstoschedulecolumns = [
+    {name: 'referred_by',
+        label: 'Referred By',
         options: {
             filter: true,
             sort: true,
@@ -58,8 +55,24 @@ const columns = [
         }
     },
     {
-        name: "gender",
-        label: "Gender",
+        name: "contact_number",
+        label: "Contact Number",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "current_appointment_date",
+        label: "Current Appointment Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "length_on_waitlist",
+        label: "Length of time on wait list",
         options: {
             filter: true,
             sort: true,
@@ -77,17 +90,9 @@ const columns = [
     },
 ];
 
-export default function Patients() {
+export default function ReferralsToScheduleList(props) {
     const classes = useStyles();
-    const [patients, setPatients] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(API_URL);
-            console.log(result.data);
-            setPatients([...result.data]);
-        };
-        fetchData();
-    }, []);
+    const [referralstoschedule, setReferralsToSchedule] = useState([]);
     const [options, setOptions] = useState({
         searchOpen: true,
         serverSide: false,
@@ -107,9 +112,9 @@ export default function Patients() {
         <GridContainer className={classes.root} justify="center">
             <GridItem xs={12} sm={12} md={10}>
                 <MUIDataTable
-                    title={"Patients"}
-                    data={patients}
-                    columns={columns}
+                    title={"Wait List"}
+                    data={referralstoschedule}
+                    columns={referralstoschedulecolumns}
                     options={options}
                 />
             </GridItem>

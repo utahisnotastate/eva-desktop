@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from "react";
-import {useParams, useRouteMatch} from "react-router-dom";
+import {useParams, useRouteMatch, NavLink} from "react-router-dom";
 import { Calendar as BigCalendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,8 @@ import TimeSlot from "./Day/Appointment/components/TimeSlot/timeslot";
 // import SlotDialog from "../basestyledcomponents/Modal/Dialog";
 import CardBody from "../basestyledcomponents/Card/CardBody";
 import AppointmentScheduleEvent from "./Day/Appointment/appointmentscheduleevent";
+import WaitListCountCard from "./WaitList/waitlistcountcard";
+import ReferralsToSchedule from "./ReferralsToSchedule/referralstoschedule";
 import styles from '../basestyledcomponents/buttonStyle';
 import '../basestyledcomponents/scss/material-dashboard-pro-react.scss'
 
@@ -159,6 +161,19 @@ export default function Scheduling() {
         <div>
     <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={10}>
+            <GridContainer>
+                <GridItem xs={4}>
+                    <NavLink to="/waitlist">
+                        <WaitListCountCard />
+                    </NavLink>
+                </GridItem>
+                <GridItem xs={4}>
+                    <NavLink to="/referralstoschedule">
+                        <ReferralsToSchedule />
+                    </NavLink>
+
+                </GridItem>
+            </GridContainer>
         </GridItem>
         <GridItem xs={12} sm={12} md={10}>
             <Card>

@@ -17,6 +17,8 @@ import Patients from "./components/Patients/patients";
 import RevenueCycle from "./components/RevenueCycle/revenuecycle";
 import Scheduling from "./components/Scheduling/scheduling";
 import Claim from './components/Claims/Claim/claim';
+import WaitList from "./components/Scheduling/WaitList/waitlist";
+import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
 
 function App() {
   return (
@@ -52,6 +54,8 @@ function App() {
                     <Route exact path="/patientrequests">
                         <PatientRequests />
                     </Route>
+                    <Route path="/waitlist" component={WaitList} />
+                    <Route path="/referralstoschedule" component={ReferralsToScheduleList} />
                     <Route path="/revenuecycle" component={RevenueCycle} />
                     <Route path="/patient/:id" component={Patient} />
                     <Route path="/scheduling/:id" component={Scheduling} />

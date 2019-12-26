@@ -73,6 +73,7 @@ export default function ClaimsToBeWorkedTable(props) {
         },
         searchPlaceholder: 'Search by patient name',
         print: false,
+        elevation: 0,
         filter: false,
         download: false,
         selectableRows: 'none',
