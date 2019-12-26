@@ -9,12 +9,20 @@ import CardHeader from "../basestyledcomponents/Card/CardHeader";
 import CardIcon from "../basestyledcomponents/Card/CardIcon";
 import CardText from "../basestyledcomponents/Card/CardText";
 import LineChart from "../basestyledcomponents/Chart/Components/LineChart/linechart";
-import { straightLinesChart } from './fakeData/charts'
+import BarChart from "../basestyledcomponents/Chart/Components/BarChart/barchart";
+import { straightLinesChart, simpleBarChart } from './fakeData/charts'
 
 export default function RevenueCycle(props) {
     return (
         <div style={{marginTop: 15, padding: 20}}>
             <GridContainer direction="column">
+                <GridItem xs={6} sm={2}>
+                    <Card color={`primary`}>
+                        <CardBody>
+                            <Typography>Revenue Cycle Manager Overview</Typography>
+                        </CardBody>
+                    </Card>
+                </GridItem>
                 <GridItem>
                     <GridContainer>
                         <GridItem>
@@ -87,6 +95,30 @@ export default function RevenueCycle(props) {
                                 chartoptions={straightLinesChart.options}
                                 chartanimation={straightLinesChart.animation}
                                 headlinetext={`Claims Submitted Per Month`}
+                            />
+                        </GridItem>
+                    </GridContainer>
+                </GridItem>
+                <GridItem>
+                    <GridContainer>
+                        <GridItem>
+                            <BarChart
+                                chartbgcolor="success"
+                                chartdata={simpleBarChart.data}
+                                chartoptions={simpleBarChart.options}
+                                chartResponsiveOptions={simpleBarChart.responsiveOptions}
+                                chartanimation={simpleBarChart.animation}
+                                headlinetext={`Total claims per month for provider 1`}
+                            />
+                        </GridItem>
+                        <GridItem>
+                            <BarChart
+                                chartbgcolor="success"
+                                chartdata={simpleBarChart.data}
+                                chartoptions={simpleBarChart.options}
+                                chartResponsiveOptions={simpleBarChart.responsiveOptions}
+                                chartanimation={simpleBarChart.animation}
+                                headlinetext={`Total claims per month for provider 2`}
                             />
                         </GridItem>
                     </GridContainer>

@@ -13,6 +13,8 @@ import TimelineComponent from "../../basestyledcomponents/TimeLineStyled/Timelin
 import Button from "../../basestyledcomponents/Button";
 import styles from "../../basestyledcomponents/Modal/modalStyle";
 import {Typography} from "@material-ui/core";
+import Divider from '@material-ui/core/Divider';
+import UpdatePatientRequestForm from "./UpdatePatientRequestForm/updatepatientrequestform";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -45,8 +47,9 @@ export default function RequestTimeLine(props) {
                 open={modal}
                 disableBackdropClick
                 keepMounted
-                fullScreen={true}
-                fullWidth={true}
+                scroll="body"
+                fullScreen={false}
+                fullWidth={false}
                 transition={Transition}
                 onClose={() => setModal(false)}
                 aria-labelledby="modal-slide-title"
@@ -87,8 +90,45 @@ export default function RequestTimeLine(props) {
                                     Figueroa and 12th in downtown.</p>
                             ),
                             footerTitle: "11 hours ago via Twitter",
+                        },
+                        {   // First story
+                            inverted: true,
+                            badgeColor: "danger",
+                            badgeIcon: CardTravel,
+                            title: (<Typography>Employee Responded</Typography>),
+                            titleColor: "danger",
+                            body: (
+                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
+                                    you for making my family We just had fun with the “future” theme !!! It was a fun
+                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
+                                    Figueroa and 12th in downtown.</p>
+                            ),
+                            footerTitle: "11 hours ago via Twitter",
+                        },
+                        {   // First story
+                            inverted: false,
+                            badgeColor: "danger",
+                            badgeIcon: CardTravel,
+                            title: (<Typography>Update from patient</Typography>),
+                            titleColor: "danger",
+                            body: (
+                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
+                                    you for making my family We just had fun with the “future” theme !!! It was a fun
+                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
+                                    Figueroa and 12th in downtown.</p>
+                            ),
+                            footerTitle: "11 hours ago via Twitter",
                         }
                     ]} />
+                    <Divider />
+                    <div>
+                        <div>
+                            <Typography variant={`h6`}>Update Request</Typography>
+                        </div>
+                        <div>
+                            <UpdatePatientRequestForm />
+                        </div>
+                    </div>
                 </DialogContent>
             </Dialog>
         </div>

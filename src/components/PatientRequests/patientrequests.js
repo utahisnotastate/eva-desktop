@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {useParams} from 'react-router-dom';
+import RequestTimeLine from "./TimeLine/timeline";
 import Table from '../basestyledcomponents/Table/Table'
 import style from '../basestyledcomponents/Table/contentAreas';
 import Button from '../basestyledcomponents/Table/Button';
@@ -20,9 +21,7 @@ export default function PatientRequests() {
         { color: "success", icon: Person },
     ].map((prop, key) => {
         return (
-            <Button justIcon size="sm" color={prop.color} key={key}>
-                <prop.icon />
-            </Button>
+            <RequestTimeLine />
         );
     });
 
