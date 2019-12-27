@@ -2,6 +2,7 @@ import React from "react";
 import MoveBackToWaitingRoom from "../../ClinicalQueueActions/MoveBackToWaitingRoom/movebacktowaitingroom";
 
 const InExamRoomSettings = {
+    title: 'Waiting In Examination Room',
     actions: [
         {label: 'Move to waiting room', component: (<MoveBackToWaitingRoom />)}
     ],

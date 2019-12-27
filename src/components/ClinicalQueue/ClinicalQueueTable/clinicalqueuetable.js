@@ -19,7 +19,8 @@ const actionsrowstyle = {
     backgroundColor: '#54f',
 };
 
-function ButtonRow(actions) {
+function ButtonRow(actions, rowData) {
+    console.log(rowData);
     return (
         <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
             {actions.map((action, key) => {
@@ -36,17 +37,10 @@ function ButtonRow(actions) {
 
 
 export default function ClinicalQueueTable(props) {
-     const {table_actions, columnheaders, expandable} = props;
+     const {table_actions, columnheaders, expandable, title} = props;
     const classes = useStyles();
-    const fillButtons = table_actions.map((action, key) => {
-        return (
-            <div key={key}>
-                {action.component}
-            </div>
-        );
-    });
     const [options, setOptions] = useState({
-        searchOpen: true,
+        searchOpen: false,
         serverSide: false,
         textLabels: {
             body: {
@@ -60,7 +54,7 @@ export default function ClinicalQueueTable(props) {
             return (
                 <TableRow>
                     <TableCell colSpan={colSpan}>
-                        {ButtonRow(table_actions)}
+                        {ButtonRow(table_actions, rowData, rowMeta)}
                     </TableCell>
                 </TableRow>
             );
@@ -68,14 +62,14 @@ export default function ClinicalQueueTable(props) {
         searchPlaceholder: 'Search by patient name',
         elevation: 0,
         print: false,
-        filter: false,
+        filter: true,
         download: false,
         selectableRows: 'none',
         viewColumns: false,
     });
     return (
         <MUIDataTable
-            title={`Today's Upcoming Appointments`}
+            title={title}
             data={[
                 { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
                 { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
@@ -88,19 +82,3 @@ export default function ClinicalQueueTable(props) {
     );
 
 }
-
-/*
-function ButtonRow(actions) {
-    return (
-        <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'flex-end'}}>
-            {actions.map((action, key) => {
-                return (
-                    <div style={{margin: 5}} key={key}>
-                        {action.component}
-                    </div>
-                );
-            })}
-        </div>
-    )
-}
- */

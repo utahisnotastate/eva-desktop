@@ -1,6 +1,7 @@
 import React from "react";
 
 const AppointmentInProgressSettings = {
+    title: 'Appointments In Progress',
     actions: [
     ],
     columnheaders: [

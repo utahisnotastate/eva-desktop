@@ -2,6 +2,7 @@ import React from "react";
 import MoveToExaminationRoom from "../../ClinicalQueueActions/MoveToExaminationRoom/movetoexaminationroom";
 
 const InWaitingRoomSettings = {
+    title: 'In Waiting Room',
     actions: [
         {label: 'Move', component: (<MoveToExaminationRoom />)},
     ],
@@ -18,16 +19,16 @@ const InWaitingRoomSettings = {
             name: "company",
             label: "Appointment Time",
             options: {
-                filter: true,
-                sort: false,
+                filter: false,
+                sort: true,
             }
         },
         {
             name: "city",
             label: "Time Arrived",
             options: {
-                filter: true,
-                sort: false,
+                filter: false,
+                sort: true,
             }
         },
         {
@@ -35,7 +36,8 @@ const InWaitingRoomSettings = {
             label: "Provider",
             options: {
                 filter: true,
-                sort: false,
+                filterType: 'multiselect',
+                sort: true,
             }
         },
     ],

@@ -7,9 +7,10 @@ import TableCell from "@material-ui/core/TableCell";
 
 
 const TodaysAppointmentsSettings = {
+    title: 'Upcoming Appointments',
     actions: [
         {label: 'Check In', component: (<CheckInPatient/>)},
-        {label: 'Insurance Status', component: (<VerifyInsuranceAction verification={{status: 'verified'}}/>)},
+        {label: 'Insurance Status', component: (<VerifyInsuranceAction verification={{status: 'unverified'}}/>)},
         {label: 'No Show', component: (<MarkNoShow/>)}
     ],
     columnheaders: [

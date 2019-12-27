@@ -2,6 +2,7 @@ import React from "react";
 import ScheduleFollowUp from "../../ClinicalQueueActions/ScheduleFollowUp/schedulefollowup";
 
 const RecentlyCompletedAppointmentSettings = {
+    title: 'Recently Completed',
     actions: [
         {label: 'Schedule Follow Up', component: (<ScheduleFollowUp requires_follow_up={true} patentId={1}/>)}
     ],

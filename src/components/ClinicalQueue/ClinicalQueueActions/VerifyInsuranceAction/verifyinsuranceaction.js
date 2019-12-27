@@ -1,14 +1,16 @@
 import React from "react";
-import Card from "../../../basestyledcomponents/Card/Card";
 import Typography from "@material-ui/core/Typography";
-import {Button, Paper} from "@material-ui/core";
+import Button from '../../../basestyledcomponents/Button'
+import CheckIcon from '@material-ui/icons/Check';
+import AssignmentLateOutlinedIcon from '@material-ui/icons/AssignmentLateOutlined';
+
 
 function InsuranceVerified(props) {
     return (
         <div>
-            <Paper style={{height: '100%'}} color={`success`}>
-                <Typography>Insurance Verified</Typography>
-            </Paper>
+            <Button type={`button`} color={`success`}>
+                <Typography>Insurance Verified <CheckIcon /></Typography>
+            </Button>
         </div>
     );
 }
@@ -16,12 +18,11 @@ function InsuranceVerified(props) {
 function InsuranceVerificationIssue(props) {
     return (
         <div>
-            <Card color={`warning`}>
-                <Typography>Insurance Issue</Typography>
-            </Card>
+            <Button type={`button`} color={`warning`}>
+                <Typography>Insurance Verification Issue <AssignmentLateOutlinedIcon /></Typography>
+            </Button>
         </div>
     );
-
 }
 
 
