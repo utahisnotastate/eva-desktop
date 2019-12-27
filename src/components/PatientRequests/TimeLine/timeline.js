@@ -122,6 +122,11 @@ export default function RequestTimeLine(props) {
                     ]} />
                     <Divider />
                     <div>
+                        <Typography variant={`h6`}>Log Unsuccesful Contact Attempt</Typography>
+
+                    </div>
+                    <Divider />
+                    <div>
                         <div>
                             <Typography variant={`h6`}>Update Request</Typography>
                         </div>
