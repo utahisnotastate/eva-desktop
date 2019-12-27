@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // material-ui icons
 import Person from "@material-ui/icons/Person";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 import Table from '../../basestyledcomponents/Table/Table';
 import Button from '../../basestyledcomponents/Table/Button'
+import MUIDataTable from "mui-datatables";
 import style from '../../basestyledcomponents/Table/contentAreas'
 
 const useStyles = makeStyles(style);
@@ -18,7 +21,7 @@ const actionsrowstyle = {
 
 function ButtonRow(actions) {
     return (
-        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
             {actions.map((action, key) => {
                 return (
                     <div style={{margin: 5}} key={key}>
@@ -33,7 +36,7 @@ function ButtonRow(actions) {
 
 
 export default function ClinicalQueueTable(props) {
-     const {table_actions} = props;
+     const {table_actions, columnheaders, expandable} = props;
     const classes = useStyles();
     const fillButtons = table_actions.map((action, key) => {
         return (
@@ -42,38 +45,62 @@ export default function ClinicalQueueTable(props) {
             </div>
         );
     });
-
+    const [options, setOptions] = useState({
+        searchOpen: true,
+        serverSide: false,
+        textLabels: {
+            body: {
+                noMatch: "SORRY NO MATCHES FOUND",
+            }
+        },
+        expandableRows: expandable,
+        expandableRowsOnClick: true,
+        renderExpandableRow: (rowData, rowMeta) => {
+            const colSpan = rowData.length + 1;
+            return (
+                <TableRow>
+                    <TableCell colSpan={colSpan}>
+                        {ButtonRow(table_actions)}
+                    </TableCell>
+                </TableRow>
+            );
+        },
+        searchPlaceholder: 'Search by patient name',
+        elevation: 0,
+        print: false,
+        filter: false,
+        download: false,
+        selectableRows: 'none',
+        viewColumns: false,
+    });
     return (
-        <Table
-            tableHead={props.columnheaders}
-            tableData={[
-                ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", ButtonRow(table_actions)],
-                ["2", "John Doe", "Design", "2012", "€ 89,241", ButtonRow(table_actions)],
-                ["3", "Alex Mike", "Design", "2010", "€ 92,144", ButtonRow(table_actions)]
+        <MUIDataTable
+            title={`Today's Upcoming Appointments`}
+            data={[
+                { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
+                { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
+                { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
+                { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
             ]}
-            customCellClasses={[
-                classes.textCenter,
-                classes.textRight,
-                classes.textRight,
-            ]}
-            customClassesForCells={[0, 4, 5]}
-            customHeadCellClasses={[
-                classes.textCenter,
-                classes.textRight,
-                classes.textCenter,
-            ]}
-            customHeadClassesForCells={[0, 4, 5]}
+            columns={columnheaders}
+            options={options}
         />
     );
 
 }
 
 /*
-const fillButtons = table_actions.map((action, key) => {
-        return (
-            <div key={key}>
-                {action.component}
-            </div>
-        );
-    });
+function ButtonRow(actions) {
+    return (
+        <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'flex-end'}}>
+            {actions.map((action, key) => {
+                return (
+                    <div style={{margin: 5}} key={key}>
+                        {action.component}
+                    </div>
+                );
+            })}
+        </div>
+    )
+}
  */

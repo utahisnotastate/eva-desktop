@@ -1,7 +1,7 @@
 import React from "react";
 import { RHFInput } from 'react-hook-form-input';
 import Select from 'react-select';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import {Typography, Input} from "@material-ui/core";

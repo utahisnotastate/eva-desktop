@@ -1,5 +1,5 @@
 import React from 'react';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { RHFInput } from 'react-hook-form-input';
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';

@@ -1,5 +1,5 @@
 import React, {Component, useEffect} from 'react';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Typography from "@material-ui/core/Typography";
 import {useParams} from 'react-router-dom';
 import { RHFInput } from 'react-hook-form-input';

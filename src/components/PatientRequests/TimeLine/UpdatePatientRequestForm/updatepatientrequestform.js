@@ -1,5 +1,5 @@
 import React from 'react';
-import  useForm from 'react-hook-form';
+import  { useForm } from 'react-hook-form';
 import GridContainer from '../../../basestyledcomponents/Grid/GridContainer';
 import GridItem from '../../../basestyledcomponents/Grid/GridItem';
 import {Typography} from "@material-ui/core";

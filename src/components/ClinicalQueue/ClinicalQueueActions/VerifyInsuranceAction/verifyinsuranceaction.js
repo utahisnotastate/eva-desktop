@@ -1,10 +1,14 @@
 import React from "react";
+import Card from "../../../basestyledcomponents/Card/Card";
 import Typography from "@material-ui/core/Typography";
+import {Button, Paper} from "@material-ui/core";
 
 function InsuranceVerified(props) {
     return (
         <div>
-            <Typography>Insurance Verified</Typography>
+            <Paper style={{height: '100%'}} color={`success`}>
+                <Typography>Insurance Verified</Typography>
+            </Paper>
         </div>
     );
 }
@@ -12,7 +16,9 @@ function InsuranceVerified(props) {
 function InsuranceVerificationIssue(props) {
     return (
         <div>
-            <Typography>Insurance Issue</Typography>
+            <Card color={`warning`}>
+                <Typography>Insurance Issue</Typography>
+            </Card>
         </div>
     );
 

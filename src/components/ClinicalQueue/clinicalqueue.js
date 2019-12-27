@@ -14,6 +14,14 @@ import MarkNoShow from "./ClinicalQueueActions/MarkNoShow/marknoshow";
 import MoveToExaminationRoom from "./ClinicalQueueActions/MoveToExaminationRoom/movetoexaminationroom";
 import ScheduleFollowUp from "./ClinicalQueueActions/ScheduleFollowUp/schedulefollowup";
 import MoveBackToWaitingRoom from "./ClinicalQueueActions/MoveBackToWaitingRoom/movebacktowaitingroom";
+import { UpcomingAppointmentHeaders } from './ClinicalQueueTable/clinicalqueuecolumnheaders'
+import TodaysAppointmentsSettings from "./ClinicalQueueTable/ClinicalQueueTableSettings/todaysappointments.settings";
+import InWaitingRoomSettings from "./ClinicalQueueTable/ClinicalQueueTableSettings/inwaitingroom.settings";
+import InExamRoomSettings from "./ClinicalQueueTable/ClinicalQueueTableSettings/waitinginexamroom.settings";
+import AppointmentInProgressSettings
+    from "./ClinicalQueueTable/ClinicalQueueTableSettings/appointmentinprogress.settings";
+import RecentlyCompletedAppointmentSettings
+    from "./ClinicalQueueTable/ClinicalQueueTableSettings/recentlycompleted.settings";
 import Button from "@material-ui/core/Button";
 import {Typography} from "@material-ui/core";
 
@@ -62,35 +70,35 @@ export default function ClinicalQueue() {
                                 tabName: "Todays Upcoming Appointments",
                                 tabIcon: AirlineSeatLegroomExtraIcon,
                                 tabContent: (
-                                    <ClinicalQueueTable columnheaders={upcomingapptheaders} table_actions={table_actions}/>
+                                    <ClinicalQueueTable columnheaders={TodaysAppointmentsSettings.columnheaders} table_actions={TodaysAppointmentsSettings.actions} expandable={true}/>
                                 )
                             },
                             {
                                 tabName: "In Waiting Room",
                                 tabIcon: AirlineSeatLegroomExtraIcon,
                                 tabContent: (
-                                    <ClinicalQueueTable columnheaders={columnheaders} table_actions={waiting_room_actions}/>
+                                    <ClinicalQueueTable columnheaders={InWaitingRoomSettings.columnheaders} table_actions={InWaitingRoomSettings.actions} expandable={true}/>
                                 )
                             },
                             {
                                 tabName: "Waiting in examination room",
                                 tabIcon: PersonIcon,
                                 tabContent: (
-                                    <ClinicalQueueTable columnheaders={waiting_in_exam_room_headers} table_actions={in_examination_room_actions}/>
+                                    <ClinicalQueueTable columnheaders={InExamRoomSettings.columnheaders} table_actions={InExamRoomSettings.actions} expandable={true}/>
                                 )
                             },
                             {
                                 tabName: "Appointment in progress",
                                 tabIcon: PeopleIcon,
                                 tabContent: (
-                                    <ClinicalQueueTable columnheaders={columnheaders} table_actions={[]}/>
+                                    <ClinicalQueueTable columnheaders={AppointmentInProgressSettings.columnheaders} table_actions={AppointmentInProgressSettings.actions} expandable={false}/>
                                 )
                             },
                             {
                                 tabName: "Recently Completed",
                                 tabIcon: HowToRegIcon,
                                 tabContent: (
-                                    <ClinicalQueueTable columnheaders={columnheaders} table_actions={recently_completed_actions}/>
+                                    <ClinicalQueueTable columnheaders={RecentlyCompletedAppointmentSettings.columnheaders} table_actions={RecentlyCompletedAppointmentSettings.actions} expandable={true}/>
                                 )
                             }
                         ]}
@@ -100,3 +108,7 @@ export default function ClinicalQueue() {
         </div>
     );
 }
+
+/*
+
+ */
