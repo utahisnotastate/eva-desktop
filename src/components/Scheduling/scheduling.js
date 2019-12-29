@@ -54,7 +54,6 @@ export default function Scheduling() {
         const [appointments, setAppointments] = useState([]);
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
-            console.log(slottoschedule);
             return (
                 <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -66,8 +65,6 @@ export default function Scheduling() {
                         <Typography>Start = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
                         <Typography>End = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
                         <Typography>Provider {slottoschedule.resourceId}</Typography>
-
-
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
@@ -113,6 +110,9 @@ export default function Scheduling() {
         fetchData();
     }, []);
     const handleSelect = ({start, end, resourceId}) => {
+        if (start === end) {
+            return false;
+        }
         setSlotToSchedule({start, end, resourceId});
         showModal();
     };
