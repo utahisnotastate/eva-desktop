@@ -19,7 +19,15 @@ const useStyles = makeStyles(theme => ({
 export default function AppointmentScheduleEvent(props) {
     let { id } = useParams();
     let { path, url } = useRouteMatch();
+    console.log(props);
     return (
-            <AppointmentScheduleEventToolTip event={props.event} />
+        <div style={{minHeight: '500'}}>
+            <Typography>Test</Typography>
+        </div>
+
     );
 }
+
+/*
+ <AppointmentScheduleEventToolTip event={props.event} />
+ */

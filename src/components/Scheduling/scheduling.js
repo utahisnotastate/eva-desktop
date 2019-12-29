@@ -1,4 +1,5 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
+import axios from 'axios';
 import {useParams, useRouteMatch, NavLink} from "react-router-dom";
 import { Calendar as BigCalendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
@@ -19,9 +20,12 @@ import ReferralsToSchedule from "./ReferralsToSchedule/referralstoschedule";
 import styles from '../basestyledcomponents/buttonStyle';
 import '../basestyledcomponents/scss/material-dashboard-pro-react.scss'
 
+var toDate = require('@fav/type.to-date');
+
 const localizer = momentLocalizer(moment);
 
 const useStyles = makeStyles(styles);
+const API_URL = "http://127.0.0.1:8000/api";
 
 function PatientSearch() {
     return (
@@ -46,7 +50,8 @@ function ScheduleAppointmentDialog(props) {
 export default function Scheduling() {
         let { path, url } = useRouteMatch();
         let { id } = useParams();
-        console.log(id);
+        const [resources, setResources] = useState([]);
+        const [appointments, setAppointments] = useState([]);
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
             // console.log(slottoschedule.slots);
@@ -62,7 +67,6 @@ export default function Scheduling() {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
-                            let appointments = events;
                             appointments.push({
                                 title: "Meeting",
                                 start: slottoschedule.slots[0],
@@ -70,7 +74,7 @@ export default function Scheduling() {
                                 allDay: false,
                                 color: 'green'
                             });
-                            setEvents(appointments);
+                            // setEvents(appointments);
                             hideModal()
                         }}>Save</Button>
                     </DialogActions>
@@ -79,54 +83,38 @@ export default function Scheduling() {
 
         },[slottoschedule]);
 
-    var today = new Date();
-    var y = today.getFullYear();
-    var m = today.getMonth();
-    var d = today.getDate();
-    const classes = useStyles();
-    const [events, setEvents] = useState([{
-        title: "Meeting",
-        start: new Date(y, m, d, 10, 30),
-        end: new Date(y, m, d, 11, 30),
-        allDay: false,
-        patient: {id: 1},
-        color: "green"
-    },
-        {
-            title: "Meeting",
-            start: new Date(y, m, d, 11, 30),
-            end: new Date(y, m, d, 12, 30),
-            allDay: false,
-            patient: {id: 2},
-            color: "green"
-        }
-    ]);
-    const [alert, setAlert] = React.useState(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(`${API_URL}/providers`);
+            // console.log(result.data);
+            setResources([...result.data]);
+        };
+        fetchData();
+    }, []);
 
-    const selectedEvent = event => {
-        console.log('clicked! event!');
-    };
-    const selectedSlot = (event) => {
-        console.log(event);
-        if (event.slots.length === 1) {
-            return;
-        }
-        setSlotToSchedule(event);
-         // console.log(event);
-         showModal();
-    };
-    const addNewEvent = (e, slotInfo) => {
-        var newEvents = events;
-        newEvents.push({
-            title: e,
-            start: slotInfo.start,
-            end: slotInfo.end
-        });
-        setAlert(null);
-        setEvents(newEvents);
-    };
-    const hideAlert = () => {
-        setAlert(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(`${API_URL}/appointments`);
+            console.log(result.data);
+            let appointments = result.data;
+            let convertedappointments = [];
+            appointments.forEach(appointment => {
+                let newstart = toDate.RFC3339(appointment.start);
+                let newend = toDate.RFC3339(appointment.end);
+                let resourceId = appointment.provider.id;
+                convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+            });
+            console.log(convertedappointments);
+            // setEvents(convertedappointments);
+            setAppointments(convertedappointments);
+            // setAppointments(appointments);
+
+        };
+        fetchData();
+    }, []);
+    const handleSelect = ({ start, end }) => {
+        console.log({start, end})
+        showModal();
     };
     const eventColors = event => {
         var backgroundColor = "event-";
@@ -182,16 +170,20 @@ export default function Scheduling() {
                         selectable
                         localizer={localizer}
                         drilldownView="day"
-                        events={events}
+                        events={appointments}
                         defaultView={Views.MONTH}
                         views={['month', 'work_week', 'day']}
                         scrollToTime={new Date(1970, 1, 1, 6)}
                         defaultDate={new Date()}
-                        onSelectEvent={(event) => selectedEvent(event)}
-                        onSelectSlot={(slotInfo, view) => selectedSlot(slotInfo, view)}
+                        onSelectEvent={(event) => console.log(event)}
+                        onSelectSlot={(slotInfo => console.log(slotInfo))}
                         eventPropGetter={eventColors}
+                        resources={resources}
+                        titleAccessor="type"
+                        resourceTitleAccessor="display_name"
                         min={opentime()}
                         max={closetime()}
+                        resourceIdAccessor={resource => {return resource.id}}
                         components={calendercomponents}
                     />
                 </CardBody>
@@ -204,5 +196,56 @@ export default function Scheduling() {
 /*
 onSelectEvent={event => selectedEvent()}
 onSelectSlot={slotInfo => selectedSlot(slotInfo)}
+const eventColors = event => {
+        var backgroundColor = "event-";
+        event.color
+            ? (backgroundColor = backgroundColor + event.color)
+            : (backgroundColor = backgroundColor + "default");
+        return {
+            className: backgroundColor
+        };
+    };
+startAccessor={(event) => {
+                            return moment(event.start).toDate();
+                        }
+                        }
+                        endAccessor={(event) => {
+                            console.log()
+                            return moment(event.end).toDate();
+                        }}
+                      onSelectSlot={(slotInfo, view) => selectedSlot(slotInfo, view)}
+                    const addNewEvent = (e, slotInfo) => {
+        var newEvents = events;
+        newEvents.push({
+            title: e,
+            start: slotInfo.start,
+            end: slotInfo.end
+        });
+        setAlert(null);
+        setEvents(newEvents);
+    };
 
+
+    var today = new Date();
+    var y = today.getFullYear();
+    var m = today.getMonth();
+    var d = today.getDate();
+    const classes = useStyles();
+    const [events, setEvents] = useState([{
+        title: "Meeting",
+        start: new Date(y, m, d, 10, 30),
+        end: new Date(y, m, d, 11, 30),
+        allDay: false,
+        patient: {id: 1},
+        color: "green"
+    },
+        {
+            title: "Meeting",
+            start: new Date(y, m, d, 11, 30),
+            end: new Date(y, m, d, 12, 30),
+            allDay: false,
+            patient: {id: 2},
+            color: "green"
+        }
+    ]);
  */

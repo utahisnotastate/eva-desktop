@@ -16,7 +16,7 @@ export default function AppointmentScheduleEventToolTip(props) {
                     <AppointmentScheduleEventCard event={props.event} />
                 }
             >
-                    <Typography>{props.event.patient.id}</Typography>
+                    <Typography>Test</Typography>ß
             </Tooltip>
         </div>
     );

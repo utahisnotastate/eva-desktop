@@ -1023,6 +1023,24 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.4.tgz#622a72bebd1e3f48d921563b4b60a762295a81fc"
   integrity sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
 
+"@fav/type.is-string@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fav/type.is-string/-/type.is-string-1.0.2.tgz#d3e83f93a38fadd1a97ddd7ffd12a46883ebcc7e"
+  integrity sha512-iTOSGxKA1rBKg0J3qHr2wHy9vWO4hBhZ2d8LnG/Ibcr1cEhEjqeR4lGpEcBqlbw5la+wQPmazYa4IzKyFgxVMw==
+
+"@fav/type.is-valid-date@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fav/type.is-valid-date/-/type.is-valid-date-1.0.2.tgz#3482a6956ff5500ec1d207bd8fac57ee4b3f3091"
+  integrity sha512-ssRvuEDL6l6HR/WliHBZ10Z6qNub0bLPoVv9hcGdmqO0P/xe1poO6RaXMWzviErUI511Du8HoqKGLO+9vCTLEQ==
+
+"@fav/type.to-date@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fav/type.to-date/-/type.to-date-1.0.2.tgz#c2f2c9ee268ed85fc89918e5db7ae939ed13b1e0"
+  integrity sha512-GNwNNoUKUlS+ZgTEyBn/Qlw4c/Obj9dSoNE61uL6VSWWPcDoT9z9mVJ47D/wij8g9EusY+cVzpxl8KuiGmn1ew==
+  dependencies:
+    "@fav/type.is-string" "^1.0.1"
+    "@fav/type.is-valid-date" "^1.0.1"
+
 "@hapi/address@2.x.x":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.2.tgz#1c794cd6dbf2354d1eb1ef10e0303f573e1c7222"
