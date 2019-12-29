@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const API_URL = "http://127.0.0.1:8000/api/patients/";
 function actionsColumn(tableMeta) {
-    console.log(tableMeta);
+    // console.log(tableMeta);
     return (
         <NavLink to={`/patient/${tableMeta.rowData[0]}/demographics`}><Button color="primary">View Chart</Button></NavLink>
     );
