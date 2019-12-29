@@ -54,7 +54,7 @@ export default function Scheduling() {
         const [appointments, setAppointments] = useState([]);
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
-            // console.log(slottoschedule.slots);
+            console.log(slottoschedule);
             return (
                 <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -63,6 +63,10 @@ export default function Scheduling() {
                     <DialogTitle>Schedule appointment</DialogTitle>
                     <DialogContent>
                         {id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id}/> : <PatientSearch /> }
+                        <Typography>Start = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+                        <Typography>End = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
+                        <Typography>Provider {slottoschedule.resourceId}</Typography>
+
 
                     </DialogContent>
                     <DialogActions>
@@ -86,7 +90,6 @@ export default function Scheduling() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`${API_URL}/providers`);
-            // console.log(result.data);
             setResources([...result.data]);
         };
         fetchData();
@@ -104,16 +107,13 @@ export default function Scheduling() {
                 let resourceId = appointment.provider.id;
                 convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
             });
-            console.log(convertedappointments);
-            // setEvents(convertedappointments);
             setAppointments(convertedappointments);
-            // setAppointments(appointments);
 
         };
         fetchData();
     }, []);
-    const handleSelect = ({ start, end }) => {
-        console.log({start, end})
+    const handleSelect = ({start, end, resourceId}) => {
+        setSlotToSchedule({start, end, resourceId});
         showModal();
     };
     const eventColors = event => {
@@ -176,7 +176,7 @@ export default function Scheduling() {
                         scrollToTime={new Date(1970, 1, 1, 6)}
                         defaultDate={new Date()}
                         onSelectEvent={(event) => console.log(event)}
-                        onSelectSlot={(slotInfo => console.log(slotInfo))}
+                        onSelectSlot={handleSelect}
                         eventPropGetter={eventColors}
                         resources={resources}
                         titleAccessor="type"
@@ -248,4 +248,7 @@ startAccessor={(event) => {
             color: "green"
         }
     ]);
+
+    <Typography>Start: {slottoschedule.start}</Typography>
+                        <Typography>End: {slottoschedule.start}</Typography>
  */
