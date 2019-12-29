@@ -54,6 +54,7 @@ export default function Scheduling() {
         const [appointments, setAppointments] = useState([]);
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
+            console.log(slottoschedule);
             return (
                 <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>

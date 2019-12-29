@@ -1,11 +1,15 @@
 import React, {Fragment, useEffect, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
+import Button from '../basestyledcomponents/Button';
 import GridContainer from "../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../basestyledcomponents/Grid/GridItem";
 import MUIDataTable from "mui-datatables";
 import {NavLink} from "react-router-dom";
+import {Typography} from "@material-ui/core";
+import Modal from '../basestyledcomponents/Modal/modal';
+import CreateNewPatient from "./createnewpatient";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,7 +80,11 @@ const columns = [
         }
     },
 ];
-
+function addNewPatientButton() {
+    return (
+        <Modal buttontext={`Create New Patient`} form={CreateNewPatient} />
+    );
+}
 export default function Patients() {
     const classes = useStyles();
     const [patients, setPatients] = useState([]);
@@ -100,19 +108,20 @@ export default function Patients() {
         print: false,
         filter: false,
         download: false,
+        customToolbar: addNewPatientButton,
         selectableRows: 'none',
         viewColumns: false,
     });
     return (
-        <GridContainer className={classes.root} justify="center">
-            <GridItem xs={12} sm={12} md={10}>
-                <MUIDataTable
-                    title={"Patients"}
-                    data={patients}
-                    columns={columns}
-                    options={options}
+            <GridContainer className={classes.root} justify="center">
+                <GridItem xs={12} sm={12} md={10}>
+                    <MUIDataTable
+                        title={"Patients"}
+                        data={patients}
+                        columns={columns}
+                        options={options}
                 />
-            </GridItem>
-        </GridContainer>
+                </GridItem>
+            </GridContainer>
     );
 }

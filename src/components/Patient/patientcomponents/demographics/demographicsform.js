@@ -30,13 +30,14 @@ export default function DemographicsForm(props) {
     // console.log(errors);
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/demographics`);
+            const result = await axios(`http://127.0.0.1:8000/api/patients/${id}`);
+            console.log(result);
             reset({
-                first_name: result.data[0].patient.first_name,
-                middle_name: result.data[0].patient.middle_name,
-                last_name: result.data[0].patient.last_name,
-                 preferred_name: result.data[0].patient.preferred_name,
-            }
+                    first_name: result.data.first_name,
+                    middle_name: result.data.middle_name,
+                    last_name: result.data.last_name,
+                    preferred_name: result.data.preferred_name,
+                }
             );
         };
         fetchData();
@@ -63,3 +64,7 @@ export default function DemographicsForm(props) {
     )
 
 }
+
+/*
+≈
+ */
