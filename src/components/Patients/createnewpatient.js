@@ -72,7 +72,8 @@ export default function CreateNewPatient() {
                                 <GridItem xs={8}>
                                     <Controller style={styles.input} name={`date_of_birth`}
                                                 as={<TextField type="date"/>}
-                                                control={control} placeholder={`mm/dd/yyyy`}/>
+                                                control={control} placeholder={`mm/dd/yyyy`}
+                                    />
                                 </GridItem>
                             </GridContainer>
                         </GridItem>
