@@ -4,6 +4,7 @@ import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import Card from "../../../basestyledcomponents/Card/Card";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 import Autosuggest from 'react-autosuggest';
 import './surgicalhistory.css';
 import {Typography} from "@material-ui/core";
@@ -63,8 +64,36 @@ export default class SurgicalHistory extends Component {
         };
     }
 
+    async componentDidMount() {
+        const result = await axios(`http://127.0.0.1:8000/api/patients/${this.props.match.params.id}/surgicalhistory/`);
+        console.log(result);
+        this.setState({history: result.data});
+        console.log(this.state.history);
+    }
+
     handleClick(item) {
-        this.setState({ history: this.state.history.concat({ type: item, year: '', performed_by: '' }) });
+        // add new surgery to database
+        axios.post(`http://127.0.0.1:8000/api/patients/${this.props.match.params.id}/surgicalhistory/`, {
+            patient: this.props.match.params.id,
+            procedure: item,
+            date: null,
+            performed_by: '',
+
+        })
+            .then(response => {
+                // fetch updated surgical history list from database
+                console.log('Response: ' + response);
+                const fetchData = async () => {
+                    const result = await axios(`http://127.0.0.1:8000/api/patients/${this.props.match.params.id}/surgicalhistory/`);
+                    console.log(result);
+                    this.setState({history: result.data});
+                    console.log(this.state.history);
+
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     onChange = (event, { newValue, method }) => {
@@ -125,10 +154,10 @@ export default class SurgicalHistory extends Component {
                             <GridItem key={index} xs={12} sm={10}>
                                 <Card style={classes.listitemheader} square="true">
                                     <GridItem style={classes.headeritem}>
-                                        <input name={`history.${index}.type`} value={this.state.history[index].type}/>
+                                        <input name={`history.${index}.procedure`} value={this.state.history[index].procedure}/>
                                     </GridItem>
                                     <GridItem style={classes.headeritem} border={1}>
-                                        <input name={`history.${index}.year`}/>
+                                        <input name={`history.${index}.date`} value={this.state.history[index].date} />
                                     </GridItem>
                                     <GridItem style={classes.headeritem}>
                                         <input name={`history.${index}.performed_by`}/>
@@ -169,6 +198,7 @@ export default class SurgicalHistory extends Component {
 }
 
 /*
+<input name={`history.${index}.type`} value={this.state.history[index].type}/>
 onSuggestionsFetchRequested = ({ value }) => {
     fetch(`${API_URL}${value}`)
         .then(response => response.json())
