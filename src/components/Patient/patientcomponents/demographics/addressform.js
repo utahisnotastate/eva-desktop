@@ -37,13 +37,21 @@ export default function AddressForm(props) {
         {label: 'Address Two', name: 'address_two'},
         {label: 'City', name: 'city'},
         {label: 'State', name: 'state'},
-        {label: 'zip_code', name: 'Zip Code'},
+        {label: 'Zip Code', name: 'zip_code'},
     ]);
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/address/`);
             console.log(result);
+            reset({
+                    address_one: result.data[0].address_one,
+                    address_two: result.data[0].address_two,
+                    city: result.data[0].city,
+                    state: result.data[0].state,
+                    zip_code: result.data[0].zip_code,
+                }
+            );
 
         };
         fetchData();

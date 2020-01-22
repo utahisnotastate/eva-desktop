@@ -179,13 +179,14 @@ export default function Scheduling() {
                         onSelectEvent={(event) => console.log(event)}
                         onSelectSlot={handleSelect}
                         eventPropGetter={eventColors}
-                        resources={resources}
+                        // resources={resources}
+                        // resourceTitleAccessor="display_name"
+                        // resourceIdAccessor={resource => {return resource.id}}
                         titleAccessor="type"
-                        resourceTitleAccessor="display_name"
                         min={opentime()}
                         max={closetime()}
-                        resourceIdAccessor={resource => {return resource.id}}
-                        components={calendercomponents}
+
+                        // components={calendercomponents}
                     />
                 </CardBody>
             </Card>
