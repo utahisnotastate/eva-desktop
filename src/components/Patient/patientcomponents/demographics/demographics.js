@@ -10,6 +10,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from "axios";
 import BasicInfoForm from "./basicinfo";
 import AddressForm from "./addressform";
+import ContactForm from "./contactinfoform";
 
 const useStyles = makeStyles({
     root: {
@@ -66,6 +67,11 @@ export default function Demographics(props) {
                         <Paper className={classes.areaicon} square>
                             <AssignmentIcon/>
                             <Typography className={classes.areatitletext} variant="subtitle2">Contact Info</Typography>
+                        </Paper>
+                    </div>
+                    <div>
+                        <Paper className={classes.areaicon} square>
+                            <ContactForm />
                         </Paper>
                     </div>
                 </Grid>
