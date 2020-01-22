@@ -89,7 +89,8 @@ export default class SurgicalHistory extends Component {
                     this.setState({history: result.data});
                     console.log(this.state.history);
 
-                }
+                };
+                fetchData();
             })
             .catch(error => {
                 console.log(error);
