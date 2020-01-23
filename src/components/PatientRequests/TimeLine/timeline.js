@@ -37,7 +37,7 @@ export default function RequestTimeLine(props) {
     return (
         <div>
             <Button color="primary" onClick={() => setModal(true)}>
-                View
+                View Request
             </Button>
             <Dialog
                 classes={{
@@ -84,10 +84,7 @@ export default function RequestTimeLine(props) {
                             title: (<TimeLineTitle />),
                             titleColor: "danger",
                             body: (
-                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
-                                    you for making my family We just had fun with the “future” theme !!! It was a fun
-                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
-                                    Figueroa and 12th in downtown.</p>
+                                <p>{props.request_description}</p>
                             ),
                             footerTitle: "11 hours ago via Twitter",
                         },

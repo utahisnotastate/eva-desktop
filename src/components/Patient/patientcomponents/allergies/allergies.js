@@ -10,6 +10,7 @@ import axios from "axios";
 import PresentUnpresentAllergy from "./presentunpresentallergy/presentunpresentallergy";
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import AllergyList from "./allergylist/allergylist";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
@@ -36,6 +37,8 @@ export default function Allergies(props) {
     const classes = useStyles();
     const [latexstatus, setlatexstatus] = useState();
     const [pollenstatus, setpollenstatus] = useState();
+    const [drugallergies, setDrugAllergies] = useState([]);
+    const [insectallergies, setInsectAllergies] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,6 +57,18 @@ export default function Allergies(props) {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/drugallergy/`);
+            console.log(result.data);
+            setDrugAllergies(result.data);
+
+
+        };
+        fetchData();
+
+    }, []);
+    console.log(drugallergies);
     return (
         <div style={{margin: 20}}>
             <Grid container className={classes.root} alignItems="flex-start">
@@ -65,7 +80,7 @@ export default function Allergies(props) {
                 </div>
                 <div>
                     <Paper className={classes.areaicon} square>
-
+                        <AllergyList allergy={`Drug`} allergies={drugallergies}/>
                     </Paper>
                 </div>
                 <div>
