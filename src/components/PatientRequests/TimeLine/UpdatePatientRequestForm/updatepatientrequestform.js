@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import  { useForm } from 'react-hook-form';
 import GridContainer from '../../../basestyledcomponents/Grid/GridContainer';
 import GridItem from '../../../basestyledcomponents/Grid/GridItem';
@@ -6,7 +7,7 @@ import {Typography} from "@material-ui/core";
 
 export default function UpdatePatientRequestForm(props) {
     const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {console.log(data)};
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

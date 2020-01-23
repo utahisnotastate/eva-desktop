@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,6 +15,7 @@ import styles from "../../basestyledcomponents/Modal/modalStyle";
 import {Typography} from "@material-ui/core";
 import Divider from '@material-ui/core/Divider';
 import UpdatePatientRequestForm from "./UpdatePatientRequestForm/updatepatientrequestform";
+import axios from "axios";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -33,6 +34,43 @@ function TimeLineTitle(props) {
 export default function RequestTimeLine(props) {
     const [modal, setModal] = React.useState(false);
     const classes = useStyles();
+    const firststory = {   // First story
+            inverted: false,
+            badgeColor: "danger",
+            badgeIcon: CardTravel,
+            title: (<TimeLineTitle />),
+            titleColor: "danger",
+            body: (
+                <p>{props.request_description}</p>
+            ),
+        }
+        // const [requestupdates, setRequestUpdates] = useState([]);
+        const [combinedupdates, setCombinedUpdates] = useState([firststory]);
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
+            .then(response => {
+                console.log(response.data.patient_request_updates);
+                const request_updates = response.data.patient_request_updates;
+                // console.log(request_updates);
+                let styledrequestupdateobjects = [];
+                for (const update of request_updates ) {
+                    styledrequestupdateobjects.push({
+                        inverted: true,
+                        badgeColor: "danger",
+                        badgeIcon: CardTravel,
+                        title: (<Typography>Update from patient</Typography>),
+                        titleColor: "danger",
+                        body: (
+                            <p>{update.update}</p>
+                        ),
+                    })
+                }
+                setCombinedUpdates([...combinedupdates, ...styledrequestupdateobjects])
+            });
+    }, []);
+
+
 
     return (
         <div>
@@ -76,47 +114,7 @@ export default function RequestTimeLine(props) {
                     id="modal-slide-description"
                     className={classes.modalBody}
                 >
-                    <TimelineComponent stories={[
-                        {   // First story
-                            inverted: false,
-                            badgeColor: "danger",
-                            badgeIcon: CardTravel,
-                            title: (<TimeLineTitle />),
-                            titleColor: "danger",
-                            body: (
-                                <p>{props.request_description}</p>
-                            ),
-                            footerTitle: "11 hours ago via Twitter",
-                        },
-                        {   // First story
-                            inverted: true,
-                            badgeColor: "danger",
-                            badgeIcon: CardTravel,
-                            title: (<Typography>Employee Responded</Typography>),
-                            titleColor: "danger",
-                            body: (
-                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
-                                    you for making my family We just had fun with the “future” theme !!! It was a fun
-                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
-                                    Figueroa and 12th in downtown.</p>
-                            ),
-                            footerTitle: "11 hours ago via Twitter",
-                        },
-                        {   // First story
-                            inverted: false,
-                            badgeColor: "danger",
-                            badgeIcon: CardTravel,
-                            title: (<Typography>Update from patient</Typography>),
-                            titleColor: "danger",
-                            body: (
-                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
-                                    you for making my family We just had fun with the “future” theme !!! It was a fun
-                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
-                                    Figueroa and 12th in downtown.</p>
-                            ),
-                            footerTitle: "11 hours ago via Twitter",
-                        }
-                    ]} />
+                    <TimelineComponent stories={combinedupdates} />
                     <Divider />
                     <div>
                         <Typography variant={`h6`}>Log Unsuccesful Contact Attempt</Typography>
@@ -137,3 +135,47 @@ export default function RequestTimeLine(props) {
     )
 
 }
+
+/*
+[
+                        firststory,
+                        {
+                            inverted: true,
+                            badgeColor: "danger",
+                            badgeIcon: CardTravel,
+                            title: (<Typography>Employee Responded</Typography>),
+                            titleColor: "danger",
+                            body: (
+                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
+                                    you for making my family We just had fun with the “future” theme !!! It was a fun
+                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
+                                    Figueroa and 12th in downtown.</p>
+                            ),
+                        },
+                        {
+                            inverted: false,
+                            badgeColor: "danger",
+                            badgeIcon: CardTravel,
+                            title: (<Typography>Update from patient</Typography>),
+                            titleColor: "danger",
+                            body: (
+                                <p>Wifey made the best Father's Day meal ever. So thankful so happy so blessed. Thank
+                                    you for making my family We just had fun with the “future” theme !!! It was a fun
+                                    night all together ... The always rude Kanye Show at 2am Sold Out Famous viewing @
+                                    Figueroa and 12th in downtown.</p>
+                            ),
+                        }
+                    ]
+ */
+
+/*
+useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`);
+            // console.log(result.data.patient_request_updates);
+            // setRequestUpdates(result.data.patient_request_updates)
+            return result;
+        };
+        fetchData().then(data => console.log(data));
+    }, []);
+ */

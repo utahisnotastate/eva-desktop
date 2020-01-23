@@ -18,18 +18,25 @@ const useStyles = makeStyles(style);
 function viewRequestColumn(tableMeta) {
     console.log(tableMeta)
     return (
-        <RequestTimeLine request_description={tableMeta.rowData[3]}/>
+        <RequestTimeLine requestId={tableMeta.rowData[0]} request_description={tableMeta.rowData[4]}/>
     );
 }
 
 function NameColumn(tableMeta) {
 
     return (
-        <Typography>{tableMeta.rowData[1].first_name} {tableMeta.rowData[1].last_name}</Typography>
+        <Typography>{tableMeta.rowData[2].first_name} {tableMeta.rowData[2].last_name}</Typography>
     );
 }
 
 const columns = [
+    {
+        name: "id",
+        label: "Request ID",
+        options: {
+            display: false,
+        }
+    },
     {
         name: "type",
         label: "Type",
