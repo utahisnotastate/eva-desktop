@@ -92,16 +92,7 @@ const columns = [
 
 export default function PatientRequests() {
     const [activePatientRequests, setActivePatientRequests] = useState();
-    const classes = useStyles();
-    let { id } = useParams();
-    const columnheaders = ["Type", "Name", "Date of Birth", "Actions"];
-    const fillButtons = [
-        { color: "success", icon: Person },
-    ].map((prop, key) => {
-        return (
-            <RequestTimeLine />
-        );
-    });
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -130,33 +121,7 @@ export default function PatientRequests() {
 
                             )
                         },
-                        {
-                            tabName: 'Recently Completed',
-                            tabIcon: Person,
-                            tabContent: (
-                                <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={[
-                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
-                                        ["2", "Utah Doe", "Design", "2012", "€ 89,241", fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
-                                    ]}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
-                            )
-                        },
+
                     ]}
                 />
             </GridItem>
@@ -185,4 +150,45 @@ export default function PatientRequests() {
                                     ]}
                                     customHeadClassesForCells={[0, 4, 5]}
                                 />
+ */
+/*
+{
+                            tabName: 'Recently Completed',
+                            tabIcon: Person,
+                            tabContent: (
+                                <Table
+                                    tableHeaderColor="primary"
+                                    tableHead={columnheaders}
+                                    tableData={[
+                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
+                                        ["2", "Utah Doe", "Design", "2012", "€ 89,241", fillButtons],
+                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
+                                    ]}
+                                    customCellClasses={[
+                                        classes.textCenter,
+                                        classes.textRight,
+                                        classes.textRight
+                                    ]}
+                                    customClassesForCells={[0, 4, 5]}
+                                    customHeadCellClasses={[
+                                        classes.textCenter,
+                                        classes.textRight,
+                                        classes.textRight
+                                    ]}
+                                    customHeadClassesForCells={[0, 4, 5]}
+                                />
+                            )
+                        },
+ */
+/*
+   const classes = useStyles();
+    let { id } = useParams();
+    const columnheaders = ["Type", "Name", "Date of Birth", "Actions"];
+    const fillButtons = [
+        { color: "success", icon: Person },
+    ].map((prop, key) => {
+        return (
+            <RequestTimeLine />
+        );
+    });
  */

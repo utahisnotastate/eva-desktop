@@ -61,7 +61,7 @@ export default function Modal(props) {
                     id="modal-slide-description"
                     className={classes.modalBody}
                 >
-                    {props.form ? <props.form /> : <CheckInForm setModal={setModal}/>}
+                    {props.form  ? <props.form setModal={setModal} /> : <CheckInForm setModal={setModal}/>}
                 </DialogContent>
             </Dialog>
         </div>

@@ -1,6 +1,8 @@
 import React from "react";
 import { RHFInput } from 'react-hook-form-input';
 import Select from 'react-select';
+import {useParams} from 'react-router-dom';
+import axios from "axios";
 import { useForm } from 'react-hook-form';
 import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
@@ -16,14 +18,26 @@ const request_options = [
     { value: 'medication_authorization', label: 'Medication Authorization'}
     ];
 */
-const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-];
+
 export default function NewRequest(props) {
+    // console.log(props);
+    let { id } = useParams();
     const { register, handleSubmit, setValue } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = (data) => {
+        console.log(data);
+        axios.post(`http://127.0.0.1:8000/api/patients/${id}/createpatientrequest/`,{
+            patient: 1,
+            type: data.type,
+            status: "active",
+            request_description: data.request_description
+        }).then(function (response) {
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+        props.setModal(false);
+    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
         <GridContainer direction="column">
@@ -33,11 +47,11 @@ export default function NewRequest(props) {
                         <Typography>Type of Request</Typography>
                     </GridItem>
                     <GridItem xs={8}>
-                        <select name="request_type" ref={register}>
-                            <option value="medication_refill">Medication refill</option>
-                            <option value="clinical_issue">Clinical Issue</option>
-                            <option value="insurance_authorization">Insurance Authorization</option>
-                            <option value="medication_authorization">Medication Authorization</option>
+                        <select name="type" ref={register}>
+                            <option value="medication">Medication refill</option>
+                            <option value="insurance_authorization_medication">Insurance Authorization Medication</option>
+                            <option value="other">Other</option>
+                            <option value="clinical_question">Clinical Question</option>
                         </select>
                     </GridItem>
                 </GridContainer>
@@ -48,7 +62,7 @@ export default function NewRequest(props) {
                         <Typography>Request Description</Typography>
                     </GridItem>
                     <GridItem xs={8}>
-                        <RHFTextInput name={`request_description`} placeholder={`Provide information about patients request`} register={register} setValue={setValue} multiline={true} rows={4} />
+                        <RHFTextInput name="request_description" placeholder={`Provide information about patients request`} register={register} setValue={setValue} multiline={true} rows={4} />
                     </GridItem>
                 </GridContainer>
             </GridItem>
