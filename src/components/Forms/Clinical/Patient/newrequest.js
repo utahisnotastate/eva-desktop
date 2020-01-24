@@ -24,7 +24,7 @@ export default function NewRequest(props) {
     let { id } = useParams();
     const { register, handleSubmit, setValue } = useForm();
     const onSubmit = (data) => {
-        console.log(data);
+        // console.log(data);
         axios.post(`http://127.0.0.1:8000/api/patients/${id}/createpatientrequest/`,{
             patient: 1,
             type: data.type,
