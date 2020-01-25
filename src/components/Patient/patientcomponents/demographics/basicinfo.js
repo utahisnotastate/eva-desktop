@@ -69,16 +69,18 @@ export default function BasicInfoForm(props) {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/demographics/`);
             console.log(result);
-            setGender(result.data[0].gender);
-            reset({
-                gender: result.data[0].gender,
-                race: result.data[0].race,
-                marital_status: result.data[0].marital_status,
-                employment_status: result.data[0].employment_status,
-                email: result.data[0].email
-            });
+            // console.log(result.data);
+            return result.data;
         };
-        fetchData();
+        fetchData().then(response => {
+                reset({
+                    gender: response[0].gender,
+                    race: response[0].race,
+                    marital_status: response[0].marital_status,
+                    employment_status: response[0].employment_status,
+                    email: response[0].email
+                });
+        }).catch(error => console.log(error));
     }, []);
     return (
             <div>
@@ -147,4 +149,36 @@ reset({
                     preferred_name: result.data.preferred_name,
                 }
             );
+ */
+
+/*
+if(result.data[0] === undefined) {
+                console.log('new patient so settings arent there');
+            }
+            else {
+                reset({
+                    gender: result.data[0].gender,
+                    race: result.data[0].race,
+                    marital_status: result.data[0].marital_status,
+                    employment_status: result.data[0].employment_status,
+                    email: result.data[0].email
+                });
+            }
+ */
+/*
+fetchData().then(response => {
+            if(response === undefined) {
+                console.log('new patient so settings arent there');
+            }
+            else {
+                reset({
+                    gender: response[0].gender,
+                    race: response[0].race,
+                    marital_status: response[0].marital_status,
+                    employment_status: response[0].employment_status,
+                    email: response[0].email
+                });
+            }
+
+        }).catch(error => console.log(error));
  */

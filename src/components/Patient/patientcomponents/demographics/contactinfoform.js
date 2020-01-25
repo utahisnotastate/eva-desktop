@@ -51,7 +51,7 @@ export default function ContactForm(props) {
             );
 
         };
-        fetchData();
+        fetchData().catch(error => console.log(error));
     }, []);
 
     return (

@@ -38,8 +38,8 @@ function PatientSearch() {
 function ScheduleAppointmentDialog(props) {
     return (
         <Fragment>
-            <Typography>Appointment Start: {moment(props.slottoschedule.slots[0]).format('MMMM Do @ h:mm A')}</Typography>
-            <Typography>Appointment End: {moment(props.slottoschedule.slots[props.slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
+            <Typography>Start = {moment(props.slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+            <Typography>End = {moment(props.slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
             <Typography>Patient First Name: {props.patient}</Typography>
             <Typography>Patient Last Name</Typography>
             <Typography>Patient Contact Number</Typography>
@@ -62,10 +62,14 @@ export default function Scheduling() {
                     </div>
                     <DialogTitle>Schedule appointment</DialogTitle>
                     <DialogContent>
-                        {id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id}/> : <PatientSearch /> }
-                        <Typography>Start = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
-                        <Typography>End = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
-                        <Typography>Provider {slottoschedule.resourceId}</Typography>
+                        {id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id}/> : (
+                            <div>
+                                <PatientSearch/>
+                                <Typography>Start = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+                                <Typography>End = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
+                                <Typography>Provider {slottoschedule.resourceId}</Typography>
+                            </div>
+                            ) }
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {
@@ -88,6 +92,7 @@ export default function Scheduling() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`${API_URL}/providers`);
+            console.log(result);
             setResources([...result.data]);
         };
         fetchData();
@@ -102,10 +107,13 @@ export default function Scheduling() {
             appointments.forEach(appointment => {
                 let newstart = toDate.RFC3339(appointment.start);
                 let newend = toDate.RFC3339(appointment.end);
-                let resourceId = appointment.provider.id;
+                let resourceId = appointment.provider;
+                console.log(appointment.provider);
+                console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
                 convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
             });
             setAppointments(convertedappointments);
+            console.log(appointments);
 
         };
         fetchData();
@@ -178,15 +186,17 @@ export default function Scheduling() {
                         defaultDate={new Date()}
                         onSelectEvent={(event) => console.log(event)}
                         onSelectSlot={handleSelect}
-                        eventPropGetter={eventColors}
-                        // resources={resources}
-                        // resourceTitleAccessor="display_name"
-                        // resourceIdAccessor={resource => {return resource.id}}
+                        // eventPropGetter={eventColors}
+                        resources={resources}
+                        resourceTitleAccessor="display_name"
+                        resourceIdAccessor={resource => {
+                            console.log(resource);
+                            return resource.id}
+                        }
                         titleAccessor="type"
                         min={opentime()}
                         max={closetime()}
-
-                        // components={calendercomponents}
+                        components={calendercomponents}
                     />
                 </CardBody>
             </Card>
@@ -253,4 +263,12 @@ startAccessor={(event) => {
 
     <Typography>Start: {slottoschedule.start}</Typography>
                         <Typography>End: {slottoschedule.start}</Typography>
+ */
+
+/*
+<Typography>Appointment Start: {moment(props.slottoschedule.slots[0]).format('MMMM Do @ h:mm A')}</Typography>
+            <Typography>Appointment End: {moment(props.slottoschedule.slots[props.slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
+ */
+/*
+
  */

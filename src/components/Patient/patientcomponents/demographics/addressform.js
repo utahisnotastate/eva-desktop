@@ -44,17 +44,24 @@ export default function AddressForm(props) {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/address/`);
             console.log(result);
-            reset({
-                    address_one: result.data[0].address_one,
-                    address_two: result.data[0].address_two,
-                    city: result.data[0].city,
-                    state: result.data[0].state,
-                    zip_code: result.data[0].zip_code,
-                }
-            );
 
+            return result.data;
         };
-        fetchData();
+        fetchData().then(response => {
+            if(response === undefined) {
+                console.log('new patient so settings arent there');
+            } else {
+                reset({
+                        address_one: response[0].address_one,
+                        address_two: response[0].address_two,
+                        city: response[0].city,
+                        state: response[0].state,
+                        zip_code: response[0].zip_code,
+                    }
+                );
+
+            }
+        }).catch(error => console.log(error));
     }, []);
     return (
         <GridContainer className={classes.root}>
