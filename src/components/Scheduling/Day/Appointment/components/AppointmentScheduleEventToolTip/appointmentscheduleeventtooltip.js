@@ -6,9 +6,29 @@ import AppointmentScheduleEventCard from "../AppointmentScheduleEventCard/appoin
 
 export default function AppointmentScheduleEventToolTip(props) {
     console.log(props);
+    function TestComponent() {
+        return (
+            <div>
+                <Typography>Testing this</Typography>
+            </div>
+        );
+    }
     return (
         <div>
             <Tooltip
+                interactive
+                placement="right-end"
+                disableFocusListener
+                title={<AppointmentScheduleEventCard event={props.event}/>}
+            >
+            <Typography>Test</Typography>
+            </Tooltip>
+        </div>
+
+    );
+}
+/*
+<Tooltip
                 interactive
                 placement="right-end"
                 disableFocusListener
@@ -18,6 +38,9 @@ export default function AppointmentScheduleEventToolTip(props) {
             >
                     <Typography>Test</Typography>ß
             </Tooltip>
-        </div>
-    );
-}
+ */
+/*
+ () => {
+                return <AppointmentScheduleEventCard event={props.event}/>
+            }
+ */

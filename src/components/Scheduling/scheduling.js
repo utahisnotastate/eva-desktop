@@ -190,7 +190,6 @@ export default function Scheduling() {
                         resources={resources}
                         resourceTitleAccessor="display_name"
                         resourceIdAccessor={resource => {
-                            console.log(resource);
                             return resource.id}
                         }
                         titleAccessor="type"

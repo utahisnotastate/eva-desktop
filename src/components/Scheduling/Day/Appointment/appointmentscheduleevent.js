@@ -21,13 +21,16 @@ export default function AppointmentScheduleEvent(props) {
     let { path, url } = useRouteMatch();
     console.log(props);
     return (
-        <div style={{minHeight: '500'}}>
-            <Typography>Test</Typography>
-        </div>
+        <AppointmentScheduleEventToolTip event={props.event} />
 
     );
 }
 
 /*
  <AppointmentScheduleEventToolTip event={props.event} />
+ */
+/*
+<div style={{minHeight: '500'}}>
+            <Typography>Test</Typography>
+        </div>
  */
