@@ -1,12 +1,14 @@
 import React, {Fragment, useEffect, useState} from "react";
 import axios from 'axios';
-import {useParams, useRouteMatch, NavLink} from "react-router-dom";
+import {useParams, useRouteMatch, NavLink, Redirect} from "react-router-dom";
 import { Calendar as BigCalendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
+import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Fab} from "@material-ui/core";
 import GridContainer from "../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../basestyledcomponents/Grid/GridItem";
+import TextField from "@material-ui/core/TextField";
 import {useModal} from "react-modal-hook";
 import CheckInForm from "../Forms/Administrative/Scheduling/CheckIn/checkin";
 import Modal from "../basestyledcomponents/Modal/modal";
@@ -17,6 +19,7 @@ import CardBody from "../basestyledcomponents/Card/CardBody";
 import AppointmentScheduleEvent from "./Day/Appointment/appointmentscheduleevent";
 import WaitListCountCard from "./WaitList/waitlistcountcard";
 import ReferralsToSchedule from "./ReferralsToSchedule/referralstoschedule";
+import ScheduleAppointmentModal from "./ScheduleAppointmentModal/scheduleappointmentmodal";
 import styles from '../basestyledcomponents/buttonStyle';
 import '../basestyledcomponents/scss/material-dashboard-pro-react.scss'
 
@@ -27,69 +30,87 @@ const localizer = momentLocalizer(moment);
 const useStyles = makeStyles(styles);
 const API_URL = "http://127.0.0.1:8000/api";
 
-function PatientSearch() {
-    return (
-        <div>
-            <Typography>Patient Search</Typography>
-        </div>
-    );
-}
 
-function ScheduleAppointmentDialog(props) {
-    return (
-        <Fragment>
-            <Typography>Start = {moment(props.slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
-            <Typography>End = {moment(props.slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
-            <Typography>Patient First Name: {props.patient}</Typography>
-            <Typography>Patient Last Name</Typography>
-            <Typography>Patient Contact Number</Typography>
-            <Typography>Notify if an earlier appointment opens up?</Typography>
-        </Fragment>
-    )
-}
 export default function Scheduling() {
         let { path, url } = useRouteMatch();
         let { id } = useParams();
+        const { register, handleSubmit, control, errors } = useForm();
+
+        // gets new appointments after appointment has been scheduled
+        async function getNewAppointments() {
+            const result = await axios(`${API_URL}/appointments`);
+            // console.log(result.data);
+            let appointments = result.data;
+            let convertedappointments = [];
+            appointments.forEach(appointment => {
+                let newstart = toDate.RFC3339(appointment.start);
+                let newend = toDate.RFC3339(appointment.end);
+                let resourceId = appointment.provider;
+                // console.log(appointment.provider);
+                // console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+                convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+            });
+            setAppointments(convertedappointments);
+            // console.log(appointments);
+
+    }
+        // handles create new patient form
+        const onSubmit = data => {
+            console.log('Resource Id ' + slottoschedule.resourceId);
+            console.log(data);
+
+            axios.post('http://127.0.0.1:8000/api/appointments/', {
+                patient: id,
+                provider: slottoschedule.resourceId,
+                type: data.type,
+                status: "scheduled",
+                start:  moment(slottoschedule.start).toISOString(),
+                end: moment(slottoschedule.end).toISOString()
+
+            }).then(response => {
+                if(response.statusText === "Created") {
+                    console.log('It worked!!!')
+                    hideModal();
+                    // getNewAppointments().catch(error => console.log(error));
+                    // return <Redirect to="/scheduling" />
+                }
+
+                console.log(response);
+
+            })
+
+        };
+        // console.log(errors);
+        // resources are the providers
         const [resources, setResources] = useState([]);
         const [appointments, setAppointments] = useState([]);
+        // holds the values of the appointment information for the form to have
         const [slottoschedule, setSlotToSchedule] = useState();
         const [showModal, hideModal] = useModal(({ in: open, onExited }) => {
             console.log(slottoschedule);
             return (
-                <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
-                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                        <Fab color="primary" onClick={hideModal}>X</Fab>
-                    </div>
-                    <DialogTitle>Schedule appointment</DialogTitle>
-                    <DialogContent>
-                        {id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id}/> : (
-                            <div>
-                                <PatientSearch/>
-                                <Typography>Start = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
-                                <Typography>End = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
-                                <Typography>Provider {slottoschedule.resourceId}</Typography>
-                            </div>
-                            ) }
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => {
-                            appointments.push({
-                                title: "Meeting",
-                                start: slottoschedule.slots[0],
-                                end: slottoschedule.slots[slottoschedule.slots.length - 1],
-                                allDay: false,
-                                color: 'green'
-                            });
-                            // setEvents(appointments);
-                            hideModal()
-                        }}>Save</Button>
-                    </DialogActions>
-                </Dialog>
+                <div>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Dialog disableBackdropClick={true} open={true} onExited={onExited} onClose={hideModal}>
+                        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                            <Fab color="primary" onClick={hideModal}>X</Fab>
+                        </div>
+                        <DialogTitle>Schedule appointment</DialogTitle>
+                        <DialogContent>
+                            <ScheduleAppointmentModal slottoschedule={slottoschedule} patient={id} register={register} control={control}/>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleSubmit(onSubmit)}>Schedule</Button>
+                        </DialogActions>
+                    </Dialog>
+                    </form>
+                </div>
             );
 
         },[slottoschedule]);
 
     useEffect(() => {
+        // gets providers
         const fetchData = async () => {
             const result = await axios(`${API_URL}/providers`);
             console.log(result);
@@ -99,21 +120,22 @@ export default function Scheduling() {
     }, []);
 
     useEffect(() => {
+        //gets appointments on mount
         const fetchData = async () => {
             const result = await axios(`${API_URL}/appointments`);
-            console.log(result.data);
+            // console.log(result.data);
             let appointments = result.data;
             let convertedappointments = [];
             appointments.forEach(appointment => {
                 let newstart = toDate.RFC3339(appointment.start);
                 let newend = toDate.RFC3339(appointment.end);
                 let resourceId = appointment.provider;
-                console.log(appointment.provider);
-                console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+                // console.log(appointment.provider);
+                // console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
                 convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
             });
             setAppointments(convertedappointments);
-            console.log(appointments);
+            // console.log(appointments);
 
         };
         fetchData();
@@ -126,12 +148,11 @@ export default function Scheduling() {
         showModal();
     };
     const eventColors = event => {
-        var backgroundColor = "event-";
-        event.color
-            ? (backgroundColor = backgroundColor + event.color)
-            : (backgroundColor = backgroundColor + "default");
+        // console.log(event);
         return {
-            className: backgroundColor
+            style: {
+                backgroundColor: '#1f618d',
+            }
         };
     };
 
@@ -180,13 +201,13 @@ export default function Scheduling() {
                         localizer={localizer}
                         drilldownView="day"
                         events={appointments}
-                        defaultView={Views.MONTH}
+                        defaultView={Views.DAY}
                         views={['month', 'work_week', 'day']}
                         scrollToTime={new Date(1970, 1, 1, 6)}
                         defaultDate={new Date()}
                         onSelectEvent={(event) => console.log(event)}
                         onSelectSlot={handleSelect}
-                        // eventPropGetter={eventColors}
+                        eventPropGetter={eventColors}
                         resources={resources}
                         resourceTitleAccessor="display_name"
                         resourceIdAccessor={resource => {
@@ -195,6 +216,7 @@ export default function Scheduling() {
                         titleAccessor="type"
                         min={opentime()}
                         max={closetime()}
+                        onView={view => console.log('View is ' + view)}
                         components={calendercomponents}
                     />
                 </CardBody>
@@ -236,32 +258,14 @@ startAccessor={(event) => {
         setEvents(newEvents);
     };
 
-
-    var today = new Date();
-    var y = today.getFullYear();
-    var m = today.getMonth();
-    var d = today.getDate();
-    const classes = useStyles();
-    const [events, setEvents] = useState([{
-        title: "Meeting",
-        start: new Date(y, m, d, 10, 30),
-        end: new Date(y, m, d, 11, 30),
-        allDay: false,
-        patient: {id: 1},
-        color: "green"
-    },
-        {
-            title: "Meeting",
-            start: new Date(y, m, d, 11, 30),
-            end: new Date(y, m, d, 12, 30),
-            allDay: false,
-            patient: {id: 2},
-            color: "green"
-        }
-    ]);
-
-    <Typography>Start: {slottoschedule.start}</Typography>
-                        <Typography>End: {slottoschedule.start}</Typography>
+{
+    "patient": 5,
+    "provider": 1,
+    "type": "appointment",
+    "status": "scheduled",
+    "start": "2020-01-27T17:00:00Z",
+    "end": "2020-01-27T18:00:00Z"
+}
  */
 
 /*
@@ -269,5 +273,57 @@ startAccessor={(event) => {
             <Typography>Appointment End: {moment(props.slottoschedule.slots[props.slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
  */
 /*
+<Button onClick={() => {
+                                appointments.push({
+                                    title: "Meeting",
+                                    start: slottoschedule.slots[0],
+                                    end: slottoschedule.slots[slottoschedule.slots.length - 1],
+                                    allDay: false,
+                                    color: 'green'
+                                });
+                                // setEvents(appointments);
+                                hideModal()
+                            }}>Save</Button>
+ */
+/*
+{id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id} register={register}/> : (
+                                <div>
+                                    <PatientSearch/>
+                                    <Typography>Start
+                                        = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+                                    <Typography>End
+                                        = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
+                                    <Typography>Provider {slottoschedule.resourceId}</Typography>
+                                </div>
+                            )}
 
+                            <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id} register={register} control={control}/>
+                            function PatientSearch() {
+    return (
+        <div>
+            <Typography>Patient Search</Typography>
+        </div>
+    );
+}
+
+function ScheduleAppointmentDialog(props) {
+    console.log(props);
+    return (
+        <Fragment>
+            <select name="type" ref={props.register}>
+                <option value="first_appointment">first_appointment</option>
+                <option value="medication_management">medication_management</option>
+                <option value="follow_up">follow_up</option>
+                <option value="appointment">appointment</option>
+            </select>
+            <Typography>Start = {moment(props.slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+            <Typography>End = {moment(props.slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
+            <TextField />
+            <Typography>Patient First Name: {props.patient}</Typography>
+            <Typography>Patient Last Name</Typography>
+            <Typography>Patient Contact Number</Typography>
+            <Typography>Notify if an earlier appointment opens up?</Typography>
+        </Fragment>
+    )
+}
  */
