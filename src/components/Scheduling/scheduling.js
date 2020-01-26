@@ -34,6 +34,7 @@ const API_URL = "http://127.0.0.1:8000/api";
 export default function Scheduling() {
         let { path, url } = useRouteMatch();
         let { id } = useParams();
+        // const [appointmentcreated, setAppointmentCreated] = useState(false);
         const { register, handleSubmit, control, errors } = useForm();
 
         // gets new appointments after appointment has been scheduled
@@ -51,7 +52,7 @@ export default function Scheduling() {
                 convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
             });
             setAppointments(convertedappointments);
-            // console.log(appointments);
+            console.log(appointments);
 
     }
         // handles create new patient form
@@ -71,8 +72,7 @@ export default function Scheduling() {
                 if(response.statusText === "Created") {
                     console.log('It worked!!!')
                     hideModal();
-                    // getNewAppointments().catch(error => console.log(error));
-                    // return <Redirect to="/scheduling" />
+                    getNewAppointments().catch(error => console.log(error));
                 }
 
                 console.log(response);
