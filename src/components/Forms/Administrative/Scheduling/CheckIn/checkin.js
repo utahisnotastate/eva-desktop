@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import { useForm } from 'react-hook-form';
 import { RHFInput } from 'react-hook-form-input';
 import TextField from '@material-ui/core/TextField';
@@ -13,8 +14,21 @@ const paymentoptions = [{value: 'cash', label: 'Cash'}, {value: 'credit_debit', 
 
 export default function CheckInForm(props) {
     const { register, handleSubmit, errors, setValue } = useForm();
-    const onSubmit = data => {
+    const onSubmit = (data) => {
+        async function checkInPatient() {
+            const result = await axios.patch(`http://127.0.0.1:8000/api/appointments/${props.appointment}/`, {status: 'arrived'});
+            return result;
+
+        }
         console.log(data);
+        console.log(props.appointment);
+        checkInPatient().then(response => {
+            console.log(response)
+            async function getUpdatedClinicalQueue() {
+
+            }
+
+        }).catch(error => console.log(error));
         props.setModal(false);
     };
 

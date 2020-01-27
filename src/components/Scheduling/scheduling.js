@@ -78,7 +78,6 @@ export default function Scheduling() {
                 console.log(response);
 
             })
-
         };
         // console.log(errors);
         // resources are the providers

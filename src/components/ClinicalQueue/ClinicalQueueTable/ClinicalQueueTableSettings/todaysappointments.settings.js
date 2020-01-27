@@ -5,17 +5,44 @@ import MarkNoShow from "../../ClinicalQueueActions/MarkNoShow/marknoshow";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
+function updateThis() {
+    console.log('Update this!!');
+}
 
+function TodaysAppointmentActions(props) {
+    console.log(props.tableMeta);
+    return (
+        <div style={{display: 'flex'}}>
+            <CheckInPatient appointment={props.tableMeta.rowData[0]}/>
+            <VerifyInsuranceAction verification={{status: 'unverified'}}/>
+            <MarkNoShow />
+        </div>
+    );
+}
 const TodaysAppointmentsSettings = {
     title: 'Upcoming Appointments',
-    actions: [
+    /*actions: [
         {label: 'Check In', component: (<CheckInPatient/>)},
         {label: 'Insurance Status', component: (<VerifyInsuranceAction verification={{status: 'unverified'}}/>)},
         {label: 'No Show', component: (<MarkNoShow/>)}
-    ],
+    ],*/
     columnheaders: [
         {
-            name: "name",
+            name: "id",
+            label: "Appointment ID",
+            options: {
+                display: false,
+            }
+        },
+        {
+            name: "patient",
+            label: "Patient ID",
+            options: {
+                display: false,
+            }
+        },
+        {
+            name: "patient_display_name",
             label: "Name",
             options: {
                 filter: true,
@@ -23,7 +50,7 @@ const TodaysAppointmentsSettings = {
             }
         },
         {
-            name: "company",
+            name: "start",
             label: "Appointment Time",
             options: {
                 filter: true,
@@ -31,7 +58,7 @@ const TodaysAppointmentsSettings = {
             }
         },
         {
-            name: "city",
+            name: "provider_display_name",
             label: "Provider",
             options: {
                 filter: true,
@@ -39,11 +66,14 @@ const TodaysAppointmentsSettings = {
             }
         },
         {
-            name: "state",
-            label: "Date Scheduled",
+            name: "actions",
+            label: "Actions",
             options: {
-                filter: true,
+                filter: false,
                 sort: false,
+                empty: true,
+                customBodyRender: (value, tableMeta, updateValue) => TodaysAppointmentActions({value, tableMeta, updateValue}),
+
             }
         },
 

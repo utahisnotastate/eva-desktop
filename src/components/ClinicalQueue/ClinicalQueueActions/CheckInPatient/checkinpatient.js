@@ -4,6 +4,6 @@ import Modal from "../../../basestyledcomponents/Modal/modal";
 
 export default function CheckInPatient(props) {
     return (
-        <Modal buttontext="Check In" modaltitle={`Patient Check In`} form={CheckInForm} />
+        <Modal buttontext="Check In" modaltitle={`Patient Check In`} appointment={props.appointment} update={props.update} />
     );
 }

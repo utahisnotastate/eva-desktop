@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../basestyledcomponents/Grid/GridItem";
@@ -15,6 +15,8 @@ import AppointmentInProgressSettings
     from "./ClinicalQueueTable/ClinicalQueueTableSettings/appointmentinprogress.settings";
 import RecentlyCompletedAppointmentSettings
     from "./ClinicalQueueTable/ClinicalQueueTableSettings/recentlycompleted.settings";
+import axios from "axios";
+import moment from "moment";
 
 
 const styles = {
@@ -23,12 +25,56 @@ const styles = {
     }
 };
 
+const API_URL = "http://127.0.0.1:8000/api";
+
 const useStyles = makeStyles(styles);
 
 export default function ClinicalQueue() {
     const classes = useStyles();
+    const [todaysappointments, setTodaysaAppointments] = useState([]);
     const [inWaitingArea, setInWaitingArea] = useState([]);
-    const [waitingToBeSeen, setWaitingToBeSeen] = useState([]);
+    const [inExamRoom, setInExamRoom] = useState([]);
+    const [appointmentsinprogress, setAppointmentsInProgress] = useState([])
+    const [finishedappointments, setFinishedAppointments] = useState([]);
+
+    useEffect(() => {
+        //gets appointments on mount
+        const fetchData = async () => {
+            const result = await axios(`${API_URL}/appointmentstoday`);
+            // console.log(result.data);
+            let appointments = result.data;
+            /*let convertedappointments = [];
+            appointments.forEach(appointment => {
+                let newstart = toDate.RFC3339(appointment.start);
+                let newend = toDate.RFC3339(appointment.end);
+                let resourceId = appointment.provider;
+                // console.log(appointment.provider);
+                // console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+                convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+            });
+            setAppointments(convertedappointments);*/
+            return appointments;
+            // console.log(appointments);
+
+        };
+        fetchData().then(response => {
+            let modifiedappointments = [];
+            response.forEach(appointment => {
+                let formattedstart = moment(appointment.start).format('h:mm')
+                let formattedend = moment(appointment.end).format('h:mm')
+                modifiedappointments.push({...appointment, ...{start: formattedstart}})
+            })
+            setTodaysaAppointments(modifiedappointments.filter(appointment => appointment.status === "scheduled"));
+            setInWaitingArea(modifiedappointments.filter(appointment => appointment.status === "arrived"));
+            setInExamRoom(modifiedappointments.filter(appointment => appointment.status === "in_exam_room"))
+            setAppointmentsInProgress(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
+            setFinishedAppointments(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
+            console.log(response);
+        });
+    }, []);
+
+
+
     return (
         <div>
             <GridContainer direction="column" alignContent="center">
@@ -43,8 +89,8 @@ export default function ClinicalQueue() {
                                     <ClinicalQueueTable
                                         title={TodaysAppointmentsSettings.title}
                                         columnheaders={TodaysAppointmentsSettings.columnheaders}
-                                        table_actions={TodaysAppointmentsSettings.actions}
-                                        expandable={true}
+                                        // table_actions={TodaysAppointmentsSettings.actions}
+                                        data={todaysappointments}
                                     />
                                 )
                             },
@@ -55,8 +101,9 @@ export default function ClinicalQueue() {
                                     <ClinicalQueueTable
                                         title={InWaitingRoomSettings.title}
                                         columnheaders={InWaitingRoomSettings.columnheaders}
-                                        table_actions={InWaitingRoomSettings.actions}
-                                        expandable={true}/>
+                                        // table_actions={InWaitingRoomSettings.actions}
+                                        data={inWaitingArea}
+                                    />
                                 )
                             },
                             {
@@ -66,8 +113,9 @@ export default function ClinicalQueue() {
                                     <ClinicalQueueTable
                                         title={InExamRoomSettings.title}
                                         columnheaders={InExamRoomSettings.columnheaders}
-                                        table_actions={InExamRoomSettings.actions}
-                                        expandable={true}/>
+                                        // table_actions={InExamRoomSettings.actions}
+                                        data={inExamRoom}
+                                    />
                                 )
                             },
                             {
@@ -78,7 +126,8 @@ export default function ClinicalQueue() {
                                         title={AppointmentInProgressSettings.title}
                                         columnheaders={AppointmentInProgressSettings.columnheaders}
                                         table_actions={AppointmentInProgressSettings.actions}
-                                        expandable={false}/>
+                                        data={appointmentsinprogress}
+                                    />
                                 )
                             },
                             {
@@ -89,7 +138,8 @@ export default function ClinicalQueue() {
                                         title={RecentlyCompletedAppointmentSettings.title}
                                         columnheaders={RecentlyCompletedAppointmentSettings.columnheaders}
                                         table_actions={RecentlyCompletedAppointmentSettings.actions}
-                                        expandable={true}/>
+                                        data={finishedappointments}
+                                    />
                                 )
                             }
                         ]}

@@ -41,23 +41,11 @@ export default function ClinicalQueueTable(props) {
     const classes = useStyles();
     const [options, setOptions] = useState({
         searchOpen: false,
-        serverSide: false,
+        serverSide: true,
         textLabels: {
             body: {
                 noMatch: "SORRY NO MATCHES FOUND",
             }
-        },
-        expandableRows: expandable,
-        expandableRowsOnClick: true,
-        renderExpandableRow: (rowData, rowMeta) => {
-            const colSpan = rowData.length + 1;
-            return (
-                <TableRow>
-                    <TableCell colSpan={colSpan}>
-                        {ButtonRow(table_actions, rowData, rowMeta)}
-                    </TableCell>
-                </TableRow>
-            );
         },
         searchPlaceholder: 'Search by patient name',
         elevation: 0,
@@ -66,16 +54,12 @@ export default function ClinicalQueueTable(props) {
         download: false,
         selectableRows: 'none',
         viewColumns: false,
+        onTableInit: () => {}
     });
     return (
         <MUIDataTable
             title={title}
-            data={[
-                { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-                { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-                { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-                { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
-            ]}
+            data={props.data}
             columns={columnheaders}
             options={options}
         />
