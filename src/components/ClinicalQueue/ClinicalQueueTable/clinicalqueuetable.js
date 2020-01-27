@@ -38,6 +38,7 @@ function ButtonRow(actions, rowData) {
 
 export default function ClinicalQueueTable(props) {
      const {table_actions, columnheaders, expandable, title} = props;
+     const [appointments, setAppointments] = useState(props.data);
     const classes = useStyles();
     const [options, setOptions] = useState({
         searchOpen: false,
@@ -54,12 +55,12 @@ export default function ClinicalQueueTable(props) {
         download: false,
         selectableRows: 'none',
         viewColumns: false,
-        onTableInit: () => {}
+        onTableInit: () => { console.log('Init!')}
     });
     return (
         <MUIDataTable
             title={title}
-            data={props.data}
+            data={props.data.filter(appointment => appointment.status === props.clinicalqueuefilter)}
             columns={columnheaders}
             options={options}
         />

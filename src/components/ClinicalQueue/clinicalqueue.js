@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useStateValue} from "./context/ClinicalQueueContext";
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../basestyledcomponents/Grid/GridItem";
@@ -31,6 +32,7 @@ const useStyles = makeStyles(styles);
 
 export default function ClinicalQueue() {
     const classes = useStyles();
+    const [{clinicalqueue}, dispatch] = useStateValue();
     const [todaysappointments, setTodaysaAppointments] = useState([]);
     const [inWaitingArea, setInWaitingArea] = useState([]);
     const [inExamRoom, setInExamRoom] = useState([]);
@@ -43,16 +45,7 @@ export default function ClinicalQueue() {
             const result = await axios(`${API_URL}/appointmentstoday`);
             // console.log(result.data);
             let appointments = result.data;
-            /*let convertedappointments = [];
-            appointments.forEach(appointment => {
-                let newstart = toDate.RFC3339(appointment.start);
-                let newend = toDate.RFC3339(appointment.end);
-                let resourceId = appointment.provider;
-                // console.log(appointment.provider);
-                // console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
-                convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
-            });
-            setAppointments(convertedappointments);*/
+
             return appointments;
             // console.log(appointments);
 
@@ -64,17 +57,16 @@ export default function ClinicalQueue() {
                 let formattedend = moment(appointment.end).format('h:mm')
                 modifiedappointments.push({...appointment, ...{start: formattedstart}})
             })
-            setTodaysaAppointments(modifiedappointments.filter(appointment => appointment.status === "scheduled"));
-            setInWaitingArea(modifiedappointments.filter(appointment => appointment.status === "arrived"));
-            setInExamRoom(modifiedappointments.filter(appointment => appointment.status === "in_exam_room"))
-            setAppointmentsInProgress(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
-            setFinishedAppointments(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
-            console.log(response);
+            console.log(modifiedappointments);
+            dispatch({
+                type: 'initial_load',
+                newclinicalqueue: modifiedappointments,
+            })
         });
     }, []);
 
 
-
+    console.log(clinicalqueue);
     return (
         <div>
             <GridContainer direction="column" alignContent="center">
@@ -90,7 +82,8 @@ export default function ClinicalQueue() {
                                         title={TodaysAppointmentsSettings.title}
                                         columnheaders={TodaysAppointmentsSettings.columnheaders}
                                         // table_actions={TodaysAppointmentsSettings.actions}
-                                        data={todaysappointments}
+                                        clinicalqueuefilter="scheduled"
+                                        data={clinicalqueue}
                                     />
                                 )
                             },
@@ -102,7 +95,8 @@ export default function ClinicalQueue() {
                                         title={InWaitingRoomSettings.title}
                                         columnheaders={InWaitingRoomSettings.columnheaders}
                                         // table_actions={InWaitingRoomSettings.actions}
-                                        data={inWaitingArea}
+                                        clinicalqueuefilter="arrived"
+                                        data={clinicalqueue}
                                     />
                                 )
                             },
@@ -114,7 +108,8 @@ export default function ClinicalQueue() {
                                         title={InExamRoomSettings.title}
                                         columnheaders={InExamRoomSettings.columnheaders}
                                         // table_actions={InExamRoomSettings.actions}
-                                        data={inExamRoom}
+                                        clinicalqueuefilter="in_exam_room"
+                                        data={clinicalqueue}
                                     />
                                 )
                             },
@@ -126,7 +121,7 @@ export default function ClinicalQueue() {
                                         title={AppointmentInProgressSettings.title}
                                         columnheaders={AppointmentInProgressSettings.columnheaders}
                                         table_actions={AppointmentInProgressSettings.actions}
-                                        data={appointmentsinprogress}
+                                        data={clinicalqueue}
                                     />
                                 )
                             },
@@ -138,7 +133,7 @@ export default function ClinicalQueue() {
                                         title={RecentlyCompletedAppointmentSettings.title}
                                         columnheaders={RecentlyCompletedAppointmentSettings.columnheaders}
                                         table_actions={RecentlyCompletedAppointmentSettings.actions}
-                                        data={finishedappointments}
+                                        data={clinicalqueue}
                                     />
                                 )
                             }
@@ -151,5 +146,21 @@ export default function ClinicalQueue() {
 }
 
 /*
-
+/*let convertedappointments = [];
+            appointments.forEach(appointment => {
+                let newstart = toDate.RFC3339(appointment.start);
+                let newend = toDate.RFC3339(appointment.end);
+                let resourceId = appointment.provider;
+                // console.log(appointment.provider);
+                // console.log({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+                convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
+            });
+            setAppointments(convertedappointments);
+ */
+/*
+setTodaysaAppointments(modifiedappointments.filter(appointment => appointment.status === "scheduled"));
+            setInWaitingArea(modifiedappointments.filter(appointment => appointment.status === "arrived"));
+            setInExamRoom(modifiedappointments.filter(appointment => appointment.status === "in_exam_room"))
+            setAppointmentsInProgress(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
+            setFinishedAppointments(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
  */

@@ -19,52 +19,76 @@ import Scheduling from "./components/Scheduling/scheduling";
 import Claim from './components/Claims/Claim/claim';
 import WaitList from "./components/Scheduling/WaitList/waitlist";
 import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
+import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
 
 function App() {
+    const initialState = {
+        clinicalqueue: [],
+    }
+
+    const reducer = (state, action) => {
+        switch(action.type) {
+            case 'check_in_patient':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'move_to_exam_room':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'move_to_waiting_room':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'appointment_in_progress':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'initial_load':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            default:
+                return state;
+        }
+    };
+
   return (
       <Fragment>
-      <CssBaseline />
-          <ModalProvider>
-      <Router>
-          <div>
-              <NavBar/>
-                <Switch>
-                      <Route exact path ="/">
-                          <Home />
-                      </Route>
-                      <Route path ="/appointments">
-                        <Appointments/>
-                      </Route>
-                    <Route path="/claims/:claimId" component={Claim} />
-                    <Route path="/claims">
-                        <Claims />
-                    </Route>
-                    <Route path="/evaadmin">
-                        <EvaAdmin />
-                    </Route>
-                    <Route path="/faxes">
-                        <Faxes />
-                    </Route>
-                      <Route path="/clinicalqueue">
-                         <ClinicalQueue />
-                      </Route>
-                    <Route exact path="/patients">
-                        <Patients />
-                    </Route>
-                    <Route exact path="/patientrequests">
-                        <PatientRequests />
-                    </Route>
-                    <Route path="/waitlist" component={WaitList} />
-                    <Route path="/referralstoschedule" component={ReferralsToScheduleList} />
-                    <Route path="/revenuecycle" component={RevenueCycle} />
-                    <Route path="/patient/:id" component={Patient} />
-                    <Route path="/scheduling/:id" component={Scheduling} />
-                    <Route path="/scheduling" component={Scheduling} />
-                    <Route path="/schedule/:id" component={ScheduleAppointment} />
-                </Switch>
-          </div>
-      </Router>
-          </ModalProvider>
+          <StateProvider initialState={initialState} reducer={reducer}>
+              <CssBaseline/>
+              <ModalProvider>
+                  <Router>
+                      <div>
+                          <NavBar/>
+                          <Switch>
+                              <Route exact path="/">
+                                  <Home/>
+                              </Route>
+                              <Route path="/appointments">
+                                  <Appointments/>
+                              </Route>
+                              <Route path="/claims/:claimId" component={Claim}/>
+                              <Route path="/claims">
+                                  <Claims/>
+                              </Route>
+                              <Route path="/evaadmin">
+                                  <EvaAdmin/>
+                              </Route>
+                              <Route path="/faxes">
+                                  <Faxes/>
+                              </Route>
+                              <Route path="/clinicalqueue">
+                                  <ClinicalQueue/>
+                              </Route>
+                              <Route exact path="/patients">
+                                  <Patients/>
+                              </Route>
+                              <Route exact path="/patientrequests">
+                                  <PatientRequests/>
+                              </Route>
+                              <Route path="/waitlist" component={WaitList}/>
+                              <Route path="/referralstoschedule" component={ReferralsToScheduleList}/>
+                              <Route path="/revenuecycle" component={RevenueCycle}/>
+                              <Route path="/patient/:id" component={Patient}/>
+                              <Route path="/scheduling/:id" component={Scheduling}/>
+                              <Route path="/scheduling" component={Scheduling}/>
+                              <Route path="/schedule/:id" component={ScheduleAppointment}/>
+                          </Switch>
+                      </div>
+                  </Router>
+              </ModalProvider>
+          </StateProvider>
       </Fragment>
 
       );

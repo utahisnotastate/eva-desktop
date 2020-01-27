@@ -1,12 +1,24 @@
 import React from "react";
-// import MoveBackToWaitingRoom from "../../ClinicalQueueActions/MoveBackToWaitingRoom/movebacktowaitingroom";
+import MoveBackToWaitingRoom from "../../ClinicalQueueActions/MoveBackToWaitingRoom/movebacktowaitingroom";
 import Button from "../../../basestyledcomponents/Button";
 import Typography from "@material-ui/core/Typography";
 import ReplayOutlinedIcon from "@material-ui/icons/ReplayOutlined";
 import axios from "axios";
+import {useStateValue} from "../../context/ClinicalQueueContext";
 
-function MoveBackToWaitingRoom(props) {
-    console.log(props.tableMeta.rowData[0]);
+
+const API_URL = "http://127.0.0.1:8000/api";
+
+function MoveBack(props) {
+    return (
+        <div>
+            <MoveBackToWaitingRoom appointment={props.tableMeta.rowData[0]} />
+        </div>
+    );
+}
+
+/*function MoveBackToWaitingRoom(props) {
+    const [{clinicalqueue}, dispatch] = useStateValue();
 
     async function ToWaitingRoom() {
         const result = await axios.patch(`http://127.0.0.1:8000/api/appointments/${props.tableMeta.rowData[0]}/`, {status: 'arrived'});
@@ -16,12 +28,24 @@ function MoveBackToWaitingRoom(props) {
         <div>
                 <Typography>Move Back To Waiting Room <ReplayOutlinedIcon onClick={() => {
                     ToWaitingRoom().then(response => {
-                        console.log(response);
+                        console.log('Moved back to waiting Room');
+                        async function getUpdatedClinicalQueue() {
+                            const result = await axios(`${API_URL}/appointmentstoday`);
+                            let appointments = result.data;
+                            return appointments;
+                        }
+                        getUpdatedClinicalQueue().then(response => {
+                            console.log(response);
+                            dispatch({
+                                type: 'move_to_waiting_room',
+                                newclinicalqueue: response,
+                            })
+                        }).catch(error => console.log(error))
                     }).catch(error => console.log(error));
                 }} /> </Typography>
         </div>
     );
-}
+}*/
 
 const InExamRoomSettings = {
     title: 'Waiting In Examination Room',
@@ -80,7 +104,7 @@ const InExamRoomSettings = {
                 filter: false,
                 sort: false,
                 empty: true,
-                customBodyRender: (value, tableMeta, updateValue) => MoveBackToWaitingRoom({value, tableMeta, updateValue}),
+                customBodyRender: (value, tableMeta, updateValue) => MoveBack({value, tableMeta, updateValue}),
 
             }
         },

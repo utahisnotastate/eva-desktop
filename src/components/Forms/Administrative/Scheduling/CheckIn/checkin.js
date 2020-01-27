@@ -7,26 +7,35 @@ import Select from 'react-select';
 import GridContainer from "../../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../../basestyledcomponents/Grid/GridItem";
 import {Typography, Input} from "@material-ui/core";
+import {useStateValue} from "../../../../ClinicalQueue/context/ClinicalQueueContext";
 import './modal.css';
 
+const API_URL = "http://127.0.0.1:8000/api";
 const options = [{value: true, label: 'Yes'}, {value: false, label: 'No Changes'}];
 const paymentoptions = [{value: 'cash', label: 'Cash'}, {value: 'credit_debit', label: 'Credit/Debit'}, {value: 'IOU', label: 'IOU'}];
 
 export default function CheckInForm(props) {
     const { register, handleSubmit, errors, setValue } = useForm();
+    const [{clinicalqueue}, dispatch] = useStateValue()
     const onSubmit = (data) => {
         async function checkInPatient() {
             const result = await axios.patch(`http://127.0.0.1:8000/api/appointments/${props.appointment}/`, {status: 'arrived'});
             return result;
 
         }
-        console.log(data);
-        console.log(props.appointment);
         checkInPatient().then(response => {
-            console.log(response)
             async function getUpdatedClinicalQueue() {
-
+                const result = await axios(`${API_URL}/appointmentstoday`);
+                let appointments = result.data;
+                return appointments;
             }
+            getUpdatedClinicalQueue().then(response => {
+                console.log(response);
+                dispatch({
+                    type: 'check_in_patient',
+                    newclinicalqueue: response,
+                })
+            })
 
         }).catch(error => console.log(error));
         props.setModal(false);

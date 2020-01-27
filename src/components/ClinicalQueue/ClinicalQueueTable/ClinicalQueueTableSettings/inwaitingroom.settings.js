@@ -1,6 +1,7 @@
 import React from "react";
 import MoveToExaminationRoom from "../../ClinicalQueueActions/MoveToExaminationRoom/movetoexaminationroom";
 
+
 function WaitingRoomActions(props) {
     console.log(props);
     return (

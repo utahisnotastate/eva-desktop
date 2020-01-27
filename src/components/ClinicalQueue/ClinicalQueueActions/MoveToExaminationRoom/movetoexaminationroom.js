@@ -3,9 +3,12 @@ import { useForm } from 'react-hook-form';
 import { Redirect } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
+import {useStateValue} from "../../context/ClinicalQueueContext";
+
+const API_URL = "http://127.0.0.1:8000/api";
 
 export default function MoveToExaminationRoom(props) {
-    const [redirectback, setRedirectBack] = useState(false);
+    const [{clinicalqueue}, dispatch] = useStateValue();
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => {
         async function moveToExaminationRoom() {
@@ -14,14 +17,24 @@ export default function MoveToExaminationRoom(props) {
         }
         moveToExaminationRoom().then(response => {
             console.log(response)
-            setRedirectBack(true);
+            async function getUpdatedClinicalQueue() {
+                const result = await axios(`${API_URL}/appointmentstoday`);
+                let appointments = result.data;
+                return appointments;
+            }
+            getUpdatedClinicalQueue().then(response => {
+                console.log(response);
+                dispatch({
+                    type: 'move_to_exam_room',
+                    newclinicalqueue: response,
+                })
+            }).catch(error => console.log(error))
         }).catch(error => console.log(error));
 
     };
     return (
         <div>
             <form style={{display: 'flex', flexDirection: 'row'}} onSubmit={handleSubmit(onSubmit)}>
-                <div>{redirectback ? <Redirect to="/clinicalqueue" /> : null}</div>
             <Typography>Move to Examination Room</Typography>
                 <select name="examination_room" ref={register}>
                     <option value="Room 1">Room 1</option>
