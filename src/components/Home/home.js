@@ -11,6 +11,8 @@ import CardHeader from "../basestyledcomponents/Card/CardHeader";
 import CardIcon from "../basestyledcomponents/Card/CardIcon";
 import CardText from "../basestyledcomponents/Card/CardText";
 import LanguageIcon from '@material-ui/icons/Language';
+import PatientSearch from "./PatientSearch/patientsearch";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const styles = {
     cardTitle: {
@@ -29,6 +31,9 @@ function Home() {
     return (
         <div>
             <GridContainer direction="column" alignContent="center">
+                <GridItem xs={12} sm={12} md={4}>
+                    <PatientSearch />
+                </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                     <Card>
                         <CardHeader icon>

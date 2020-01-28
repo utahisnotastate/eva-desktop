@@ -20,6 +20,7 @@ import Claim from './components/Claims/Claim/claim';
 import WaitList from "./components/Scheduling/WaitList/waitlist";
 import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
 import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 function App() {
     const initialState = {
