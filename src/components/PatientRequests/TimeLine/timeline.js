@@ -50,9 +50,7 @@ export default function RequestTimeLine(props) {
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
             .then(response => {
-                console.log(response.data.patient_request_updates);
                 const request_updates = response.data.patient_request_updates;
-                // console.log(request_updates);
                 let styledrequestupdateobjects = [];
                 for (const update of request_updates ) {
                     styledrequestupdateobjects.push({

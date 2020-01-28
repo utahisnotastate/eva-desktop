@@ -16,7 +16,6 @@ import {Typography} from "@material-ui/core";
 const useStyles = makeStyles(style);
 
 function viewRequestColumn(tableMeta) {
-    console.log(tableMeta)
     return (
         <RequestTimeLine requestId={tableMeta.rowData[0]} request_description={tableMeta.rowData[4]}/>
     );

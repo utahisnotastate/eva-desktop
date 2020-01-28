@@ -3,7 +3,6 @@ import MoveToExaminationRoom from "../../ClinicalQueueActions/MoveToExaminationR
 
 
 function WaitingRoomActions(props) {
-    console.log(props);
     return (
         <div>
             <MoveToExaminationRoom appointment={props.tableMeta.rowData[0]} />

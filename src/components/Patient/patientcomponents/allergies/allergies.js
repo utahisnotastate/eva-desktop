@@ -43,29 +43,39 @@ export default function Allergies(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/latexallergy/`);
-            setlatexstatus(result.data[0].status)
+            return result;
+
+            // setlatexstatus(result.data[0].status)
         };
-        fetchData();
+        fetchData().then(response => {
+            console.log(response);
+        }).catch(error => console.log(error));
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/pollenallergy/`);
+            return result;
             // console.log(result.data[0].status)
-            setpollenstatus(result.data[0].status);
+            // setpollenstatus(result.data[0].status);
         };
-        fetchData();
+        fetchData().then(response => {
+            console.log(response);
+        }).catch(error => console.log(error));
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/drugallergy/`);
-            console.log(result.data);
-            setDrugAllergies(result.data);
+            return result;
+            //console.log(result.data);
+            //setDrugAllergies(result.data);
 
 
         };
-        fetchData();
+        fetchData().then(response => {
+            console.log(response);
+        }).catch(error => console.log(error));
 
     }, []);
     console.log(drugallergies);

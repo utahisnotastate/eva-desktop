@@ -57,16 +57,12 @@ export default function ClinicalQueue() {
                 let formattedend = moment(appointment.end).format('h:mm')
                 modifiedappointments.push({...appointment, ...{start: formattedstart}})
             })
-            console.log(modifiedappointments);
             dispatch({
                 type: 'initial_load',
                 newclinicalqueue: modifiedappointments,
             })
-        });
+        }).catch(error => console.log(error));
     }, []);
-
-
-    console.log(clinicalqueue);
     return (
         <div>
             <GridContainer direction="column" alignContent="center">

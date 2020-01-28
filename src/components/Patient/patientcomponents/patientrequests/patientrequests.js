@@ -14,16 +14,38 @@ import NewRequest from "../../../Forms/Clinical/Patient/newrequest";
 import RequestTimeLine from "../../../PatientRequests/TimeLine/timeline";
 import Modal from '../../../basestyledcomponents/Modal/modal';
 import axios from "axios";
+import {useStateValue} from "../../../ClinicalQueue/context/ClinicalQueueContext";
 
 const useStyles = makeStyles(style);
 
 
 
 
-export default function PatientRequests(props) {
+export default function PatientRequests() {
     const classes = useStyles();
     let { id } = useParams();
-    const [activePatientRequests, setActivePatientRequests] = useState();
+    const [patient, dispatch] =  useStateValue();
+    console.log(useStateValue());
+    console.log(patient);
+    const [activePatientRequests, setActivePatientRequests] = useState(patient.clinicalrequests);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/patientrequests`);
+            return result.data;
+        };
+
+        fetchData().then(response => {
+            setActivePatientRequests(response);
+            /*dispatch({
+                type: 'load_patient_requests',
+                newclinicalrequests: response,
+            });
+
+             */
+        });
+
+    }, []);
 
     function viewRequestColumn(tableMeta) {
         console.log(tableMeta)
@@ -56,9 +78,10 @@ export default function PatientRequests(props) {
             }
         },
         {
-            name: "patient",
+            name: "patient.id",
             label: "Name",
             options: {
+                display: false,
                 filter: true,
                 sort: true,
                 empty: true,
@@ -76,9 +99,6 @@ export default function PatientRequests(props) {
         {
             name: "request_description",
             label: "Request Description",
-            options: {
-                display: false,
-            }
         },
         {
             name: "patient_request_updates",
@@ -99,16 +119,23 @@ export default function PatientRequests(props) {
             }
         },
     ];
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios(`http://127.0.0.1:8000/api/patients/${id}/patientrequests`);
-            console.log(result.data)
-            setActivePatientRequests(result.data);
-        };
-        fetchData();
-    }, []);
-
+    const [options, setOptions] = useState({
+        searchOpen: false,
+        serverSide: true,
+        textLabels: {
+            body: {
+                noMatch: "SORRY NO MATCHES FOUND",
+            }
+        },
+        searchPlaceholder: 'Search by patient name',
+        elevation: 0,
+        print: false,
+        filter: true,
+        download: false,
+        selectableRows: 'none',
+        viewColumns: false,
+        onTableInit: () => { console.log('Init!')}
+    });
     return (
         <GridContainer justify="center">
             <GridItem xs={12} sm={10}>
@@ -125,6 +152,7 @@ export default function PatientRequests(props) {
                                 <MUIDataTable
                                     title={`Active Requests`}
                                     data={activePatientRequests}
+                                    options={options}
                                     columns={columns}
                                 />
                             )
@@ -146,3 +174,10 @@ const [requests, setRequests] = useState([]);
         );
     });
  */
+/*
+/*fetchData().then( response => {
+            console.log(response);
+            dispatch({
+                type: 'load_patient_requests',
+                clinicalrequests: response,
+            })*/

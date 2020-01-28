@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Card, makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import List from '@material-ui/core/List';
@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { useParams, useRouteMatch, Link, Switch, Route, NavLink } from "react-router-dom";
 import {Paper, Typography} from "@material-ui/core";
 import routes from "./routes";
+import axios from "axios";
+import {useStateValue} from "../ClinicalQueue/context/ClinicalQueueContext";
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -26,10 +28,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Patient() {
+export default function Patient(props) {
     let { path, url } = useRouteMatch();
     const classes = useStyles();
     let { id } = useParams();
+    console.log(id);
+
     return (
         <Grid container>
             <Grid item xs={2}>

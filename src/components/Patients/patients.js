@@ -91,7 +91,6 @@ export default function Patients() {
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(API_URL);
-            console.log(result.data);
             setPatients([...result.data]);
         };
         fetchData();

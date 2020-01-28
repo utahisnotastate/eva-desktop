@@ -24,6 +24,23 @@ import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueC
 function App() {
     const initialState = {
         clinicalqueue: [],
+        patient: {
+            id: null,
+            appointments: [],
+            clinicalrequests: [],
+            insurance: [],
+            demographics: {},
+            allergies: {},
+            medications: [],
+            diagnoses: [],
+
+        },
+        appointment: {
+            id: null,
+        },
+        medicalhistory: {},
+        surgicalhistory: [],
+        socialhistory: {},
     }
 
     const reducer = (state, action) => {
@@ -38,6 +55,8 @@ function App() {
                 return {...state, clinicalqueue: action.newclinicalqueue};
             case 'initial_load':
                 return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'load_patient_requests':
+                return console.log(state.patient.clinicalrequests);
             default:
                 return state;
         }

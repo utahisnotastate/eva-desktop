@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import {useStateValue} from "../../context/ClinicalQueueContext";
+import moment from "moment";
 
 const API_URL = "http://127.0.0.1:8000/api";
 
@@ -24,9 +25,15 @@ export default function MoveToExaminationRoom(props) {
             }
             getUpdatedClinicalQueue().then(response => {
                 console.log(response);
+                let modifiedappointments = [];
+                response.forEach(appointment => {
+                    let formattedstart = moment(appointment.start).format('h:mm')
+                    let formattedend = moment(appointment.end).format('h:mm')
+                    modifiedappointments.push({...appointment, ...{start: formattedstart}})
+                })
                 dispatch({
                     type: 'move_to_exam_room',
-                    newclinicalqueue: response,
+                    newclinicalqueue: modifiedappointments,
                 })
             }).catch(error => console.log(error))
         }).catch(error => console.log(error));

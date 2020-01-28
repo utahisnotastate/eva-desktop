@@ -9,7 +9,9 @@ import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import {Typography, Input} from "@material-ui/core";
 // import RHFSelectInput from "../../components/RHFComponents/RHFSelectInput/rhfselectinput";
 import RHFTextInput from "../../components/RHFComponents/RHFTextInput/rhftextinput";
+import {useStateValue} from "../../../ClinicalQueue/context/ClinicalQueueContext";
 
+const API_URL = "http://127.0.0.1:8000/api";
 /*
 const request_options = [
     { value: 'medication_refill', label: 'Medication Refill'},
@@ -22,21 +24,32 @@ const request_options = [
 export default function NewRequest(props) {
     // console.log(props);
     let { id } = useParams();
+    console.log(id);
     const { register, handleSubmit, setValue } = useForm();
+    const [{patient}, dispatch] = useStateValue();
     const onSubmit = (data) => {
         // console.log(data);
         axios.post(`http://127.0.0.1:8000/api/patients/${id}/createpatientrequest/`,{
-            patient: 1,
+            patient: id,
             type: data.type,
             status: "active",
             request_description: data.request_description
-        }).then(function (response) {
+        }).then((response) => {
             console.log(response);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-        props.setModal(false);
+            async function loadPatientRequests() {
+                const result = await axios(`${API_URL}/patients/${id}/patientrequests/`);
+                return result.data;
+            }
+            loadPatientRequests().then(response => {
+                console.log(response);
+                dispatch({
+                    type: 'load_patient_requests',
+                    newclinicalrequests: response,
+                });
+                props.setModal(false);
+            })
+        }).catch(error => console.log(error));
+
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

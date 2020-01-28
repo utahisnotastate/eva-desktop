@@ -9,6 +9,7 @@ import GridItem from "../../../../basestyledcomponents/Grid/GridItem";
 import {Typography, Input} from "@material-ui/core";
 import {useStateValue} from "../../../../ClinicalQueue/context/ClinicalQueueContext";
 import './modal.css';
+import moment from "moment";
 
 const API_URL = "http://127.0.0.1:8000/api";
 const options = [{value: true, label: 'Yes'}, {value: false, label: 'No Changes'}];
@@ -31,9 +32,15 @@ export default function CheckInForm(props) {
             }
             getUpdatedClinicalQueue().then(response => {
                 console.log(response);
+                let modifiedappointments = [];
+                response.forEach(appointment => {
+                    let formattedstart = moment(appointment.start).format('h:mm')
+                    let formattedend = moment(appointment.end).format('h:mm')
+                    modifiedappointments.push({...appointment, ...{start: formattedstart}})
+                })
                 dispatch({
                     type: 'check_in_patient',
-                    newclinicalqueue: response,
+                    newclinicalqueue: modifiedappointments,
                 })
             })
 
