@@ -59,7 +59,6 @@ export default function Scheduling() {
         const onSubmit = data => {
             console.log('Resource Id ' + slottoschedule.resourceId);
             console.log(data);
-
             axios.post('http://127.0.0.1:8000/api/appointments/', {
                 patient: id,
                 provider: slottoschedule.resourceId,
@@ -72,10 +71,10 @@ export default function Scheduling() {
                 if(response.statusText === "Created") {
                     console.log('It worked!!!')
                     hideModal();
-                    getNewAppointments().catch(error => console.log(error));
+                    // getNewAppointments().catch(error => console.log(error));
                 }
 
-                console.log(response);
+                //console.log(response);
 
             })
         };

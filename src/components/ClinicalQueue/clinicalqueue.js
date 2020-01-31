@@ -18,6 +18,7 @@ import RecentlyCompletedAppointmentSettings
     from "./ClinicalQueueTable/ClinicalQueueTableSettings/recentlycompleted.settings";
 import axios from "axios";
 import moment from "moment";
+import {useSelector, useDispatch} from "react-redux";
 
 
 const styles = {
@@ -32,7 +33,10 @@ const useStyles = makeStyles(styles);
 
 export default function ClinicalQueue() {
     const classes = useStyles();
-    const [{clinicalqueue}, dispatch] = useStateValue();
+    // const [{clinicalqueue}, dispatch] = useStateValue();
+    console.log(useSelector(state => state));
+    const clinicalqueue = useSelector(state => state.clinicalqueue);
+    const dispatch = useDispatch();
     const [todaysappointments, setTodaysaAppointments] = useState([]);
     const [inWaitingArea, setInWaitingArea] = useState([]);
     const [inExamRoom, setInExamRoom] = useState([]);
@@ -42,8 +46,8 @@ export default function ClinicalQueue() {
     useEffect(() => {
         //gets appointments on mount
         const fetchData = async () => {
-            const result = await axios(`${API_URL}/appointmentstoday`);
-            // console.log(result.data);
+            const result = await axios.get(`${API_URL}/appointmentstoday/`);
+            console.log(result);
             let appointments = result.data;
 
             return appointments;
@@ -51,6 +55,7 @@ export default function ClinicalQueue() {
 
         };
         fetchData().then(response => {
+            console.log(response);
             let modifiedappointments = [];
             response.forEach(appointment => {
                 let formattedstart = moment(appointment.start).format('h:mm')

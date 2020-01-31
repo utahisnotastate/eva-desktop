@@ -1,10 +1,12 @@
 import React, {Fragment} from 'react';
 import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {createStore} from "redux";
+import {Provider} from 'react-redux';
 import {ModalProvider} from "react-modal-hook";
 import NavBar from "./components/NavBar/navbar";
 import Home from './components/Home/home';
 import ScheduleAppointment from "./components/Forms/Administrative/Scheduling/ScheduleAppointment/scheduleappointment";
-import Appointments from './components/Appointments/appointments'
+import Appointments from './components/Appointments/appointments';
 import ClinicalQueue from "./components/ClinicalQueue/clinicalqueue";
 import './styles/w3.css';
 import Patient from "./components/Patient/patient";
@@ -20,53 +22,17 @@ import Claim from './components/Claims/Claim/claim';
 import WaitList from "./components/Scheduling/WaitList/waitlist";
 import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
 import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
+import {allReducers} from "./store/reducers/combined";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
+const store = createStore(allReducers);
+
 function App() {
-    const initialState = {
-        clinicalqueue: [],
-        patient: {
-            id: null,
-            appointments: [],
-            clinicalrequests: [],
-            insurance: [],
-            demographics: {},
-            allergies: {},
-            medications: [],
-            diagnoses: [],
 
-        },
-        appointment: {
-            id: null,
-        },
-        medicalhistory: {},
-        surgicalhistory: [],
-        socialhistory: {},
-    }
-
-    const reducer = (state, action) => {
-        switch(action.type) {
-            case 'check_in_patient':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'move_to_exam_room':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'move_to_waiting_room':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'appointment_in_progress':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'initial_load':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'load_patient_requests':
-                return console.log(state.patient.clinicalrequests);
-            default:
-                return state;
-        }
-    };
 
   return (
       <Fragment>
-          <StateProvider initialState={initialState} reducer={reducer}>
-              <CssBaseline/>
+          <Provider store={store}><CssBaseline/>
               <ModalProvider>
                   <Router>
                       <div>
@@ -108,10 +74,55 @@ function App() {
                       </div>
                   </Router>
               </ModalProvider>
-          </StateProvider>
+          </Provider>
       </Fragment>
 
       );
 }
 
 export default App;
+
+/*
+<StateProvider initialState={initialState} reducer={reducer}>
+</StateProvider>
+
+    const initialState = {
+        clinicalqueue: [],
+        patient: {
+            id: null,
+            appointments: [],
+            clinicalrequests: [],
+            insurance: [],
+            demographics: {},
+            allergies: {},
+            medications: [],
+            diagnoses: [],
+
+        },
+        appointment: {
+            id: null,
+        },
+        medicalhistory: {},
+        surgicalhistory: [],
+        socialhistory: {},
+    }
+
+    const reducer = (state, action) => {
+        switch(action.type) {
+            case 'check_in_patient':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'move_to_exam_room':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'move_to_waiting_room':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'appointment_in_progress':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'initial_load':
+                return {...state, clinicalqueue: action.newclinicalqueue};
+            case 'load_patient_requests':
+                return console.log(state.patient.clinicalrequests);
+            default:
+                return state;
+        }
+    };
+ */

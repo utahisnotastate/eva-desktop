@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector, useDispatch} from "react-redux";
 import axios from "axios";
 import { useForm } from 'react-hook-form';
 import { RHFInput } from 'react-hook-form-input';
@@ -7,7 +8,7 @@ import Select from 'react-select';
 import GridContainer from "../../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../../basestyledcomponents/Grid/GridItem";
 import {Typography, Input} from "@material-ui/core";
-import {useStateValue} from "../../../../ClinicalQueue/context/ClinicalQueueContext";
+// import {useStateValue} from "../../../../ClinicalQueue/context/ClinicalQueueContext";
 import './modal.css';
 import moment from "moment";
 
@@ -17,7 +18,9 @@ const paymentoptions = [{value: 'cash', label: 'Cash'}, {value: 'credit_debit', 
 
 export default function CheckInForm(props) {
     const { register, handleSubmit, errors, setValue } = useForm();
-    const [{clinicalqueue}, dispatch] = useStateValue()
+    const clinicalqueue = useSelector(state => state.clinicalqueue);
+    const dispatch = useDispatch();
+    // const [{clinicalqueue}, dispatch] = useStateValue()
     const onSubmit = (data) => {
         async function checkInPatient() {
             const result = await axios.patch(`http://127.0.0.1:8000/api/appointments/${props.appointment}/`, {status: 'arrived'});
