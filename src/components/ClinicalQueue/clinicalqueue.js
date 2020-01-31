@@ -37,11 +37,6 @@ export default function ClinicalQueue() {
     console.log(useSelector(state => state));
     const clinicalqueue = useSelector(state => state.clinicalqueue);
     const dispatch = useDispatch();
-    const [todaysappointments, setTodaysaAppointments] = useState([]);
-    const [inWaitingArea, setInWaitingArea] = useState([]);
-    const [inExamRoom, setInExamRoom] = useState([]);
-    const [appointmentsinprogress, setAppointmentsInProgress] = useState([])
-    const [finishedappointments, setFinishedAppointments] = useState([]);
 
     useEffect(() => {
         //gets appointments on mount
@@ -164,4 +159,11 @@ setTodaysaAppointments(modifiedappointments.filter(appointment => appointment.st
             setInExamRoom(modifiedappointments.filter(appointment => appointment.status === "in_exam_room"))
             setAppointmentsInProgress(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
             setFinishedAppointments(modifiedappointments.filter(appointment => appointment.status === "in_progress"))
+ */
+/*
+const [todaysappointments, setTodaysaAppointments] = useState([]);
+    const [inWaitingArea, setInWaitingArea] = useState([]);
+    const [inExamRoom, setInExamRoom] = useState([]);
+    const [appointmentsinprogress, setAppointmentsInProgress] = useState([])
+    const [finishedappointments, setFinishedAppointments] = useState([]);
  */

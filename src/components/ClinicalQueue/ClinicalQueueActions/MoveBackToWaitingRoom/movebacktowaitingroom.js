@@ -7,12 +7,15 @@ import {useStateValue} from "../../context/ClinicalQueueContext";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import moment from "moment";
+import {useDispatch, useSelector} from "react-redux";
 
 const API_URL = "http://127.0.0.1:8000/api";
 
 export default function MoveBackToWaitingRoom(props) {
     const { register, handleSubmit, errors, setValue } = useForm();
-    const [{clinicalqueue}, dispatch] = useStateValue();
+    // const [{clinicalqueue}, dispatch] = useStateValue();
+    const clinicalqueue = useSelector(state => state.clinicalqueue);
+    const dispatch = useDispatch();
     console.log(props.appointment);
     const onSubmit = (data) => {
         async function moveBackPatient() {

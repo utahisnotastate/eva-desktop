@@ -5,11 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import {useStateValue} from "../../context/ClinicalQueueContext";
 import moment from "moment";
+import {useDispatch, useSelector} from "react-redux";
 
 const API_URL = "http://127.0.0.1:8000/api";
 
 export default function MoveToExaminationRoom(props) {
-    const [{clinicalqueue}, dispatch] = useStateValue();
+    // const [{clinicalqueue}, dispatch] = useStateValue();
+    const clinicalqueue = useSelector(state => state.clinicalqueue);
+    const dispatch = useDispatch();
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => {
         async function moveToExaminationRoom() {
