@@ -4,25 +4,28 @@ import axios from "axios";
 import {Typography} from "@material-ui/core";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-function PatientSearchOptions(props) {
+function PatientSearchItem(props) {
     console.log(props);
     return (
-        <div id={props.key}>
-            <Typography>{props.result.first_name}</Typography>
-            <Typography>{props.middle_name}</Typography>
-            <Typography>{props.last_name}</Typography>
+        <div id={props.id}>
+            <Typography>{props.first_name}</Typography>
         </div>
     );
 }
 
 export default class PatientSearch extends React.Component {
     state = {
-        allowNew: false,
         isLoading: false,
-        multiple: false,
         options: [],
     };
+    handleRenderItem(item) {
+        return (
+            <div>
+                <Typography>{item.first_name}</Typography>
+            </div>
+        );
 
+    }
     _handleSearch = (query) => {
         this.setState({isLoading: true});
         async function searchPatients() {
@@ -34,7 +37,8 @@ export default class PatientSearch extends React.Component {
             this.setState({
                 isloading: false,
                 options: response,
-            })
+            });
+            console.log(this.state.options);
         }).catch(error => console.log(error));
 
     }
@@ -50,7 +54,7 @@ export default class PatientSearch extends React.Component {
                     inputProps = {{style: { width: '100%', height: 50, marginTop: 20, borderRadius: '89px 81px 81px 80px'}}}
                     onSearch={this._handleSearch}
                     placeholder="Search for a patient..."
-                    labelKey={(option) => `${option.first_name} ${option.last_name}`}
+                    renderMenuItemChildren={this.handleRenderItem}
                 />
             </div>
         );

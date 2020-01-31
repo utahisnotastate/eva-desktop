@@ -8,10 +8,16 @@ import {Typography} from "@material-ui/core";
 export default function UpdatePatientRequestForm(props) {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(data)
-        axios.post()
-    };
+        console.log(data);
+        axios.post(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}/updates/`, {
+            request: props.requestId,
+            update: data.RequestUpdateText
+        }).then((response) => {
+            console.log(response);
 
+
+        }).catch((error) => console.log(error));
+    }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>

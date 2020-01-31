@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+// const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 const path = require('path');
 const isDev = require('electron-is-dev');

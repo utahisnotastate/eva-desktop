@@ -124,7 +124,7 @@ export default function RequestTimeLine(props) {
                             <Typography variant={`h6`}>Update Request</Typography>
                         </div>
                         <div>
-                            <UpdatePatientRequestForm />
+                            <UpdatePatientRequestForm requestId={props.requestId} />
                         </div>
                     </div>
                 </DialogContent>
