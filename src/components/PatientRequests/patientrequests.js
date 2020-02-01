@@ -12,6 +12,7 @@ import GridItem from "../basestyledcomponents/Grid/GridItem";
 import Person from "@material-ui/icons/Person";
 import axios from "axios";
 import {Typography} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles(style);
 
@@ -90,16 +91,20 @@ const columns = [
 ];
 
 export default function PatientRequests() {
-    const [activePatientRequests, setActivePatientRequests] = useState();
+    // const [activePatientRequests, setActivePatientRequests] = useState();
+    const patientrequests = useSelector(state => state.patientRequests);
+    const dispatch = useDispatch()
 
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`http://127.0.0.1:8000/api/clinicalrequests`);
-            console.log(result.data)
-            setActivePatientRequests(result.data);
+            return result.data;
         };
-        fetchData();
+        fetchData().then(response => {
+            console.log(response);
+            dispatch({type: 'load_patient_requests', patientrequests: response})
+        });
     }, []);
 
     return (
@@ -114,7 +119,7 @@ export default function PatientRequests() {
                             tabContent: (
                                 <MUIDataTable
                                     title={`Active Requests`}
-                                    data={activePatientRequests}
+                                    data={patientrequests.filter((patientrequest) => patientrequest.status === "active")}
                                     columns={columns}
                                     />
 

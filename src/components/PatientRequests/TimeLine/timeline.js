@@ -16,6 +16,7 @@ import {Typography} from "@material-ui/core";
 import Divider from '@material-ui/core/Divider';
 import UpdatePatientRequestForm from "./UpdatePatientRequestForm/updatepatientrequestform";
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -44,8 +45,10 @@ export default function RequestTimeLine(props) {
                 <p>{props.request_description}</p>
             ),
         }
+        const requestupdates = useSelector(state => state.requestupdates);
+        const dispatch = useDispatch();
         // const [requestupdates, setRequestUpdates] = useState([]);
-        const [combinedupdates, setCombinedUpdates] = useState([firststory]);
+        const [combinedupdates, setCombinedUpdates] = useState(requestupdates);
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
@@ -64,7 +67,8 @@ export default function RequestTimeLine(props) {
                         ),
                     })
                 }
-                setCombinedUpdates([...combinedupdates, ...styledrequestupdateobjects])
+                console.log(styledrequestupdateobjects);
+                dispatch({type: 'set_request_updates', requestupdates: styledrequestupdateobjects})
             });
     }, []);
 
@@ -106,13 +110,14 @@ export default function RequestTimeLine(props) {
                     >
                         <Close className={classes.modalClose} />
                     </Button>
-                    <h4 className={classes.modalTitle}>Patient Request</h4>
+                    <h4 className={classes.modalTitle}>Patient Request:</h4>
+                    <Typography>{props.request_description}</Typography>
                 </DialogTitle>
                 <DialogContent
                     id="modal-slide-description"
                     className={classes.modalBody}
                 >
-                    <TimelineComponent stories={combinedupdates} />
+                    <TimelineComponent stories={requestupdates} />
                     <Divider />
                     <div>
                         <Typography variant={`h6`}>Log Unsuccesful Contact Attempt</Typography>
@@ -124,7 +129,7 @@ export default function RequestTimeLine(props) {
                             <Typography variant={`h6`}>Update Request</Typography>
                         </div>
                         <div>
-                            <UpdatePatientRequestForm requestId={props.requestId} />
+                            <UpdatePatientRequestForm requestId={props.requestId} firststory={firststory} setModal={setModal} />
                         </div>
                     </div>
                 </DialogContent>

@@ -4,16 +4,50 @@ import  { useForm } from 'react-hook-form';
 import GridContainer from '../../../basestyledcomponents/Grid/GridContainer';
 import GridItem from '../../../basestyledcomponents/Grid/GridItem';
 import {Typography} from "@material-ui/core";
+import {useDispatch} from "react-redux";
 
 export default function UpdatePatientRequestForm(props) {
     const { register, handleSubmit } = useForm();
+    const dispatch = useDispatch();
+    // console.log(props.requestId);
     const onSubmit = data => {
-        console.log(data);
+        // console.log(data);
         axios.post(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}/updates/`, {
             request: props.requestId,
             update: data.RequestUpdateText
         }).then((response) => {
-            console.log(response);
+            // console.log(response);
+            async function makeRequestComplete() {
+                await axios.patch(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}/`, {
+                    status: "complete"
+                })
+            }
+            async function getPatientRequests() {
+                const result = await axios(`http://127.0.0.1:8000/api/clinicalrequests`);
+                return result.data;
+
+            }
+            async function getRequestUpdates() {
+                const result = await axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}/updates`);
+                return result.data;
+
+            }
+            if(data.status === "Complete") {
+                makeRequestComplete().then(response => {
+                    getPatientRequests().then(response => {
+                        dispatch({type: 'load_patient_requests', patientrequests: response})
+                        props.setModal(false)
+
+                    })
+
+                })
+            }
+            else {
+                getRequestUpdates().then(response => {
+                    console.log(response);
+                    dispatch({type: 'set_request_updates', requestupdates: response});
+                })
+            }
 
 
         }).catch((error) => console.log(error));
@@ -28,7 +62,7 @@ export default function UpdatePatientRequestForm(props) {
                                 <Typography>Change Request Status to: </Typography>
                             </GridItem>
                             <GridItem xs={8}>
-                                <select name="changeRequestStatus" ref={register}>
+                                <select name="status" ref={register}>
                                     <option value="Active">Active</option>
                                     <option value="Complete">Complete</option>
                                     <option value="Pending Insurance Response">Pending Insurance Response</option>

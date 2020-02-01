@@ -17,11 +17,39 @@ import {combineReducers} from "redux";
     }
 };*/
 
+function patientAppointmentHistory(state=[], action) {
+    switch(action.type) {
+        case 'initial_load_patient_history':
+            return action.appointmenthistory;
+        default:
+            return state;
+
+    }
+}
+
+function requestupdates(state = [], action) {
+    switch(action.type) {
+        case 'set_request_updates':
+            return action.requestupdates;
+        default:
+            return state;
+    }
+}
+
 function patientToSchedule(state = null, action) {
     switch(action.type) {
         case 'set_patient_to_schedule':
             return action.patient;
 
+        default:
+            return state;
+    }
+}
+
+function patientRequests(state = [], action) {
+    switch(action.type) {
+        case 'load_patient_requests':
+            return action.patientrequests;
         default:
             return state;
     }
@@ -47,4 +75,7 @@ function clinicalqueue(state = [], action) {
 export const allReducers = combineReducers({
     clinicalqueue,
     patientToSchedule,
+    patientAppointmentHistory,
+    patientRequests,
+    requestupdates,
 });

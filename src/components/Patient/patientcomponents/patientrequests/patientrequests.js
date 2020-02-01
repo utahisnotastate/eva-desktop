@@ -15,6 +15,7 @@ import RequestTimeLine from "../../../PatientRequests/TimeLine/timeline";
 import Modal from '../../../basestyledcomponents/Modal/modal';
 import axios from "axios";
 import {useStateValue} from "../../../ClinicalQueue/context/ClinicalQueueContext";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles(style);
 
@@ -24,10 +25,12 @@ const useStyles = makeStyles(style);
 export default function PatientRequests() {
     const classes = useStyles();
     let { id } = useParams();
-    const [patient, dispatch] =  useStateValue();
-    console.log(useStateValue());
-    console.log(patient);
-    const [activePatientRequests, setActivePatientRequests] = useState(patient.clinicalrequests);
+    // const [patient, dispatch] =  useStateValue();
+    // console.log(useStateValue());
+    // console.log(patient);
+    // const [activePatientRequests, setActivePatientRequests] = useState(patient.clinicalrequests);
+    const patientrequests = useSelector(state => state.patientRequests);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,18 +39,14 @@ export default function PatientRequests() {
         };
 
         fetchData().then(response => {
-            setActivePatientRequests(response);
-            /*dispatch({
-                type: 'load_patient_requests',
-                newclinicalrequests: response,
-            });
-
-             */
+            // console.log(response);
+            dispatch({type: 'load_patient_requests', patientrequests: response})
         });
 
     }, []);
 
     function viewRequestColumn(tableMeta) {
+        // console.log(tableMeta);
         return (
             <RequestTimeLine requestId={tableMeta.rowData[0]} request_description={tableMeta.rowData[4]}/>
         );
@@ -84,7 +83,6 @@ export default function PatientRequests() {
                 filter: true,
                 sort: true,
                 empty: true,
-                customBodyRender: (value, tableMeta, updateValue) => NameColumn(tableMeta),
             }
         },
         {
@@ -150,7 +148,7 @@ export default function PatientRequests() {
                             tabContent: (
                                 <MUIDataTable
                                     title={`Active Requests`}
-                                    data={activePatientRequests}
+                                    data={patientrequests.filter((patientrequest) => patientrequest.status === "active")}
                                     options={options}
                                     columns={columns}
                                 />

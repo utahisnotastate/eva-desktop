@@ -8,6 +8,7 @@ import Home from './components/Home/home';
 import ScheduleAppointment from "./components/Forms/Administrative/Scheduling/ScheduleAppointment/scheduleappointment";
 import Appointments from './components/Appointments/appointments';
 import ClinicalQueue from "./components/ClinicalQueue/clinicalqueue";
+import Appointment from "./components/Appointment/appointment";
 import './styles/w3.css';
 import Patient from "./components/Patient/patient";
 import PatientRequests from "./components/PatientRequests/patientrequests";
@@ -40,6 +41,9 @@ function App() {
                           <Switch>
                               <Route exact path="/">
                                   <Home/>
+                              </Route>
+                              <Route path="/appointments/:id">
+                                  <Appointment/>
                               </Route>
                               <Route path="/appointments">
                                   <Appointments/>
