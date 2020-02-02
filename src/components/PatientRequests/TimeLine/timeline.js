@@ -45,31 +45,34 @@ export default function RequestTimeLine(props) {
                 <p>{props.request_description}</p>
             ),
         }
-        const requestupdates = useSelector(state => state.requestupdates);
-        const dispatch = useDispatch();
+        // const requestupdates = useSelector(state => state.requestupdates);
+        // const dispatch = useDispatch();
         // const [requestupdates, setRequestUpdates] = useState([]);
-        const [combinedupdates, setCombinedUpdates] = useState(requestupdates);
+        const [combinedupdates, setCombinedUpdates] = useState([]);
 
+        async function getRequestsFromAPI() {
+            axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
+                .then(response => {
+                    const request_updates = response.data.patient_request_updates;
+                    for (const update of request_updates ) {
+                        combinedupdates.push({
+                            inverted: true,
+                            badgeColor: "danger",
+                            badgeIcon: CardTravel,
+                            title: (<Typography>Update from patient</Typography>),
+                            titleColor: "danger",
+                            body: (
+                                <p>{update.update}</p>
+                            ),
+                        })
+                    }
+                    // console.log(styledrequestupdateobjects);
+                    // dispatch({type: 'set_request_updates', requestupdates: styledrequestupdateobjects})
+                });
+
+        }
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
-            .then(response => {
-                const request_updates = response.data.patient_request_updates;
-                let styledrequestupdateobjects = [];
-                for (const update of request_updates ) {
-                    styledrequestupdateobjects.push({
-                        inverted: true,
-                        badgeColor: "danger",
-                        badgeIcon: CardTravel,
-                        title: (<Typography>Update from patient</Typography>),
-                        titleColor: "danger",
-                        body: (
-                            <p>{update.update}</p>
-                        ),
-                    })
-                }
-                console.log(styledrequestupdateobjects);
-                dispatch({type: 'set_request_updates', requestupdates: styledrequestupdateobjects})
-            });
+        getRequestsFromAPI();
     }, []);
 
 
@@ -117,7 +120,7 @@ export default function RequestTimeLine(props) {
                     id="modal-slide-description"
                     className={classes.modalBody}
                 >
-                    <TimelineComponent stories={requestupdates} />
+                    <TimelineComponent stories={combinedupdates} />
                     <Divider />
                     <div>
                         <Typography variant={`h6`}>Log Unsuccesful Contact Attempt</Typography>
@@ -129,7 +132,7 @@ export default function RequestTimeLine(props) {
                             <Typography variant={`h6`}>Update Request</Typography>
                         </div>
                         <div>
-                            <UpdatePatientRequestForm requestId={props.requestId} firststory={firststory} setModal={setModal} />
+                            <UpdatePatientRequestForm requestId={props.requestId} firststory={firststory} setModal={setModal} getRequestsFromAPI={getRequestsFromAPI} />
                         </div>
                     </div>
                 </DialogContent>
@@ -182,3 +185,22 @@ useEffect(() => {
         fetchData().then(data => console.log(data));
     }, []);
  */
+/*
+ /*axios.get(`http://127.0.0.1:8000/api/clinicalrequests/${props.requestId}`)
+            .then(response => {
+                const request_updates = response.data.patient_request_updates;
+                for (const update of request_updates ) {
+                    combinedupdates.push({
+                        inverted: true,
+                        badgeColor: "danger",
+                        badgeIcon: CardTravel,
+                        title: (<Typography>Update from patient</Typography>),
+                        titleColor: "danger",
+                        body: (
+                            <p>{update.update}</p>
+                        ),
+                    })
+                }
+                // console.log(styledrequestupdateobjects);
+                // dispatch({type: 'set_request_updates', requestupdates: styledrequestupdateobjects})
+            });*/

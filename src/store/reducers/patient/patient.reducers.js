@@ -1,0 +1,114 @@
+
+export function patientdiagnoses(state = [], action) {
+    switch (action.type) {
+        case 'load_all_diagnoses':
+            return action.diagnoses;
+        default:
+            return state;
+    }
+
+}
+
+export function primaryinsurance(state = {
+    type: "Primary",
+    insurance_name: "TEst Insurance",
+    member_id: '123456788',
+    group_id: '1234',
+    bin_number: '123123',
+    pcn: 'zxcd',
+    relationship_code: '18',
+    date_effective: '1/1/2020'
+}, action) {
+    switch (action.type) {
+        case 'set_primary_insurance':
+            return action.primary_insurance;
+        default:
+            return state;
+
+    }
+}
+export function secondaryinsurance(state = {
+    type: "Primary",
+    insurance_name: "TEst Insurance",
+    member_id: '123456788',
+    group_id: '1234',
+    bin_number: '123123',
+    pcn: 'zxcd',
+    relationship_code: '18',
+    date_effective: '1/1/2020'
+}, action) {
+    switch (action.type) {
+        case 'set_primary_insurance':
+            return action.primary_insurance;
+        default:
+            return state;
+
+    }
+}
+export function surgicalhistory(state = [], action) {
+    switch(action.type) {
+        case 'load_surgical_history':
+            return action.surgicalhistory;
+        default:
+            return state;
+    }
+}
+
+export function patientmedications(state = [], action) {
+    switch (action.type) {
+        case 'load_all_medications':
+            return action.diagnoses;
+        default:
+            return state;
+    }
+
+}
+
+export function drugallergies(state = [], action) {
+    switch (action.type) {
+        case 'load_all_drug_allergies':
+            return action.drugallergies;
+        default:
+            return state;
+
+    }
+}
+
+export function foodallergies(state = [], action) {
+    switch (action.type) {
+        case 'load_all_food_allergies':
+            return action.foodallergies;
+        default:
+            return state;
+
+    }
+}
+
+export function latexallergy(state = false, action) {
+    switch (action.type) {
+        case 'load_latex_allergy':
+            return action.latexallergy;
+        default:
+            return state;
+
+    }
+}
+
+export function petallergies(state = [], action) {
+    switch(action.type) {
+        case 'load_all_pet_allergies':
+            return action.petallergies;
+        default:
+            return state;
+    }
+}
+
+export function pollenallergy(state=false, action) {
+    switch(action.type) {
+        case 'load_pollen_allergy':
+            return action.pollenallergy;
+        default:
+            return state;
+    }
+}
+// export function familymedicalhistory(state = )

@@ -45,7 +45,8 @@ export default function UpdatePatientRequestForm(props) {
             else {
                 getRequestUpdates().then(response => {
                     console.log(response);
-                    dispatch({type: 'set_request_updates', requestupdates: response});
+                    // dispatch({type: 'set_request_updates', requestupdates: response});
+                    props.getRequestsFromAPI()
                 })
             }
 

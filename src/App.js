@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {createStore} from "redux";
+import {createStore, compose, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {ModalProvider} from "react-modal-hook";
 import NavBar from "./components/NavBar/navbar";
@@ -26,7 +27,14 @@ import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueC
 import {allReducers} from "./store/reducers/combined";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-const store = createStore(allReducers);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+    allReducers,
+    composeEnhancers(
+        applyMiddleware(thunk)
+    )
+    );
 
 function App() {
 
@@ -87,46 +95,11 @@ function App() {
 export default App;
 
 /*
-<StateProvider initialState={initialState} reducer={reducer}>
-</StateProvider>
-
-    const initialState = {
-        clinicalqueue: [],
-        patient: {
-            id: null,
-            appointments: [],
-            clinicalrequests: [],
-            insurance: [],
-            demographics: {},
-            allergies: {},
-            medications: [],
-            diagnoses: [],
-
-        },
-        appointment: {
-            id: null,
-        },
-        medicalhistory: {},
-        surgicalhistory: [],
-        socialhistory: {},
-    }
-
-    const reducer = (state, action) => {
-        switch(action.type) {
-            case 'check_in_patient':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'move_to_exam_room':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'move_to_waiting_room':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'appointment_in_progress':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'initial_load':
-                return {...state, clinicalqueue: action.newclinicalqueue};
-            case 'load_patient_requests':
-                return console.log(state.patient.clinicalrequests);
-            default:
-                return state;
-        }
-    };
+const store = createStore(
+    allReducers,
+    compose(
+        applyMiddleware(thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+    );
  */
