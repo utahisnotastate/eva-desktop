@@ -39,11 +39,17 @@ const API_URL = "http://127.0.0.1:8000/api";
 export default function Insurance(props) {
     const classes = useStyles();
     const hasinsurance = useSelector(state => state.patient.hasinsurance);
+    const primary_insurance = useSelector(state => state.patient.primaryinsurance);
+    const secondary_insurance = useSelector(state => state.patient.secondaryinsurance);
     const dispatch = useDispatch();
     let { id } = useParams();
 
     function findPrimaryInsurance(insurance) {
-        return insurance.type === "primary" && insurance.date_terminated === null;
+        return insurance.type === "primary" && insurance.date_effective && insurance.date_terminated === null;
+    }
+
+    function findSecondaryInsurance(insurance) {
+        return insurance.type === "secondary" && insurance.date_effective && insurance.date_terminated === null;
     }
 
 
@@ -60,9 +66,17 @@ export default function Insurance(props) {
                 dispatch({type: 'patient_has_no_insurance'});
             } else {
                 dispatch({type: 'patient_has_insurance'});
+                console.log(response.find(findPrimaryInsurance));
+                dispatch({type: 'set_primary_insurance', primary_insurance: response.find(findPrimaryInsurance) });
+                console.log(response.find(findSecondaryInsurance));
+                if(response.find(findSecondaryInsurance) === false) {
+                    dispatch({type: 'set_secondary_insurance', secondary_insurance: null})
+                } else {
+                    dispatch({type: 'set_secondary_insurance', secondary_insurance: response.find(findSecondaryInsurance) })
+                }
             }
 
-        })
+        }).catch(error => console.log(error));
     }, []);
 
 
@@ -70,8 +84,8 @@ export default function Insurance(props) {
         <GridContainer style={{paddingTop: 50}} direction="column"  alignItems="center">
             {hasinsurance? (
                 <GridContainer justify="center">
-                    <InsuranceCard insurance={insurance}/>
-                    <InsuranceCard insurance={secondinsurance}/>
+                    <InsuranceCard insurance={primary_insurance}/>
+                    <InsuranceCard insurance={secondary_insurance}/>
                 </GridContainer>
             ): (
                 <NoInsuranceListed/>
