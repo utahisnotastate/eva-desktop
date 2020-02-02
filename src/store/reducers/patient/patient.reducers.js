@@ -9,6 +9,17 @@ export function patientdiagnoses(state = [], action) {
 
 }
 
+export function hasinsurance(state = false, action) {
+    switch(action.type) {
+        case 'patient_has_no_insurance':
+            return false;
+        case 'patient_has_insurance':
+            return true;
+        default:
+            return state;
+    }
+}
+
 export function primaryinsurance(state = {
     type: "Primary",
     insurance_name: "TEst Insurance",
@@ -38,8 +49,8 @@ export function secondaryinsurance(state = {
     date_effective: '1/1/2020'
 }, action) {
     switch (action.type) {
-        case 'set_primary_insurance':
-            return action.primary_insurance;
+        case 'set_secondary_insurance':
+            return action.secondary_insurance;
         default:
             return state;
 

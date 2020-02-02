@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {patientdiagnoses, patientmedications, drugallergies, foodallergies, latexallergy, petallergies, pollenallergy, surgicalhistory, primaryinsurance, secondaryinsurance} from "./patient/patient.reducers";
+import {patientdiagnoses, patientmedications, drugallergies, hasinsurance, foodallergies, latexallergy, petallergies, pollenallergy, surgicalhistory, primaryinsurance, secondaryinsurance} from "./patient/patient.reducers";
 
 /*const clinicalqueue = (state = [], action) => {
     switch(action.type) {
@@ -87,6 +87,7 @@ const patient = combineReducers({
     patientmedications,
     patientallergies,
     surgicalhistory,
+    hasinsurance,
     primaryinsurance,
     secondaryinsurance,
 });

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,13 +6,18 @@ import {useParams} from 'react-router-dom';
 import Table from '../../../basestyledcomponents/Table/Table'
 import style from '../../../basestyledcomponents/Table/contentAreas';
 import InsuranceCard from "./InsuranceCard/insurancecard";
+import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
+import {Typography} from "@material-ui/core";
+import Card from "../../../basestyledcomponents/Card/Card";
+import NoInsuranceListed from "./NoInsuranceListed/noinsurancelisted";
 
 const useStyles = makeStyles(style);
 const insurance = {
     type: "Primary",
     insurance_name: "TEst Insurance",
     member_id: '123456788',
-    group_id: '1234',
+    group_ID: '1234',
     bin_number: '123123',
     pcn: 'zxcd',
     relationship_code: '18',
@@ -22,73 +27,56 @@ const secondinsurance = {
     type: "secondary",
     insurance_name: "TEst Insurance",
     member_id: '123456788',
-    group_id: '1234',
+    group_ID: '1234',
     bin_number: '123123',
     pcn: 'zxcd',
     relationship_code: '18',
     date_effective: '1/1/2020'
 }
+const API_URL = "http://127.0.0.1:8000/api";
+
+
 export default function Insurance(props) {
     const classes = useStyles();
+    const hasinsurance = useSelector(state => state.patient.hasinsurance);
+    const dispatch = useDispatch();
     let { id } = useParams();
+
+    function findPrimaryInsurance(insurance) {
+        return insurance.type === "primary" && insurance.date_terminated === null;
+    }
+
+
+    useEffect(() => {
+        async function getPatientInsurances() {
+            const result = await axios.get(`${API_URL}/patients/${id}/insurance/`)
+            const insurances = result.data;
+            return insurances;
+
+        }
+        getPatientInsurances().then(response => {
+            console.log(response);
+            if(response.length === 0) {
+                dispatch({type: 'patient_has_no_insurance'});
+            } else {
+                dispatch({type: 'patient_has_insurance'});
+            }
+
+        })
+    }, []);
 
 
     return (
-        <GridContainer style={{paddingTop: 50}} justify="center">
-            <InsuranceCard insurance={insurance} />
-            <InsuranceCard insurance={secondinsurance} />
+        <GridContainer style={{paddingTop: 50}} direction="column"  alignItems="center">
+            {hasinsurance? (
+                <GridContainer justify="center">
+                    <InsuranceCard insurance={insurance}/>
+                    <InsuranceCard insurance={secondinsurance}/>
+                </GridContainer>
+            ): (
+                <NoInsuranceListed/>
+            )}
+
         </GridContainer>
     );
 }
-
-/*
- const columnheaders = ["Company", "Member ID", "Date Effective", "Relationship to insured", "Prescription Authorization Number", "Radiology Authorization number", "Referral Authorization number", "View"];
-    const fillButtons = [
-        { color: "success", icon: Person },
-    ].map((prop, key) => {
-        return (
-            <Button justIcon size="sm" color={prop.color} key={key}>
-                <prop.icon />
-            </Button>
-        );
-    });
-<CustomTabs
-                    headerColor="primary"
-                    tabs={[
-                        {
-                            tabName: 'Active',
-                            tabIcon: Person,
-                            tabContent: (
-                                <ActiveInsuranceCard />
-                            )
-                        },
-                        {
-                            tabName: 'Previous',
-                            tabIcon: Person,
-                            tabContent: (
-                                <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={[
-                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225",'1', '1', fillButtons],
-                                        ["2", "Utah Doe", "Design", "2012", "€ 89,241",'1', fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144",'1', fillButtons]
-                                    ]}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
-                            )
-                        },
-                    ]}
-                />
- */
