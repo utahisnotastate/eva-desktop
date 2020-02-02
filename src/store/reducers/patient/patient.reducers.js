@@ -20,16 +20,7 @@ export function hasinsurance(state = false, action) {
     }
 }
 
-export function primaryinsurance(state = {
-    type: "Primary",
-    insurance_name: "TEst Insurance",
-    member_id: '123456788',
-    group_id: '1234',
-    bin_number: '123123',
-    pcn: 'zxcd',
-    relationship_code: '18',
-    date_effective: '1/1/2020'
-}, action) {
+export function primaryinsurance(state = {}, action) {
     switch (action.type) {
         case 'set_primary_insurance':
             return action.primary_insurance;
@@ -38,16 +29,7 @@ export function primaryinsurance(state = {
 
     }
 }
-export function secondaryinsurance(state = {
-    type: "Primary",
-    insurance_name: "TEst Insurance",
-    member_id: '123456788',
-    group_id: '1234',
-    bin_number: '123123',
-    pcn: 'zxcd',
-    relationship_code: '18',
-    date_effective: '1/1/2020'
-}, action) {
+export function secondaryinsurance(state = { }, action) {
     switch (action.type) {
         case 'set_secondary_insurance':
             return action.secondary_insurance;

@@ -13,26 +13,6 @@ import Card from "../../../basestyledcomponents/Card/Card";
 import NoInsuranceListed from "./NoInsuranceListed/noinsurancelisted";
 
 const useStyles = makeStyles(style);
-const insurance = {
-    type: "Primary",
-    insurance_name: "TEst Insurance",
-    member_id: '123456788',
-    group_ID: '1234',
-    bin_number: '123123',
-    pcn: 'zxcd',
-    relationship_code: '18',
-    date_effective: '1/1/2020'
-}
-const secondinsurance = {
-    type: "secondary",
-    insurance_name: "TEst Insurance",
-    member_id: '123456788',
-    group_ID: '1234',
-    bin_number: '123123',
-    pcn: 'zxcd',
-    relationship_code: '18',
-    date_effective: '1/1/2020'
-}
 const API_URL = "http://127.0.0.1:8000/api";
 
 
@@ -41,6 +21,7 @@ export default function Insurance(props) {
     const hasinsurance = useSelector(state => state.patient.hasinsurance);
     const primary_insurance = useSelector(state => state.patient.primaryinsurance);
     const secondary_insurance = useSelector(state => state.patient.secondaryinsurance);
+
     const dispatch = useDispatch();
     let { id } = useParams();
 
@@ -79,13 +60,12 @@ export default function Insurance(props) {
         }).catch(error => console.log(error));
     }, []);
 
-
     return (
         <GridContainer style={{paddingTop: 50}} direction="column"  alignItems="center">
             {hasinsurance? (
                 <GridContainer justify="center">
-                    <InsuranceCard insurance={primary_insurance}/>
-                    <InsuranceCard insurance={secondary_insurance}/>
+                    <InsuranceCard insurance_type="primaryinsurance" insurance={primary_insurance}/>
+                    <InsuranceCard insurance_type="secondaryinsurance" insurance={secondary_insurance}/>
                 </GridContainer>
             ): (
                 <NoInsuranceListed/>
