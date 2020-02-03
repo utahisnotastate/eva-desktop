@@ -50,11 +50,26 @@ export function surgicalhistory(state = [], action) {
             return state;
     }
 }
+export function addmedicationformicd10result(state = {
+    icd10assessmentcode: '',
+    assessment_description: ''
+}, action) {
+    switch (action.type) {
+        case 'updated_icd10':
+            return action.icd10value;
+
+        default:
+            return state;
+    }
+
+}
 
 export function patientmedications(state = [], action) {
     switch (action.type) {
         case 'load_all_medications':
-            return action.diagnoses;
+            return action.medications;
+        case 'update_patient_medications':
+            return action.medications;
         default:
             return state;
     }

@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,87 +10,106 @@ import Person from "@material-ui/icons/Person";
 import Button from "../../../basestyledcomponents/Table/Button";
 import {Paper, Typography} from "@material-ui/core";
 import CustomTabs from "../../../basestyledcomponents/CustomTabs/CustomTabs";
+import MUIDataTable from "mui-datatables";
+import {useSelector, useDispatch} from "react-redux";
+import Modal from "../../../basestyledcomponents/Modal/modal";
+import AddNewMedicationForm from "../../../Forms/Clinical/Patient/addNewMedication";
 
 const useStyles = makeStyles(style);
+const API_URL = "http://127.0.0.1:8000/api";
+
+function AddNewMedication(props) {
+    return (
+        <Modal buttontext={`Add Medication`} form={AddNewMedicationForm}/>
+    );
+}
+
+
 
 export default function Medications(props) {
     const classes = useStyles();
     let { id } = useParams();
-    const columnheaders = ["Name", "Strength", "Frequency", "Prescribed by practice", "Authorization frequency", "Date of Last Authorization"];
-    const fillButtons = [
-        { color: "success", icon: Person },
-    ].map((prop, key) => {
-        return (
-            <Button justIcon size="sm" color={prop.color} key={key}>
-                <prop.icon />
-            </Button>
-        );
+    const dispatch = useDispatch();
+    const medications = useSelector(state => state.patient.patientmedications)
+    const [options, setOptions] = useState({
+        searchOpen: false,
+        serverSide: false,
+        textLabels: {
+            body: {
+                noMatch: "SORRY NO MATCHES FOUND",
+            }
+        },
+        elevation: 2,
+        searchPlaceholder: 'Search by medication name',
+        print: false,
+        filter: false,
+        download: false,
+        customToolbar: AddNewMedication,
+        selectableRows: 'none',
+        viewColumns: false,
     });
+    const columns = [
+        {
+            name: "id",
+            label: "Patient id",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "first_name",
+            label: "First Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "last_name",
+            label: "Last Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "date_of_birth",
+            label: "Date of Birth",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "gender",
+            label: "Gender",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ];
+
+    useEffect(() => {
+        async function getPatientMedications() {
+            const result = await axios(`${API_URL}/patients/${id}/medications/`);
+            console.log(result.data);
+            return result.data;
+        }
+        getPatientMedications().then(response => {
+            dispatch({type: 'load_all_medications', medications: response })
+        })
+
+    }, []);
 
     return (
         <GridContainer justify="center">
             <GridItem xs={12} sm={10}>
-                <Typography>Add medication</Typography>
-            </GridItem>
-            <GridItem xs={12} sm={10}>
-                <CustomTabs
-                    headerColor="primary"
-                    tabs={[
-                        {
-                            tabName: 'Current',
-                            tabIcon: Person,
-                            tabContent: (
-                                <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={[
-                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
-                                        ["2", "John Doe", "Design", "2012", "€ 89,241", fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
-                                    ]}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
-                            )
-                        },
-                        {
-                            tabName: 'Past',
-                            tabIcon: Person,
-                            tabContent: (
-                                <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={[
-                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
-                                        ["2", "Utah Doe", "Design", "2012", "€ 89,241", fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
-                                    ]}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
-                            )
-                        },
-                    ]}
+                <MUIDataTable
+                    title={`Medications`}
+                    data={medications}
+                    options={options}
                 />
             </GridItem>
         </GridContainer>
