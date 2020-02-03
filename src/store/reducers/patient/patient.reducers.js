@@ -64,6 +64,16 @@ export function addmedicationformicd10result(state = {
 
 }
 
+export function addMedicationFormMedication(state = '', action) {
+    switch (action.type) {
+        case 'set_medication':
+            return action.name;
+        default:
+            return state;
+
+    }
+}
+
 export function patientmedications(state = [], action) {
     switch (action.type) {
         case 'load_all_medications':

@@ -9,6 +9,8 @@ import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import InternalProviderSelect from "../../../basestyledcomponents/InternalProviderSelect/internalproviderselect";
 import ICD10Search from "../../../basestyledcomponents/ICD10Search/icd10search";
+import MedicationAndDosageSearch
+    from "../../../basestyledcomponents/MedicationAndDosageSearch/medicationanddosagesearch";
 
 const API_URL = "http://127.0.0.1:8000/api";
 
@@ -17,12 +19,14 @@ export default function AddNewMedicationForm(props) {
     const dispatch = useDispatch();
     const icd10assessmentcode = useSelector(state => state.patient.addmedicationformicd10result.icd10assessmentcode)
     const assessment_description = useSelector(state => state.patient.addmedicationformicd10result.assessment_description);
+    const medicationname = useSelector(state => state.patient.addMedicationFormMedication);
     let { id } = useParams();
     const onSubmit = data => {
 
         const icd10formvalues = {
             icd10assessmentcode,
-            assessment_description
+            assessment_description,
+            medicationname,
 
         }
         console.log({...data, ...icd10formvalues});
@@ -41,10 +45,14 @@ export default function AddNewMedicationForm(props) {
 
     const style= {
         row: {
-            display: 'flex'
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: 20,
+            marginBottom: 20,
         },
         rowlabel: {
             flexGrow: 1,
+            alignItems: 'center',
         },
         rowinputcontainer: {
             flexGrow: 2,
@@ -62,6 +70,7 @@ export default function AddNewMedicationForm(props) {
                     </div>
                     <div style={{...style.row, ...style.rowinputcontainer}}>
                         <InternalProviderSelect register={register} />
+                        <Typography>Or search for outside provider</Typography>
                         <Controller
                             as={<TextField  />}
                             name="provider"
@@ -73,23 +82,54 @@ export default function AddNewMedicationForm(props) {
                 </GridItem>
                 <GridItem style={style.row}>
                     <Typography>Diangosis</Typography>
-
                     <div style={style.row}>
                         <ICD10Search dispatch={dispatch} register={register} />
                     </div>
-                    <div>
-                        <Typography>Diangosis</Typography>
-                    </div>
+
                 </GridItem>
                 <GridItem style={style.row}>
-                    <Typography>Name</Typography>
+                    <Typography>Medication</Typography>
+                 <MedicationAndDosageSearch dispatch={dispatch} />
+                    <Controller
+                        as={<TextField  />}
+                        name="dosage"
+                        placeholder={`Enter dosage here`}
+                        control={control}
+                        defaultValue={``}
+                    />
+                    <Controller
+                        as={<TextField  />}
+                        name="frequency"
+                        placeholder={`Enter frequency here`}
+                        control={control}
+                        defaultValue={``}
+                    />
                 </GridItem>
                 <GridItem style={style.row}>
-                    <Typography>Dosage</Typography>
-                    <Typography>Dosage Unit</Typography>
-                    <Typography>Frequency</Typography>
+                    <Typography>Date Started</Typography>
+                    <Controller
+                        as={<TextField type="date" />}
+                        name="date_started"
+                        control={control}
+                    />
                 </GridItem>
-                <GridItem>
+                <GridItem style={style.row}>
+                    <Typography>Date Stopped</Typography>
+                    <Controller
+                        as={<TextField type="date" />}
+                        name="date_stopped"
+                        control={control}
+                    />
+                </GridItem>
+                <GridItem style={style.row}>
+                    <Typography>Reason Stopped</Typography>
+                    <Controller
+                        as={<TextField />}
+                        name="reason_stopped"
+                        control={control}
+                    />
+                </GridItem>
+                <GridItem style={style.row}>
                     <input type="submit" value={`Add Medication`} />
                 </GridItem>
             </GridContainer>
