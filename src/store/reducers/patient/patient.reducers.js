@@ -42,6 +42,10 @@ export function surgicalhistory(state = [], action) {
     switch(action.type) {
         case 'load_surgical_history':
             return action.surgicalhistory;
+
+        case 'update_surgical_history':
+            return action.surgicalhistory;
+
         default:
             return state;
     }
