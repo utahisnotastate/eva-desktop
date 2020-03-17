@@ -50,44 +50,28 @@ export default function Medications(props) {
     });
     const columns = [
         {
-            name: "id",
-            label: "Patient id",
+            name: "prescribed_by",
+            label: "Prescribed by",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "first_name",
-            label: "First Name",
+            name: "name",
+            label: "Medication",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "last_name",
-            label: "Last Name",
-            options: {
-                filter: true,
-                sort: true,
-            }
+            name: "dosage",
+            label: "Dosage",
         },
         {
-            name: "date_of_birth",
-            label: "Date of Birth",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "gender",
-            label: "Gender",
-            options: {
-                filter: true,
-                sort: true,
-            }
+            name: "frequency",
+            label: "Frequency",
         },
     ];
 
@@ -109,6 +93,7 @@ export default function Medications(props) {
                 <MUIDataTable
                     title={`Medications`}
                     data={medications}
+                    columns={columns}
                     options={options}
                 />
             </GridItem>

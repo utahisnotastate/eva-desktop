@@ -23,9 +23,13 @@ import Scheduling from "./components/Scheduling/scheduling";
 import Claim from './components/Claims/Claim/claim';
 import WaitList from "./components/Scheduling/WaitList/waitlist";
 import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
+// import FormsCenter from "./components/FormsCenter/FormsCenter";
 import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
 import {allReducers} from "./store/reducers/combined";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import FormsCenterHome from "./components/FormsCenter/FormsCenterHome";
+import CreateMedicalChartForm
+    from "./components/FormsCenter/CreateFormCenter/CreateMedicalChartForm/CreateMedicalChartForm";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -75,6 +79,8 @@ function App() {
                               <Route exact path="/patientrequests">
                                   <PatientRequests/>
                               </Route>
+                              <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
+                              <Route path="/formscenter" component={FormsCenterHome}/>
                               <Route path="/waitlist" component={WaitList}/>
                               <Route path="/referralstoschedule" component={ReferralsToScheduleList}/>
                               <Route path="/revenuecycle" component={RevenueCycle}/>

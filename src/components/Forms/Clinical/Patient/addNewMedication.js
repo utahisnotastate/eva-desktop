@@ -23,23 +23,47 @@ export default function AddNewMedicationForm(props) {
     let { id } = useParams();
     const onSubmit = data => {
 
-        const icd10formvalues = {
-            icd10assessmentcode,
-            assessment_description,
-            medicationname,
+        const allDiagnosisData = {
+            "prescribed_by": `${data.provider}`,
+            "name": medicationname,
+            "patient": id,
+            "date_started": null,
+            "date_stopped": null,
+            "stoppage_reason": "",
+            "dosage": parseInt(data.dosage),
+            "dosage_unit": "mg",
+            "frequency": data.frequency
 
         }
-        console.log({...data, ...icd10formvalues});
-        /*axios.post(`${API_URL}/patients/${id}/medications/`, data).then(response => {
+        /*
+        {
+    "patient": 1,
+    "last_written_on": null,
+    "prescribed_by": "Dr. Smiley",
+    "diagnosis": null,
+    "name": "CHEW Q (Chewable)",
+    "date_started": null,
+    "date_stopped": null,
+    "stoppage_reason": "",
+    "dosage": 300,
+    "dosage_unit": "mg",
+    "frequency": "3xday"
+}
+         */
+        console.log(allDiagnosisData);
+        axios.post(`${API_URL}/patients/${id}/medications/`, allDiagnosisData).then(response => {
+            console.log(response);
             async function getPatientMedications() {
                 const result = await axios(`${API_URL}/patients/${id}/medications/`);
                 console.log(result.data);
                 return result.data;
             }
             getPatientMedications().then(response => {
+                console.log(response);
+                props.setModal(false);
                 dispatch({type: 'load_all_medications', medications: response })
             })
-        })*/
+        })
 
     }
 
@@ -91,7 +115,7 @@ export default function AddNewMedicationForm(props) {
                     <Typography>Medication</Typography>
                  <MedicationAndDosageSearch dispatch={dispatch} />
                     <Controller
-                        as={<TextField  />}
+                        as={<TextField type="number"  />}
                         name="dosage"
                         placeholder={`Enter dosage here`}
                         control={control}

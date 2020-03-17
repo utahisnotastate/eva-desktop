@@ -1,5 +1,6 @@
 import {combineReducers} from "redux";
 import {patientdiagnoses, patientmedications, drugallergies, hasinsurance, foodallergies, latexallergy, petallergies, pollenallergy, surgicalhistory, addmedicationformicd10result, addMedicationFormMedication, primaryinsurance, secondaryinsurance} from "./patient/patient.reducers";
+import {createmedicalchartformschema, createfamilymedicalhistoryformschema} from "./formscenter/formscenter.reducers";
 
 /*const clinicalqueue = (state = [], action) => {
     switch(action.type) {
@@ -94,6 +95,11 @@ const patient = combineReducers({
     addMedicationFormMedication,
 });
 
+const formscenter = combineReducers({
+    createmedicalchartformschema,
+    createfamilymedicalhistoryformschema,
+
+})
 export const allReducers = combineReducers({
     clinicalqueue,
     patientToSchedule,
@@ -101,4 +107,5 @@ export const allReducers = combineReducers({
     patientRequests,
     requestupdates,
     patient,
+    formscenter,
 });

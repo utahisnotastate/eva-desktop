@@ -60,9 +60,16 @@ function NavBar() {
                     <NavLink to="/revenuecycle"><Typography variant="subtitle2" className={classes.item}>
                         Revenue Cycle
                     </Typography></NavLink>
-                    <NavLink to="/faxes"><Typography variant="subtitle2" className={classes.item}>
+                    <NavLink to="/faxes">
+                        <Typography variant="subtitle2" className={classes.item}>
                         Faxes
-                    </Typography></NavLink>
+                        </Typography>
+                    </NavLink>
+                    <NavLink to="/formscenter">
+                        <Typography variant="subtitle2" className={classes.item}>
+                            Forms Center
+                        </Typography>
+                    </NavLink>
                 </Toolbar>
             </AppBar>
         </div>
