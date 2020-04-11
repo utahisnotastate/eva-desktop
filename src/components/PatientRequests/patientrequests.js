@@ -107,6 +107,11 @@ export default function PatientRequests() {
         });
     }, []);
 
+    const options = {
+        elevation: 0,
+
+    };
+
     return (
         <GridContainer justify="center">
             <GridItem xs={12} sm={10}>
@@ -121,7 +126,21 @@ export default function PatientRequests() {
                                     title={`Active Requests`}
                                     data={patientrequests.filter((patientrequest) => patientrequest.status === "active")}
                                     columns={columns}
+                                    options={options}
                                     />
+
+                            )
+                        },
+                        {
+                            tabName: 'Recently Completed',
+                            tabIcon: Person,
+                            tabContent: (
+                                <MUIDataTable
+                                    title={`Recently Completed`}
+                                    data={patientrequests.filter((patientrequest) => patientrequest.status === "active")}
+                                    columns={columns}
+                                    options={options}
+                                />
 
                             )
                         },
@@ -132,67 +151,3 @@ export default function PatientRequests() {
         </GridContainer>
     )
 }
-/*
-["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
-                                        ["2", "John Doe", "Design", "2012", "€ 89,241", fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
-
-                                        <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={activePatientRequests}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
- */
-/*
-{
-                            tabName: 'Recently Completed',
-                            tabIcon: Person,
-                            tabContent: (
-                                <Table
-                                    tableHeaderColor="primary"
-                                    tableHead={columnheaders}
-                                    tableData={[
-                                        ["1", "Andrew Mike", "Develop", "2013", "€ 99,225", fillButtons],
-                                        ["2", "Utah Doe", "Design", "2012", "€ 89,241", fillButtons],
-                                        ["3", "Alex Mike", "Design", "2010", "€ 92,144", fillButtons]
-                                    ]}
-                                    customCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customClassesForCells={[0, 4, 5]}
-                                    customHeadCellClasses={[
-                                        classes.textCenter,
-                                        classes.textRight,
-                                        classes.textRight
-                                    ]}
-                                    customHeadClassesForCells={[0, 4, 5]}
-                                />
-                            )
-                        },
- */
-/*
-   const classes = useStyles();
-    let { id } = useParams();
-    const columnheaders = ["Type", "Name", "Date of Birth", "Actions"];
-    const fillButtons = [
-        { color: "success", icon: Person },
-    ].map((prop, key) => {
-        return (
-            <RequestTimeLine />
-        );
-    });
- */

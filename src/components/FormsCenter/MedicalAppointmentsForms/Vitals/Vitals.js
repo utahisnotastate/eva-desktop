@@ -16,97 +16,17 @@ import {reviewofsystems} from "../../../../store/reducers/formscenter/MedicalApp
 
 const log = (type) => console.log.bind(console, type);
 
-export default function CreateMedicalChartForm() {
+export default function Vitals() {
     const dispatch = useDispatch();
-    const schema = useSelector(state => state.medicalappointmentformschema)
-    let uiSchema = {
-        vitals: {
-            classNames: "card w3-padding",
-            blood_pressure: {
-                nav: "vitals",
-                "classNames": "",
-
-            }
-        },
-        complaints: {
-            nav: "complaints",
-            classNames: "card w3-padding",
-            items: {
-                caused_by: {
-                    "ui:widget": "textarea"
-                },
-
-            },
-            },
-        reviewofsystems: {
-            classNames: "card w3-padding",
-            no_allergies: {
-                nav: "reviewofsystems",
-                "classNames": "",
-            },
-            hiv: {
-                nav: "reviewofsystems",
-                "classNames": "",
-            },
-
-
-        },
-        physical_exam: {
-            classNames: "card w3-padding",
-            cardiovascular_exam: {
-                nav: "Physical Exam",
-            }
-
-        },
-        assessments: {
-            classNames: "card w3-padding",
-            assessments: {
-                nav: "Assessments",
-            },
-
-        },
-        treatment_plan: {
-            classNames: "card w3-padding",
-            treatment_plan: {
-                nav: "Treatment Plan",
-            },
-
-        },
-        attachments: {
-            classNames: "card w3-padding",
-            attachments: {
-                nav: "Attachments",
-            },
-
-        },
-        navConf: {
-            classNames: "card w3-padding",
-            navs: [
-                {
-                    nav: "vitals",
-                    name: "Vitals",
-                },
-                {
-                    nav: "complaints",
-                    name: "Complaints",
-                },
-                {
-                    nav: "reviewofsystems",
-                    name: "Review of Systems",
-                }
-            ]
-        }
-    }
+    const schema = useSelector(state => state.vitalsform.vitalsformschema);
+    const uiSchema = useSelector(state => state.vitalsform.vitalsformuischema);
     return (
         <div style={{padding: 15}}>
             <GridContainer>
                 <GridItem xs={10}>
                     <Card>
-                        <CardHeader>Form Preview</CardHeader>
+                        <CardHeader>Customize Vitals Form</CardHeader>
                         <CardBody>
-                            <div>
-
-                            </div>
                             <Form schema={schema}
                                   uiSchema={uiSchema}
                                   onChange={log("changed")}
@@ -124,13 +44,6 @@ export default function CreateMedicalChartForm() {
                                     <li onClick={() => {
                                         console.log('clicked!');
                                         dispatch({type: 'add_field_to_medical_appointment_section', section: 'vitals',field: 'height', newfield: {type: 'string', title: 'Height'}});
-                                        uiSchema = {...uiSchema, vitals: {
-                                            ...uiSchema.vitals,
-                                                height: {
-                                                ...uiSchema.vitals.height,
-                                                    ...{nav: "vitals"},
-                                                }
-                                        }}
                                         console.log(uiSchema.vitals);
                                     }}>Add Height</li>
                                     <li>Add Temperature</li>
@@ -145,7 +58,7 @@ export default function CreateMedicalChartForm() {
                         <CardHeader>Add Custom Form Inputs</CardHeader>
                         <CardBody>
                             <GridContainer flexDirection={`column`}>
-                                    <Modal buttontext={`Create Custom Field`} form={CreateCustomField}/>
+                                <Modal buttontext={`Create Custom Field`} form={CreateCustomField}/>
                                 <div>
                                     <Modal buttontext={`Create Custom Group`}/>
                                 </div>

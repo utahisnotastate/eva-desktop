@@ -1,23 +1,8 @@
 import {combineReducers} from "redux";
 import {patientdiagnoses, patientmedications, drugallergies, hasinsurance, foodallergies, latexallergy, petallergies, pollenallergy, surgicalhistory, addmedicationformicd10result, addMedicationFormMedication, primaryinsurance, secondaryinsurance} from "./patient/patient.reducers";
 import {createmedicalchartformschema, createfamilymedicalhistoryformschema} from "./formscenter/formscenter.reducers";
+import {medicalappointmentformtitle as title, medicalappointmentformtype as type, medicalappointmentformrequiredfields as required, medicalappointmentformvitals as vitals, medicalappointmentformcomplaints as complaints} from "./formscenter/MedicalAppointmentForm/medicalappointmentform.reducers";
 
-/*const clinicalqueue = (state = [], action) => {
-    switch(action.type) {
-        case 'check_in_patient':
-            return {...state, clinicalqueue: action.newclinicalqueue};
-        case 'move_to_exam_room':
-            return {...state, clinicalqueue: action.newclinicalqueue};
-        case 'move_to_waiting_room':
-            return {...state, clinicalqueue: action.newclinicalqueue};
-        case 'appointment_in_progress':
-            return {...state, clinicalqueue: action.newclinicalqueue};
-        case 'initial_load':
-            return {...state, clinicalqueue: action.newclinicalqueue};
-        default:
-            return state;
-    }
-};*/
 
 function patientAppointmentHistory(state=[], action) {
     switch(action.type) {
@@ -73,14 +58,131 @@ function clinicalqueue(state = [], action) {
             return state;
     }
 }
+function vitalsformschema(state={
+    type: "object",
+    title: "Vital Fields",
+    properties: {
+        "blood_pressure": {"type": "string", "title": "Blood Pressure"}
+    }
+}, action) {
+    switch (action.type) {
+        case 'add_new_vitals_property':
+            return {...state, properties: {...state.properties, ...action.newproperty}}
+        default:
+            return state;
 
 
+    }
+}
+function vitalsformuischema(state={
+    "ui:options": {
+        label: false
+    }
+}, action) {
+    switch (action.type) {
+        default:
+            return state;
+
+
+    }
+}
+
+function assessmentformschema(state = {}, action) {
+    switch(action.type) {
+        default:
+            return state;
+    }
+}
+function assessmentformuischema(state = {}, action) {
+    switch(action.type) {
+        default:
+            return state;
+    }
+}
+function patientcomplaintsformschema(state={
+    "type": "object",
+    "title": "Patient Complaints Form Fields",
+        "properties": {
+            "icd10code": {"type": "string", "title": "ICD 10 Code"},
+            "icd10description": {"type": "string", "title": "ICD 10 Description"},
+            "onset": {"type": "string", "title": "Onset"},
+            "progression": {"type": "string", "title": "Progression"},
+            "caused_by": {"type": "string", "title": "Caused By"},
+        }
+}, action) {
+    switch (action.type) {
+        case 'add_new_complaints_property':
+            return {...state, properties: {...state.properties, ...action.newproperty}}
+        default:
+            return state;
+
+
+    }
+}
+function patientcomplaintsformuischema(state={
+    "ui:options": {
+        label: false
+    }
+}, action) {
+    switch (action.type) {
+        default:
+            return state;
+
+
+    }
+}
+export function reviewofsystemsformschema(state = {
+    "type": "object",
+    "title": "",
+    "properties": {
+        "no_allergies": {
+            "type": "boolean",
+            "title": "No Allergies",
+            "default": true,
+        },
+        "hiv": {
+            "type": "boolean",
+            "title": "HIV",
+            "default": false,
+        },
+
+    }
+}, action) {
+    switch (action.type) {
+        default:
+            return state;
+
+    }
+}
+export function reviewofsystemsformuischema(state = {
+    "ui:options": {
+        label: false
+    }
+}, action) {
+    switch (action.type) {
+        default:
+            return state;
+
+    }
+}
 const patientallergies = combineReducers({
     drugallergies,
     foodallergies,
     latexallergy,
     petallergies,
     pollenallergy,
+
+});
+const vitalsform = combineReducers({
+    vitalsformschema,
+    vitalsformuischema
+
+
+});
+const patientcomplaintsform = combineReducers({
+    patientcomplaintsformschema,
+    patientcomplaintsformuischema
+
 
 });
 const patient = combineReducers({
@@ -94,12 +196,17 @@ const patient = combineReducers({
     addmedicationformicd10result,
     addMedicationFormMedication,
 });
-
-const formscenter = combineReducers({
-    createmedicalchartformschema,
-    createfamilymedicalhistoryformschema,
-
+const properties = combineReducers({
+    vitals,
+    complaints,
 })
+const medicalappointmentformschema = combineReducers({
+    title,
+    type,
+    required,
+    properties,
+});
+
 export const allReducers = combineReducers({
     clinicalqueue,
     patientToSchedule,
@@ -107,5 +214,7 @@ export const allReducers = combineReducers({
     patientRequests,
     requestupdates,
     patient,
-    formscenter,
+    vitalsform,
+    patientcomplaintsform,
+    medicalappointmentformschema,
 });

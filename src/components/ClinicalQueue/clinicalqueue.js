@@ -68,6 +68,7 @@ export default function ClinicalQueue() {
             <GridContainer direction="column" alignContent="center">
                 <GridItem xs={12} sm={9}>
                     <CustomTabs
+                        title={'Clinical Queue'}
                         headerColor="primary"
                         tabs={[
                             {

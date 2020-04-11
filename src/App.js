@@ -30,6 +30,10 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import FormsCenterHome from "./components/FormsCenter/FormsCenterHome";
 import CreateMedicalChartForm
     from "./components/FormsCenter/CreateFormCenter/CreateMedicalChartForm/CreateMedicalChartForm";
+import formscustomizer from "./components/FormsCenter/FormsCustomizer/formscustomizer";
+import ReviewofSystemsMenu from '../src/components/FormsCenter/MedicalAppointmentsForms/ReviewOfSystems/reviewofsystemscollection';
+import ClinicalExamsMenu
+    from "./components/FormsCenter/MedicalAppointmentsForms/ClinicalExamForm/clinicalexamcollections";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -80,6 +84,9 @@ function App() {
                                   <PatientRequests/>
                               </Route>
                               <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
+                              <Route exact path="/formscenter/reviewofsystemsform" component={ReviewofSystemsMenu}/>
+                              <Route exact path="/formscenter/clinicalexamsform" component={ClinicalExamsMenu}/>
+                              <Route path="/formscenter/:formId" component={formscustomizer}/>
                               <Route path="/formscenter" component={FormsCenterHome}/>
                               <Route path="/waitlist" component={WaitList}/>
                               <Route path="/referralstoschedule" component={ReferralsToScheduleList}/>

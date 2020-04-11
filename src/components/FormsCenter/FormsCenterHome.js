@@ -29,6 +29,35 @@ const useStyles = makeStyles(styles);
 
 export default function FormsCenterHome() {
     const classes = useStyles();
+
+    const [systems, setSystems] = useState([{ label: 'Constitutional', component: 'ROSConstitutional' },
+        { label: 'Allergic Immunologic', component: 'ROSAllergicImmunologic' },
+        { label: 'Integumentary', component: 'ROSIntegumentary' },
+        { label: 'Eyes',component: 'ROSEyes' },
+        { label: 'Cardiovascular',component: 'ROSCardiovascular' },
+        { label: 'Respiratory', component: 'ROSRespiratory' },
+        { label: 'Musculoskeletal', component: 'ROSMusculoskeletal' },
+        { label: 'Gastrointestinal', component: 'ROSGastrointestinal' },
+        { label: 'Neurological',component: 'ROSNeurological' },
+        { label: 'Genitourinary', component: 'ROSGenitourinary' },
+        { label: 'Endocrine',component: 'ROSEndocrine' },
+        { label: 'Hematologic',component: 'ROSHematologic' },
+        { label: 'Psychiatric',component: 'ROSPsychiatric' },
+        { label: 'Ears Nose Throat',component: 'ROSEarsNoseThroat' }]);
+
+    const [physicalexams, setPhysicalExams] = useState([
+        { label: 'HEENT', route: 'HEENTExam' },
+        { label: 'Integumentary', route: 'IntegumentaryExam' },
+        { label: 'Cardiovascular', route: 'CardiovascularExam' },
+        { label: 'Musculoskeletal', route: 'MusculoskeletalExam' },
+        { label: 'Gastrointestinal', route: 'GastrointestinalExam' },
+        { label: 'Neurological', route: 'NeurologicalExam' },
+        { label: 'Male Genitoruinary', route: 'MaleGenitourinaryExam' },
+        { label: 'Female Genitourinary',route: 'FemaleGenitourinaryExam' },
+        { label: 'Hematologic Lymphatic', route: 'HematologicLymphaticExam' },
+        { label: 'Psychiatric',route: 'PsychiatricExam' },
+    ]);
+
     return (
         <div style={{padding: 15}}>
             <GridContainer>
@@ -40,7 +69,13 @@ export default function FormsCenterHome() {
                             </CardIcon>
                         </CardHeader>
                         <CardBody>
-                            <NavLink to={`/formscenter/createmedicalchart`}> <h4 className={classes.cardTitle}><Typography>Create Medical Appointment Form</Typography></h4></NavLink>
+                            <Typography>Clinical Appointment Forms</Typography>
+                            <ul className="w3-ul">
+                                <li><NavLink to={`/formscenter/vitalsform`}><Typography>Vitals Form</Typography></NavLink></li>
+                                <li><NavLink to={`/formscenter/patientcomplaintsform`}><Typography>Patient Complaints Form</Typography></NavLink></li>
+                                <li><NavLink to={`/formscenter/assessmentform`}><Typography>Assessment Form</Typography></NavLink></li>
+                                <li><NavLink to={`/formscenter/planform`}><Typography>Plan Form</Typography></NavLink></li>
+                            </ul>
                         </CardBody>
                     </Card>
                 </GridItem>
@@ -52,7 +87,12 @@ export default function FormsCenterHome() {
                             </CardIcon>
                         </CardHeader>
                         <CardBody>
-                            <Typography>Create Family Medical History Form</Typography>
+                            <Typography>Customize Physical Exam Forms</Typography>
+                            <ul className="w3-ul">
+                                {physicalexams.map(physicalexam => (
+                                    <li><Typography>{physicalexam.label}</Typography></li>
+                                ))}
+                            </ul>
                         </CardBody>
                     </Card>
                 </GridItem>
@@ -64,7 +104,24 @@ export default function FormsCenterHome() {
                             </CardIcon>
                         </CardHeader>
                         <CardBody>
-                            <Typography>Create Administration Form</Typography>
+                            <Typography>Customize Review of System Forms</Typography>
+                            <ul className="w3-ul">
+                                {systems.map(system => (
+                                    <li><Typography>{system.label}</Typography></li>
+                                ))}
+                            </ul>
+                        </CardBody>
+                    </Card>
+                </GridItem>
+                <GridItem xs={10} md={4}>
+                    <Card>
+                        <CardHeader icon>
+                            <CardIcon  color="primary">
+                                <LanguageIcon />
+                            </CardIcon>
+                        </CardHeader>
+                        <CardBody>
+                            <Typography>Create Custom Appointment Form from scratch</Typography>
                         </CardBody>
                     </Card>
                 </GridItem>

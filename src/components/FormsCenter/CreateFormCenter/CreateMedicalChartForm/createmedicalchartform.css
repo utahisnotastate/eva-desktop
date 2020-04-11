@@ -3,3 +3,11 @@ fieldset {
     margin: 0 2px;
     padding: .35em .625em .75em;
 }
+
+.full-width {
+    width: 100%;
+}
+
+.array-item {
+    width: 100%;
+}
