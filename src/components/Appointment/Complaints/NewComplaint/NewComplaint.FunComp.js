@@ -18,14 +18,13 @@ function renderSuggestion(suggestion) {
 }
 
 export default function NewComplaint() {
-    const {register, setValue, handleSubmit, control } = useForm();
+    const {register, setValue, handleSubmit, control, reset } = useForm();
     const [suggestions, setSuggestions] = useState([]);
     const [complaint_name, setComplaintName] = useState('');
     const onComplaintNameChange = (event, { newValue, method }) => {
         console.log('New Value:' + newValue);
         setComplaintName(newValue);
     };
-
     const onSuggestionsFetchRequested = ({ value }) => {
         fetch(`${API_URL}${value}`)
             .then(response => response.json())
@@ -34,24 +33,20 @@ export default function NewComplaint() {
             });
     }
     const onComplaintNameSuggestionSelected = (event, {suggestionValue}) => {
-        // setComplaintName(suggestionValue);
         setValue('complaint_name', suggestionValue);
 
     }
     const onSuggestionsClearRequested = () => {
         setSuggestions([]);
     };
-
     const inputComplaintNameDescriptionProps = {
         placeholder: 'Search Medical Conditions',
         value: complaint_name,
         onChange: onComplaintNameChange,
     };
-
     const onSubmit = (data) => {
-        // data.complaint_name = complaint_name;
         console.log(data);
-    }
+    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w3-border">
@@ -67,13 +62,11 @@ export default function NewComplaint() {
                             onSuggestionSelected={onComplaintNameSuggestionSelected}
                             inputProps={inputComplaintNameDescriptionProps}
                         />} name="complaint_name" control={control} />
-
-
                     </div>
                 </div>
                 <div><h1>OR:</h1></div>
                 <div>
-                    <h3>Add complaint description</h3>
+                    <h3>Describe Complaint Below</h3>
                     <textarea className={`w3-input`} name="other_complaint" ref={register} />
                 </div>
                 <input type={`submit`} value={`Add Complaint`} />
