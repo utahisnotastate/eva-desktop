@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Form } from 'react-formik-ui';
 import { FieldArray } from 'formik';
 import { Input } from 'react-formik-ui';
-import NewComplaint from './NewComplaint/NewComplaint';
+import NewComplaint from './NewComplaint/NewComplaint.FunComp';
 // import PatientComplaint from './PatientComplaint/PatientComplaint';
 
 const editorStyle = {
@@ -13,13 +13,8 @@ const editorStyle = {
     'touch-action': 'none',
 };
 
-export default class PatientComplaints extends Component {
-    componentDidMount() {
-        console.log(this.props);
-    }
-
-    render() {
-        const { complaints, values } = this.props;
+export default function PatientComplaints(props) {
+        const { complaints, values } = props;
         return (
             <Grid container>
                 <Grid item xs={2}>
@@ -41,7 +36,7 @@ export default class PatientComplaints extends Component {
 
             </Grid>
         );
-    }
+
 }
 
 /*

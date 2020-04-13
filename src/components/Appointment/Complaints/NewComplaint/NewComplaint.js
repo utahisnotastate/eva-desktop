@@ -28,12 +28,6 @@ export default class NewComplaint extends Component {
         };
     }
 
-    onChange = (event, { newValue, method }) => {
-        this.setState({
-            icd10code: newValue,
-        });
-    };
-
     onComplaintNameChange = (event, { newValue, method }) => {
         this.setState({
             complaint_name: newValue,
@@ -55,7 +49,7 @@ export default class NewComplaint extends Component {
     };
 
     handleChoice = (event, { suggestion }) => {
-        this.setState({ icd10code: suggestion[2] });
+        // this.setState({ icd10code: suggestion[2] });
         this.setState({ complaint_name: suggestion[1] });
     }
 
@@ -64,11 +58,7 @@ export default class NewComplaint extends Component {
         const {
             new_complaint, addNewComplaint, updateICD10Code, values,
         } = this.props;
-        const inputProps = {
-            placeholder: 'Search ICD10',
-            value: icd10code,
-            onChange: this.onChange,
-        };
+
         const inputComplaintNameDescriptionProps = {
             placeholder: 'Search Medical Conditions',
             value: complaint_name,
@@ -76,23 +66,9 @@ export default class NewComplaint extends Component {
         };
         return (
             <div className="w3-border">
-                <h3>New Complaint</h3>
-                <div>
-                    <h3>Complaints</h3>
-                </div>
+                <h3>Add Complaint</h3>
                 <div>
                     <div className="form-row">
-                        <p>Complaint:</p>
-                        <Autosuggest
-                            id="icd10code"
-                            suggestions={suggestions}
-                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                            getSuggestionValue={getICD10SuggestionValue}
-                            renderSuggestion={renderSuggestion}
-                            onSuggestionSelected={this.handleChoice}
-                            inputProps={inputProps}
-                        />
                         <Autosuggest
                             id="complaint_name"
                             suggestions={suggestions}
@@ -118,7 +94,29 @@ export default class NewComplaint extends Component {
     }
 }
 
+
 /*
+onChange = (event, { newValue, method }) => {
+    this.setState({
+        icd10code: newValue,
+    });
+};
+
+const inputProps = {
+            placeholder: 'Search ICD10',
+            value: icd10code,
+            onChange: this.onChange,
+        };
+<Autosuggest
+                            id="icd10code"
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                            getSuggestionValue={getICD10SuggestionValue}
+                            renderSuggestion={renderSuggestion}
+                            onSuggestionSelected={this.handleChoice}
+                            inputProps={inputProps}
+                        />
 const API_URL = 'https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?sf=primary_name,consumer_name,icd10cm_codes,word_synonyms,synonyms&df=primary_name,consumer_name,icd10cm_codes&terms=';
 function renderSuggestion(suggestion) {
     console.log('suggestion: ' + suggestion);
