@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from "@material-ui/core/Grid";
+import Card from "../../basestyledcomponents/Card/Card";
 import { Formik } from 'formik';
 import { Form } from 'react-formik-ui';
 import { FieldArray } from 'formik';
@@ -19,23 +20,37 @@ export default function PatientComplaints(props) {
         let { id } = useParams();
         const { complaints, values } = props;
         return (
-            <Grid container>
-                <Grid item xs={10}>
-                    <div className="w3-padding w3-bottombar w3-leftbar w3-rightbar w3-topbar w3-margin-bottom">
-                        <AppointmentComplaints/>
-                    </div>
-                    <div className="w3-padding w3-bottombar w3-leftbar w3-rightbar w3-topbar">
-                        <h3>Reason for Visit /Chief Complaint id: {id}</h3>
-                        <NewComplaint />
-                    </div>
-                </Grid>
+            <div>
 
-            </Grid>
+                            <AppointmentComplaints/>
+                            <h3>Reason for Visit /Chief Complaint id: {id}</h3>
+                            <NewComplaint/>
+            </div>
+
+
         );
 
 }
 
 /*
+<Grid container>
+                <Grid item xs={10}>
+                    <Card className={`w3-padding-large`}>
+                            <AppointmentComplaints/>
+                            <h3>Reason for Visit /Chief Complaint id: {id}</h3>
+                            <NewComplaint/>
+
+                    </Card>
+                </Grid>
+
+            </Grid>
+<div className="w3-padding w3-bottombar w3-leftbar w3-rightbar w3-topbar w3-margin-bottom">
+                            <AppointmentComplaints/>
+                        </div>
+                        <div className="w3-padding w3-bottombar w3-leftbar w3-rightbar w3-topbar">
+                            <h3>Reason for Visit /Chief Complaint id: {id}</h3>
+                            <NewComplaint/>
+                        </div>
 <Grid item xs={2}>
                     <div className="w3-ul">
                         <li>Complaints</li>
