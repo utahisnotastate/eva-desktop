@@ -22,6 +22,9 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Card from "../basestyledcomponents/Card/Card";
 import Collapse from '@material-ui/core/Collapse';
+import BaseROSComponent from "./AppointmentROS/AppointmentROSComponents/BaseROSComponent";
+import BasePhysicalExamComponent from "./AppointmentPhysicalExam/BasePhysicalExamComponent";
+import {ROSRoutes, PhysicalExamRoutes} from "./appointmentroutes";
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -79,20 +82,20 @@ export default function Appointment() {
             openNestedMenu() {
                 setROSOpen(!rosopen);
             },
-            subroutes: [{ label: 'Constitutional', component: 'ROSConstitutional' },
-                { label: 'Allergic Immunologic', component: 'ROSAllergicImmunologic' },
-                { label: 'Integumentary', component: 'ROSIntegumentary' },
-                { label: 'Eyes',component: 'ROSEyes' },
-                { label: 'Cardiovascular',component: 'ROSCardiovascular' },
-                { label: 'Respiratory', component: 'ROSRespiratory' },
-                { label: 'Musculoskeletal', component: 'ROSMusculoskeletal' },
-                { label: 'Gastrointestinal', component: 'ROSGastrointestinal' },
-                { label: 'Neurological',component: 'ROSNeurological' },
-                { label: 'Genitourinary', component: 'ROSGenitourinary' },
-                { label: 'Endocrine',component: 'ROSEndocrine' },
-                { label: 'Hematologic',component: 'ROSHematologic' },
-                { label: 'Psychiatric',component: 'ROSPsychiatric' },
-                { label: 'Ears Nose Throat',component: 'ROSEarsNoseThroat' }],
+            subroutes: [{ label: 'Constitutional', route: '/ROSConstitutional' },
+                { label: 'Allergic Immunologic', route: '/ROSAllergicImmunologic' },
+                { label: 'Integumentary', route: '/ROSIntegumentary' },
+                { label: 'Eyes', route: '/ROSEyes' },
+                { label: 'Cardiovascular',route: '/ROSCardiovascular' },
+                { label: 'Respiratory', route: '/ROSRespiratory' },
+                { label: 'Musculoskeletal', route: '/ROSMusculoskeletal' },
+                { label: 'Gastrointestinal', route: '/ROSGastrointestinal' },
+                { label: 'Neurological',route: '/ROSNeurological' },
+                { label: 'Genitourinary', route: '/ROSGenitourinary' },
+                { label: 'Endocrine',route: '/ROSEndocrine' },
+                { label: 'Hematologic', route: '/ROSHematologic' },
+                { label: 'Psychiatric', route: '/ROSPsychiatric' },
+                { label: 'Ears Nose Throat', route: '/ROSEarsNoseThroat' }],
             component: AppointmentROS,
         },
         {
@@ -104,16 +107,16 @@ export default function Appointment() {
                 setExamOpen(!examopen);
             },
             subroutes: [
-                { label: 'HEENT', route: 'HEENTExam' },
-                { label: 'Integumentary', route: 'IntegumentaryExam' },
-                { label: 'Cardiovascular', route: 'CardiovascularExam' },
-                { label: 'Musculoskeletal', route: 'MusculoskeletalExam' },
-                { label: 'Gastrointestinal', route: 'GastrointestinalExam' },
-                { label: 'Neurological', route: 'NeurologicalExam' },
-                { label: 'Male Genitoruinary', route: 'MaleGenitourinaryExam' },
-                { label: 'Female Genitourinary',route: 'FemaleGenitourinaryExam' },
-                { label: 'Hematologic Lymphatic', route: 'HematologicLymphaticExam' },
-                { label: 'Psychiatric',route: 'PsychiatricExam' },
+                { label: 'HEENT', route: '/HEENTExam' },
+                { label: 'Integumentary', route: '/IntegumentaryExam' },
+                { label: 'Cardiovascular', route: '/CardiovascularExam' },
+                { label: 'Musculoskeletal', route: '/MusculoskeletalExam' },
+                { label: 'Gastrointestinal', route: '/GastrointestinalExam' },
+                { label: 'Neurological', route: '/NeurologicalExam' },
+                { label: 'Male Genitoruinary', route: '/MaleGenitourinaryExam' },
+                { label: 'Female Genitourinary',route: '/FemaleGenitourinaryExam' },
+                { label: 'Hematologic Lymphatic', route: '/HematologicLymphaticExam' },
+                { label: 'Psychiatric',route: '/PsychiatricExam' },
             ],
             component: AppointmentPhysicalExam,
         },
@@ -139,12 +142,14 @@ export default function Appointment() {
             component: AppointmentSummary,
         },
     ];
-    const DeepNestedList = ({subroutes}) => {
+    const DeepNestedList = ({subroutes, path}) => {
         return(
             <List component="div" disablePadding>
                 {subroutes.map((subroute) => (
                     <ListItem className={classes.deepnested} key={subroute.label}>
-                            <ListItemText primary={<Typography variant="body1">{subroute.label}</Typography>}/>
+                        <NavLink exact activeStyle={{color: 'white'}} to={`${url}${path}${subroute.route}`}>
+                            <ListItemText primary={`${subroute.label}`}/>
+                        </NavLink>
                     </ListItem>
                 ))}
             </List>
@@ -153,7 +158,7 @@ export default function Appointment() {
 
     const SimpleRoute =  ({path, label}) => {
         return (
-            <ListItem className={classes.nested} key={label}>
+            <ListItem key={label}>
                 <NavLink exact activeStyle={{color: 'white'}} to={`${url}${path}`}>
                     <ListItemText primary={label}/>
                 </NavLink>
@@ -178,11 +183,13 @@ export default function Appointment() {
                                 return (
                                     <>
                                     <ListItem key={route.label}>
-                                        <ListItemText primary={`${route.label}`} />
+                                        <NavLink exact activeStyle={{color: 'white'}} to={`${url}${route.path}`}>
+                                            <ListItemText  primary={`${route.label}`}/>
+                                        </NavLink>
                                         {route.menuopen ? <ExpandLess onClick={route.openNestedMenu} /> : <ExpandMore onClick={route.openNestedMenu} />}
                                     </ListItem>
                                     <Collapse in={route.menuopen} timeout="auto" unmountOnExit>
-                                        <DeepNestedList subroutes={route.subroutes} />
+                                        <DeepNestedList subroutes={route.subroutes} path={route.path} />
                                     </Collapse>
                                     </>
                                 );
@@ -220,7 +227,21 @@ export default function Appointment() {
                 <Card className={`w3-padding-large`}>
                     <Switch>
                         {appointmentroutes.map ((route) => (
-                            <Route key={route.label} exact path={`${path}${route.path}`} component={route.component} />
+                            <Route exact key={route.label} path={`${path}${route.path}`} component={route.component} />
+                        ))}
+                        {routes.map((route) => (
+                            <Route exact key={route.label} path={`${path}${route.path}`} component={route.component} />
+
+                        ))}
+                        {ROSRoutes.map((route) => (
+                            <Route exact key={route.label} path={`${path}${route.path}`}>
+                                <BaseROSComponent fields={route.fields} label={route.label}/>
+                            </Route>
+                        ))}
+                        {PhysicalExamRoutes.map((route) => (
+                            <Route exact key={route.label} path={`${path}${route.path}`}>
+                                <BasePhysicalExamComponent fields={route.fields} label={route.label}/>
+                            </Route>
                         ))}
                     </Switch>
                 </Card>
@@ -229,6 +250,3 @@ export default function Appointment() {
         </Grid>
     );
 }
-/*
-<ListItem key={route.label} button onClick={route.openNestedMenu}>
- */
