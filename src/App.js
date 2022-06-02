@@ -35,6 +35,9 @@ import ReviewofSystemsMenu from '../src/components/FormsCenter/MedicalAppointmen
 import ClinicalExamsMenu
     from "./components/FormsCenter/MedicalAppointmentsForms/ClinicalExamForm/clinicalexamcollections";
 
+import EVAFormBuilder from "./components/FormsCenter/EVAFormBuilder/EVAFormBuilder";
+import EVACustomFormDisplay from "./components/FormsCenter/EVAFormBuilder/EVACustomFormDisplay";
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
@@ -83,6 +86,8 @@ function App() {
                               <Route exact path="/patientrequests">
                                   <PatientRequests/>
                               </Route>
+                              <Route path="/EVAformbuilder" component={EVAFormBuilder}/>
+                              <Route path="/EVAcustomformdisplay" component={EVACustomFormDisplay} />
                               <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
                               <Route exact path="/formscenter/reviewofsystemsform" component={ReviewofSystemsMenu}/>
                               <Route exact path="/formscenter/clinicalexamsform" component={ClinicalExamsMenu}/>

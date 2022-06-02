@@ -69,10 +69,10 @@ export default function FormsCenterHome() {
                             </CardIcon>
                         </CardHeader>
                         <CardBody>
-                            <Typography>Clinical Appointment Forms</Typography>
+                            <Typography>Customizable FOrms</Typography>
                             <ul className="w3-ul">
-                                <li><NavLink to={`/formscenter/vitalsform`}><Typography>Vitals Form</Typography></NavLink></li>
-                                <li><NavLink to={`/formscenter/patientcomplaintsform`}><Typography>Patient Complaints Form</Typography></NavLink></li>
+                                <li><NavLink to={`/EVAformbuilder`}><Typography>Physical Exam</Typography></NavLink></li>
+                                <li><NavLink to={`/EVAcustomformdisplay`}><Typography>Display Custom Form</Typography></NavLink></li>
                                 <li><NavLink to={`/formscenter/assessmentform`}><Typography>Assessment Form</Typography></NavLink></li>
                                 <li><NavLink to={`/formscenter/planform`}><Typography>Plan Form</Typography></NavLink></li>
                             </ul>
