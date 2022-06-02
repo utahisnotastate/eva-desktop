@@ -10,7 +10,6 @@ import Person from "@material-ui/icons/Person";
 import Button from "../../../basestyledcomponents/Table/Button";
 import {Paper, Typography} from "@material-ui/core";
 import CustomTabs from "../../../basestyledcomponents/CustomTabs/CustomTabs";
-import NewRequest from "../../../Forms/Clinical/Patient/newrequest";
 import RequestTimeLine from "../../../PatientRequests/TimeLine/timeline";
 import Modal from '../../../basestyledcomponents/Modal/modal';
 import axios from "axios";
@@ -136,7 +135,7 @@ export default function PatientRequests() {
     return (
         <GridContainer justify="center">
             <GridItem xs={12} sm={10}>
-                <Modal buttontext={`New Request`} modaltitle={`New Request`} patientId={id} form={NewRequest} />
+                <h1>NEW REQUEST MODAL GOES HERE</h1>
             </GridItem>
             <GridItem xs={12} sm={10}>
                 <CustomTabs
@@ -161,6 +160,9 @@ export default function PatientRequests() {
     )
 }
 /*
+
+                <Modal buttontext={`New Request`} modaltitle={`New Request`} patientId={id} form={NewRequest} />
+
 const [requests, setRequests] = useState([]);
     const columnheaders = ["Type", "Status", "Date Opened", "Assigned to", "Last Updated", "Actions"];
     const fillButtons = [

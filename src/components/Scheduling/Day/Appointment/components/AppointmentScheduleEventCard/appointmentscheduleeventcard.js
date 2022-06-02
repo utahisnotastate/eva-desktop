@@ -8,7 +8,6 @@ import Card from "../../../../../basestyledcomponents/Card/Card";
 import CardHeader from "../../../../../basestyledcomponents/Card/CardHeader";
 import {Button, Typography} from "@material-ui/core";
 import Modal from '../../../../../basestyledcomponents/Modal/modal';
-import NewRequest from "../../../../../Forms/Clinical/Patient/newrequest";
 
 export default function AppointmentScheduleEventCard(props) {
     return (

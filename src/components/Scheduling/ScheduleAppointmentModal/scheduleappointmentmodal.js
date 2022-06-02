@@ -1,13 +1,22 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React from "react";
+import {Formik, Form, Field} from 'formik';
 import moment from "moment";
-import { Controller } from 'react-hook-form';
-import TextField from "@material-ui/core/TextField";
+
 
 export default function ScheduleAppointmentModal(props) {
 console.log(props.slottoschedule);
 console.log('Start: ' + moment(props.slottoschedule.start).toISOString())
     return (
         <div>
+            <p>Test</p>
+        </div>
+
+    );
+}
+
+
+/*<div>
+            <h1>Test!!!</h1>
                 <select name="type" ref={props.register}>
                     <option value="first_appointment">first_appointment</option>
                     <option value="medication_management">medication_management</option>
@@ -39,5 +48,6 @@ console.log('Start: ' + moment(props.slottoschedule.start).toISOString())
                 defaultValue={moment(props.slottoschedule.end).format('MMM DD YYYY @ h:mm a')}
             />
         </div>
-    );
-}
+*
+*
+* */

@@ -6,10 +6,9 @@ import {Provider} from 'react-redux';
 import {ModalProvider} from "react-modal-hook";
 import NavBar from "./components/NavBar/navbar";
 import Home from './components/Home/home';
-import ScheduleAppointment from "./components/Forms/Administrative/Scheduling/ScheduleAppointment/scheduleappointment";
 import Appointments from './components/Appointments/appointments';
 import ClinicalQueue from "./components/ClinicalQueue/clinicalqueue";
-import Appointment from "./components/Appointment/appointment";
+import Appointment from "./pages/Appointment/appointment";
 import './styles/w3.css';
 import Patient from "./components/Patient/patient";
 import PatientRequests from "./components/PatientRequests/patientrequests";
@@ -23,18 +22,9 @@ import Scheduling from "./components/Scheduling/scheduling";
 import Claim from './components/Claims/Claim/claim';
 import WaitList from "./components/Scheduling/WaitList/waitlist";
 import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
-// import FormsCenter from "./components/FormsCenter/FormsCenter";
-import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
 import {allReducers} from "./store/reducers/combined";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import FormsCenterHome from "./components/FormsCenter/FormsCenterHome";
-import CreateMedicalChartForm
-    from "./components/FormsCenter/CreateFormCenter/CreateMedicalChartForm/CreateMedicalChartForm";
-import formscustomizer from "./components/FormsCenter/FormsCustomizer/formscustomizer";
-import ReviewofSystemsMenu from '../src/components/FormsCenter/MedicalAppointmentsForms/ReviewOfSystems/reviewofsystemscollection';
-import ClinicalExamsMenu
-    from "./components/FormsCenter/MedicalAppointmentsForms/ClinicalExamForm/clinicalexamcollections";
-
 import EVAFormBuilder from "./components/FormsCenter/EVAFormBuilder/EVAFormBuilder";
 import EVACustomFormDisplay from "./components/FormsCenter/EVAFormBuilder/EVACustomFormDisplay";
 
@@ -88,10 +78,7 @@ function App() {
                               </Route>
                               <Route path="/EVAformbuilder" component={EVAFormBuilder}/>
                               <Route path="/EVAcustomformdisplay" component={EVACustomFormDisplay} />
-                              <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
-                              <Route exact path="/formscenter/reviewofsystemsform" component={ReviewofSystemsMenu}/>
-                              <Route exact path="/formscenter/clinicalexamsform" component={ClinicalExamsMenu}/>
-                              <Route path="/formscenter/:formId" component={formscustomizer}/>
+
                               <Route path="/formscenter" component={FormsCenterHome}/>
                               <Route path="/waitlist" component={WaitList}/>
                               <Route path="/referralstoschedule" component={ReferralsToScheduleList}/>
@@ -99,7 +86,7 @@ function App() {
                               <Route path="/patient/:id" component={Patient}/>
                               <Route path="/scheduling/:id" component={Scheduling}/>
                               <Route path="/scheduling" component={Scheduling}/>
-                              <Route path="/schedule/:id" component={ScheduleAppointment}/>
+
                           </Switch>
                       </div>
                   </Router>
@@ -113,6 +100,10 @@ function App() {
 export default App;
 
 /*
+ <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
+                              <Route exact path="/formscenter/reviewofsystemsform" component={ReviewofSystemsMenu}/>
+                              <Route exact path="/formscenter/clinicalexamsform" component={ClinicalExamsMenu}/>
+<Route path="/schedule/:id" component={ScheduleAppointment}/>
 const store = createStore(
     allReducers,
     compose(

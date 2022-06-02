@@ -1,0 +1,27 @@
+const initpatientdata = {
+    "id": "",
+    "ssn": "",
+    "details": {
+        "familyhistory": [],
+        "socialhistory": [],
+        "medicalhistory": [],
+        "surgicalhistory": [],
+        "allergies": [],
+        "requests": [],
+        "diagnoses": [],
+        "insurances": [],
+        "medications": [],
+        "appointments": [],
+        "first_name": "",
+        "last_name": "",
+        "middle_name": "",
+        "preffered_name": "",
+        "address_one": "",
+        "address_two": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "date_of_birth": "",
+        "contact_methods": []
+    },
+}
