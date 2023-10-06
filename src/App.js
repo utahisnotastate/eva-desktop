@@ -44,13 +44,10 @@ const store = createStore(
     allReducers,
     composeEnhancers(
         applyMiddleware(thunk)
-    )
-    );
+    ));
 
 function App() {
-
-
-  return (
+    return (
       <Fragment>
           <Provider store={store}><CssBaseline/>
               <ModalProvider>

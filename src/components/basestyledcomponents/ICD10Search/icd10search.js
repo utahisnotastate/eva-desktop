@@ -13,7 +13,7 @@ function getComplaintNameSuggestionValue(suggestion) {
 function renderSuggestion(suggestion) {
     return (
         <span>
-      {suggestion[2]}
+        {suggestion[2]}
 
 
             -

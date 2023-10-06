@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
-import {Card, makeStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useParams, useRouteMatch, Link, Switch, Route, NavLink } from "react-router-dom";
-import {Paper, Typography} from "@material-ui/core";
+import { useParams, useRouteMatch, Switch, Route, NavLink } from "react-router-dom";
+import {Typography} from "@material-ui/core";
 import routes from "./routes";
-import axios from "axios";
-import {useStateValue} from "../ClinicalQueue/context/ClinicalQueueContext";
+
 
 const useStyles = makeStyles(theme => ({
     list: {

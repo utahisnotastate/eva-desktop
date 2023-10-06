@@ -9,7 +9,7 @@ import Diagnosis from "./patientcomponents/diagnosis/diagnosis";
 import Documentation from "./patientcomponents/documentation/documentation";
 import PatientForms from "./patientcomponents/patientforms/patientforms";
 import MedicalHistory from "./patientcomponents/medicalhistory/medicalhistory";
-import SurgicalHistory from "./patientcomponents/surgicalhistory/surgicalhistory";
+//import SurgicalHistory from "./patientcomponents/surgicalhistory/surgicalhistory";
 import FamilyMedicalHistory from "./patientcomponents/familymedicalhistory/familymedicalhistory";
 import SocialHistory from "./patientcomponents/socialhistory/socialhistory";
 import PatientReports from "./patientcomponents/reports/patientreports";
@@ -69,11 +69,6 @@ const routes = [
         label: 'Medical History',
         path: '/medicalhistory',
         component: MedicalHistory,
-    },
-    {
-        label: 'Surgical History',
-        path: '/surgicalhistory',
-        component: SurgicalHistory,
     },
     {
         label: 'Family Medical History',
