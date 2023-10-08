@@ -19,6 +19,11 @@ import ReferralsToSchedule from "./ReferralsToSchedule/referralstoschedule";
 import ScheduleAppointmentModal from "./ScheduleAppointmentModal/scheduleappointmentmodal";
 import styles from '../basestyledcomponents/buttonStyle';
 
+import '../basestyledcomponents/material-dashboard-pro-react'
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+
+
 var toDate = require('@fav/type.to-date');
 
 const localizer = momentLocalizer(moment);
@@ -214,3 +219,27 @@ export default function Scheduling() {
 
     );
 }
+/*
+
+function ScheduleAppointmentDialog(props) {
+    console.log(props);
+    return (
+        <Fragment>
+            <select name="type" ref={props.register}>
+                <option value="first_appointment">first_appointment</option>
+                <option value="medication_management">medication_management</option>
+                <option value="follow_up">follow_up</option>
+                <option value="appointment">appointment</option>
+            </select>
+            <Typography>Start = {moment(props.slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
+            <Typography>End = {moment(props.slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
+            <TextField />
+            <Typography>Patient First Name: {props.patient}</Typography>
+            <Typography>Patient Last Name</Typography>
+            <Typography>Patient Contact Number</Typography>
+            <Typography>Notify if an earlier appointment opens up?</Typography>
+        </Fragment>
+    )
+}
+ */
+

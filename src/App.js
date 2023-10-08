@@ -21,12 +21,9 @@ import Patients from "./components/Patients/patients";
 import RevenueCycle from "./components/RevenueCycle/revenuecycle";
 import Scheduling from "./components/Scheduling/scheduling";
 import Claim from './components/Claims/Claim/claim';
-import WaitList from "./components/Scheduling/WaitList/waitlist";
-import ReferralsToScheduleList from "./components/Scheduling/ReferralsToSchedule/referralstoschedulelist";
-// import FormsCenter from "./components/FormsCenter/FormsCenter";
-import { StateProvider } from "./components/ClinicalQueue/context/ClinicalQueueContext";
 import {allReducers} from "./store/reducers/combined";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+
 import FormsCenterHome from "./components/FormsCenter/FormsCenterHome";
 import CreateMedicalChartForm
     from "./components/FormsCenter/CreateFormCenter/CreateMedicalChartForm/CreateMedicalChartForm";
@@ -34,10 +31,8 @@ import formscustomizer from "./components/FormsCenter/FormsCustomizer/formscusto
 import ReviewofSystemsMenu from '../src/components/FormsCenter/MedicalAppointmentsForms/ReviewOfSystems/reviewofsystemscollection';
 import ClinicalExamsMenu
     from "./components/FormsCenter/MedicalAppointmentsForms/ClinicalExamForm/clinicalexamcollections";
-
 import EVAFormBuilder from "./components/FormsCenter/EVAFormBuilder/EVAFormBuilder";
 import EVACustomFormDisplay from "./components/FormsCenter/EVAFormBuilder/EVACustomFormDisplay";
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
@@ -83,6 +78,8 @@ function App() {
                               <Route exact path="/patientrequests">
                                   <PatientRequests/>
                               </Route>
+
+
                               <Route path="/EVAformbuilder" component={EVAFormBuilder}/>
                               <Route path="/EVAcustomformdisplay" component={EVACustomFormDisplay} />
                               <Route path="/formscenter/createmedicalchart" component={CreateMedicalChartForm}/>
@@ -92,6 +89,7 @@ function App() {
                               <Route path="/formscenter" component={FormsCenterHome}/>
                               <Route path="/waitlist" component={WaitList}/>
                               <Route path="/referralstoschedule" component={ReferralsToScheduleList}/>
+
                               <Route path="/revenuecycle" component={RevenueCycle}/>
                               <Route path="/patient/:id" component={Patient}/>
                               <Route path="/scheduling/:id" component={Scheduling}/>
