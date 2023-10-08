@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
-// import { Input } from 'react-formik-ui';
-import GridContainer from "../../../basestyledcomponents/Grid/GridContainer";
-import GridItem from "../../../basestyledcomponents/Grid/GridItem";
 import Card from "../../../basestyledcomponents/Card/Card";
-import {connect} from "react-redux"
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Autosuggest from 'react-autosuggest';
-import './surgicalhistory.css';
 import {Typography} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import CardHeader from "../../../basestyledcomponents/Card/CardHeader";
 import CardBody from "../../../basestyledcomponents/Card/CardBody";
 import UpdateSurgicalHistoryItem from "../../../Forms/Clinical/Patient/updatesurgicalhistoryitem";
+import './surgicalhistory.css';
 
 const API_URL = 'https://clinicaltables.nlm.nih.gov/api/procedures/v3/search?terms=';
 
 function getSuggestionValue(suggestion) {
     return suggestion[0];
 }
-
 function renderSuggestion(suggestion) {
     return (
         <span>{suggestion}</span>
     );
 }
+
 const classes = {
     root: {
         margin: 20,
@@ -57,6 +51,8 @@ const classes = {
         backgroundColor: '#ffffff',
     }
 }
+
+
 class SurgicalHistory extends Component {
     constructor(props) {
         super(props);
@@ -134,7 +130,7 @@ class SurgicalHistory extends Component {
 
     render() {
         const { value, suggestions } = this.state;
-        const { surgicalhistory } = this.props;
+        const { surgicalhistory, name } = this.props;
         const inputProps = {
             placeholder: 'Search Medical Procedures',
             value,
@@ -210,38 +206,8 @@ class SurgicalHistory extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        surgicalhistory: state.patient.surgicalhistory,
-    }
-}
+export default SurgicalHistory
 
-const mapDispatchToProps = dispatch => ({
-    loadSurgicalHistory: surgicalhistory =>  dispatch({type: 'load_surgical_history', surgicalhistory: surgicalhistory}),
-    updateSurgicalHistory: surgicalhistory => dispatch({type: 'update_surgical_history', surgicalhistory: surgicalhistory})
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurgicalHistory)
 
-/*
-{surgicalhistory.map((surgery, index) => (
-                                    <GridItem key={index} xs={12} sm={10}>
-                                        <Card style={classes.listitemheader}>
-                                            <GridItem style={classes.headeritem}>
-                                                <input name={`surgicalhistory.${index}.procedure`}
-                                                       value={surgicalhistory[index].procedure}/>
-                                            </GridItem>
-                                            <GridItem style={classes.headeritem} border={1}>
-                                                <input name={`surgicalhistory.${index}.date`}
-                                                       value={surgicalhistory[index].date}/>
-                                            </GridItem>
-                                            <GridItem style={classes.headeritem}>
-                                                <input name={`surgicalhistory.${index}.performed_by`}/>
-                                            </GridItem>
-                                            <GridItem style={classes.headeritem}>
-                                                <Button onClick={() => this.deleteItem(surgery.id)}>X</Button>
-                                            </GridItem>
-                                        </Card>
-                                    </GridItem>
-                                ))}
- */
+

@@ -1,6 +1,8 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import axios from 'axios';
-import {useParams, useRouteMatch, NavLink, Redirect} from "react-router-dom";
+import {useParams, useRouteMatch, NavLink} from "react-router-dom";
 import { Calendar as BigCalendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import { useForm } from 'react-hook-form';
@@ -8,19 +10,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Fab} from "@material-ui/core";
 import GridContainer from "../basestyledcomponents/Grid/GridContainer";
 import GridItem from "../basestyledcomponents/Grid/GridItem";
-import TextField from "@material-ui/core/TextField";
 import {useModal} from "react-modal-hook";
-import CheckInForm from "../Forms/Administrative/Scheduling/CheckIn/checkin";
-import Modal from "../basestyledcomponents/Modal/modal";
 import Card from "../basestyledcomponents/Card/Card";
-import TimeSlot from "./Day/Appointment/components/TimeSlot/timeslot";
-// import SlotDialog from "../basestyledcomponents/Modal/Dialog";
 import CardBody from "../basestyledcomponents/Card/CardBody";
 import AppointmentScheduleEvent from "./Day/Appointment/appointmentscheduleevent";
 import WaitListCountCard from "./WaitList/waitlistcountcard";
 import ReferralsToSchedule from "./ReferralsToSchedule/referralstoschedule";
 import ScheduleAppointmentModal from "./ScheduleAppointmentModal/scheduleappointmentmodal";
 import styles from '../basestyledcomponents/buttonStyle';
+
 import '../basestyledcomponents/material-dashboard-pro-react'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -32,14 +30,10 @@ const localizer = momentLocalizer(moment);
 
 const useStyles = makeStyles(styles);
 const API_URL = "http://127.0.0.1:8000/api";
-
-
 export default function Scheduling() {
         let { path, url } = useRouteMatch();
         let { id } = useParams();
-        // const [appointmentcreated, setAppointmentCreated] = useState(false);
         const { register, handleSubmit, control, errors } = useForm();
-
         // gets new appointments after appointment has been scheduled
         async function getNewAppointments() {
             const result = await axios(`${API_URL}/appointments`);
@@ -55,7 +49,6 @@ export default function Scheduling() {
                 convertedappointments.push({...appointment, ...{start: newstart, end: newend, resourceId: resourceId}})
             });
             setAppointments(convertedappointments);
-            console.log(appointments);
 
     }
         // handles create new patient form
@@ -121,7 +114,7 @@ export default function Scheduling() {
     }, []);
 
     useEffect(() => {
-        //gets appointments on mount
+
         const fetchData = async () => {
             const result = await axios(`${API_URL}/appointments`);
             // console.log(result.data);
@@ -177,7 +170,6 @@ export default function Scheduling() {
         return date;
     };
     return (
-        <div>
     <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={10}>
             <GridContainer>
@@ -224,88 +216,10 @@ export default function Scheduling() {
             </Card>
         </GridItem>
     </GridContainer>
-        </div>
+
     );
 }
 /*
-onSelectEvent={event => selectedEvent()}
-onSelectSlot={slotInfo => selectedSlot(slotInfo)}
-const eventColors = event => {
-        var backgroundColor = "event-";
-        event.color
-            ? (backgroundColor = backgroundColor + event.color)
-            : (backgroundColor = backgroundColor + "default");
-        return {
-            className: backgroundColor
-        };
-    };
-startAccessor={(event) => {
-                            return moment(event.start).toDate();
-                        }
-                        }
-                        endAccessor={(event) => {
-                            console.log()
-                            return moment(event.end).toDate();
-                        }}
-                      onSelectSlot={(slotInfo, view) => selectedSlot(slotInfo, view)}
-                    const addNewEvent = (e, slotInfo) => {
-        var newEvents = events;
-        newEvents.push({
-            title: e,
-            start: slotInfo.start,
-            end: slotInfo.end
-        });
-        setAlert(null);
-        setEvents(newEvents);
-    };
-
-{
-    "patient": 5,
-    "provider": 1,
-    "type": "appointment",
-    "status": "scheduled",
-    "start": "2020-01-27T17:00:00Z",
-    "end": "2020-01-27T18:00:00Z"
-}
- */
-
-/*
-<Typography>Appointment Start: {moment(props.slottoschedule.slots[0]).format('MMMM Do @ h:mm A')}</Typography>
-            <Typography>Appointment End: {moment(props.slottoschedule.slots[props.slottoschedule.slots.length - 1]).format('MMMM Do @ h:mm A')}</Typography>
- */
-/*
-<Button onClick={() => {
-                                appointments.push({
-                                    title: "Meeting",
-                                    start: slottoschedule.slots[0],
-                                    end: slottoschedule.slots[slottoschedule.slots.length - 1],
-                                    allDay: false,
-                                    color: 'green'
-                                });
-                                // setEvents(appointments);
-                                hideModal()
-                            }}>Save</Button>
- */
-/*
-{id ? <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id} register={register}/> : (
-                                <div>
-                                    <PatientSearch/>
-                                    <Typography>Start
-                                        = {moment(slottoschedule.start).format('MMM DD YYYY @ h:mm a')}</Typography>
-                                    <Typography>End
-                                        = {moment(slottoschedule.end).format('MMM DD YYYY @ h:mm a')}</Typography>
-                                    <Typography>Provider {slottoschedule.resourceId}</Typography>
-                                </div>
-                            )}
-
-                            <ScheduleAppointmentDialog slottoschedule={slottoschedule} patient={id} register={register} control={control}/>
-                            function PatientSearch() {
-    return (
-        <div>
-            <Typography>Patient Search</Typography>
-        </div>
-    );
-}
 
 function ScheduleAppointmentDialog(props) {
     console.log(props);
@@ -328,3 +242,4 @@ function ScheduleAppointmentDialog(props) {
     )
 }
  */
+
